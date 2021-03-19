@@ -12,6 +12,7 @@ body {
   height: 100px;
   transform-origin: center;
   transform-style: preserve-3d;
+  transition: transform 500ms ease;
 }
 
 .cube .face {

@@ -9,10 +9,9 @@
     cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
 
     rx -= 0;
-    ry -= 2;
+    ry -= 90;
     rz += 0;
-    requestAnimationFrame(tick);
   }
 
-  requestAnimationFrame(tick);
+  setInterval(tick, 1000);
 })();
