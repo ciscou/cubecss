@@ -10,122 +10,169 @@ body {
   position: relative;
   width: 300px;
   height: 300px;
-  transform-origin: center;
   transform-style: preserve-3d;
-  transition: transform 500ms ease;
+  transition: transform 300ms ease-out;
 }
 
-.cube .cubie {
+.cube .cubie-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transition: transform 300ms ease-out;
+}
+
+.cube .cubie-container .cubie {
+  width: 100px;
+  height: 100px;
   position: absolute;
   transform-style: preserve-3d;
 }
 
-.cube .cubie:nth-child(1) {
+.cube .cubie-container:nth-child(1) .cubie {
   transform: translate3d(0px, 0px, 0px);
 }
 
-.cube .cubie:nth-child(2) {
+.cube .cubie-container:nth-child(2) .cubie {
   transform: translate3d(0px, 100px, 0px);
 }
 
-.cube .cubie:nth-child(3) {
+.cube .cubie-container:nth-child(3) .cubie {
   transform: translate3d(0px, 200px, 0px);
 }
 
-.cube .cubie:nth-child(4) {
+.cube .cubie-container:nth-child(4) .cubie {
   transform: translate3d(100px, 0px, 0px);
 }
 
-.cube .cubie:nth-child(5) {
+.cube .cubie-container:nth-child(5) .cubie {
   transform: translate3d(100px, 100px, 0px);
 }
 
-.cube .cubie:nth-child(6) {
+.cube .cubie-container:nth-child(6) .cubie {
   transform: translate3d(100px, 200px, 0px);
 }
 
-.cube .cubie:nth-child(7) {
+.cube .cubie-container:nth-child(7) .cubie {
   transform: translate3d(200px, 0px, 0px);
 }
 
-.cube .cubie:nth-child(8) {
+.cube .cubie-container:nth-child(8) .cubie {
   transform: translate3d(200px, 100px, 0px);
 }
 
-.cube .cubie:nth-child(9) {
+.cube .cubie-container:nth-child(9) .cubie {
   transform: translate3d(200px, 200px, 0px);
 }
 
-.cube .cubie:nth-child(10) {
+.cube .cubie-container:nth-child(10) .cubie {
   transform: translate3d(0px, 0px, 100px);
 }
 
-.cube .cubie:nth-child(11) {
+.cube .cubie-container:nth-child(11) .cubie {
   transform: translate3d(0px, 100px, 100px);
 }
 
-.cube .cubie:nth-child(12) {
+.cube .cubie-container:nth-child(12) .cubie {
   transform: translate3d(0px, 200px, 100px);
 }
 
-.cube .cubie:nth-child(13) {
+.cube .cubie-container:nth-child(13) .cubie {
   transform: translate3d(100px, 0px, 100px);
 }
 
-.cube .cubie:nth-child(14) {
+.cube .cubie-container:nth-child(14) .cubie {
   transform: translate3d(100px, 100px, 100px);
 }
 
-.cube .cubie:nth-child(15) {
+.cube .cubie-container:nth-child(15) .cubie {
   transform: translate3d(100px, 200px, 100px);
 }
 
-.cube .cubie:nth-child(16) {
+.cube .cubie-container:nth-child(16) .cubie {
   transform: translate3d(200px, 0px, 100px);
 }
 
-.cube .cubie:nth-child(17) {
+.cube .cubie-container:nth-child(17) .cubie {
   transform: translate3d(200px, 100px, 100px);
 }
 
-.cube .cubie:nth-child(18) {
+.cube .cubie-container:nth-child(18) .cubie {
   transform: translate3d(200px, 200px, 100px);
 }
 
-.cube .cubie:nth-child(19) {
+.cube .cubie-container:nth-child(19) .cubie {
   transform: translate3d(0px, 0px, -100px);
 }
 
-.cube .cubie:nth-child(20) {
+.cube .cubie-container:nth-child(20) .cubie {
   transform: translate3d(0px, 100px, -100px);
 }
 
-.cube .cubie:nth-child(21) {
+.cube .cubie-container:nth-child(21) .cubie {
   transform: translate3d(0px, 200px, -100px);
 }
 
-.cube .cubie:nth-child(22) {
+.cube .cubie-container:nth-child(22) .cubie {
   transform: translate3d(100px, 0px, -100px);
 }
 
-.cube .cubie:nth-child(23) {
+.cube .cubie-container:nth-child(23) .cubie {
   transform: translate3d(100px, 100px, -100px);
 }
 
-.cube .cubie:nth-child(24) {
+.cube .cubie-container:nth-child(24) .cubie {
   transform: translate3d(100px, 200px, -100px);
 }
 
-.cube .cubie:nth-child(25) {
+.cube .cubie-container:nth-child(25) .cubie {
   transform: translate3d(200px, 0px, -100px);
 }
 
-.cube .cubie:nth-child(26) {
+.cube .cubie-container:nth-child(26) .cubie {
   transform: translate3d(200px, 100px, -100px);
 }
 
-.cube .cubie:nth-child(27) {
+.cube .cubie-container:nth-child(27) .cubie {
   transform: translate3d(200px, 200px, -100px);
+}
+
+.cube .cubie-container:nth-child(10) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(11) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(12) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(13) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(14) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(15) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(16) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(17) {
+  transform: rotateZ(30deg);
+}
+
+.cube .cubie-container:nth-child(18) {
+  transform: rotateZ(30deg);
 }
 
 .cube .cubie .face {
@@ -163,11 +210,11 @@ body {
 
 .cube .cubie .face .sticker {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  right: 3px;
-  bottom: 3px;
-  border-radius: 3px;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 5px;
 }
 
 .cube .cubie .face.up .sticker {
