@@ -1,5 +1,5 @@
 body {
-  background: black;
+  background-image: radial-gradient( circle 732px at -23.9% -25.1%,  rgba(30,39,107,1) 6.1%, rgba(188,104,142,1) 100.2% );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,16 +8,16 @@ body {
 
 .cube {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   transform-style: preserve-3d;
   transition: transform 300ms ease-out;
 }
 
 .cube .cubie-container {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   transform-style: preserve-3d;
   transition: transform 300ms ease-out;
 }
@@ -28,33 +28,33 @@ body {
 
 .cube .cubie .face {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   background-color: black;
 }
 
 .cube .cubie .face.up {
-  transform: translateY(-50px) rotateX(90deg);
+  transform: translateY(-25px) rotateX(90deg);
 }
 
 .cube .cubie .face.down {
-  transform: translateY(50px) rotateX(-90deg);
+  transform: translateY(25px) rotateX(-90deg);
 }
 
 .cube .cubie .face.right {
-  transform: translateX(50px) rotateY(90deg);
+  transform: translateX(25px) rotateY(90deg);
 }
 
 .cube .cubie .face.left {
-  transform: translateX(-50px) rotateY(-90deg);
+  transform: translateX(-25px) rotateY(-90deg);
 }
 
 .cube .cubie .face.front {
-  transform: translateZ(50px);
+  transform: translateZ(25px);
 }
 
 .cube .cubie .face.back {
-  transform: translateZ(-50px);
+  transform: translateZ(-25px);
 }
 
 .cube .cubie .face .sticker {
@@ -67,7 +67,7 @@ body {
 }
 
 .cube .cubie .face.up .sticker {
-  background-color: yellow;
+  background-color: #ffd500;
 }
 
 .cube .cubie .face.down .sticker {
@@ -75,17 +75,17 @@ body {
 }
 
 .cube .cubie .face.right .sticker {
-  background-color: red;
+  background-color: #b71234;
 }
 
 .cube .cubie .face.left .sticker {
-  background-color: orange;
+  background-color: #ff5800;
 }
 
 .cube .cubie .face.front .sticker {
-  background-color: blue;
+  background-color: #0046ad;
 }
 
 .cube .cubie .face.back .sticker {
-  background-color: green;
+  background-color: #009b48;
 }

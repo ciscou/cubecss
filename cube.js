@@ -41,7 +41,7 @@
     var cubie = document.createElement("div");
     cubie.classList.add("cubie");
 
-    cubie.style.transform = "translate3d(" + (x * 100) + "px, " + (y * 100) + "px, " + (z * 100 - 100) + "px)";
+    cubie.style.transform = "translate3d(" + (x * 50) + "px, " + (y * 50) + "px, " + (z * 50 - 50) + "px)";
 
     FACES.forEach(function(face) {
       cubie.appendChild(buildFace(x, y, z, face));
@@ -105,14 +105,11 @@
     cubieContainers[20].style.transform = "rotateY(" + u + "deg)"
 
     rx -= 0;
-    ry -= 5;
+    ry -= 15;
     rz += 0;
 
-    if(tickCounter % 2 === 0) {
-      l -= 90;
-    } else {
-      u += 90;
-    }
+    // l -= 90;
+    u -= 90;
     tickCounter += 1
   }
 
