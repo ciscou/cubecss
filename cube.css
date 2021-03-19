@@ -8,48 +8,81 @@ body {
 
 .cube {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 300px;
+  height: 300px;
   transform-origin: center;
   transform-style: preserve-3d;
   transition: transform 500ms ease;
 }
 
-.cube .face {
+.cube .cubie {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: white;
+  transform-style: preserve-3d;
+  transform: translate(100px, 100px);
 }
 
-.cube .face.up {
-  background-color: yellow;
+.cube .cubie .face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background-color: black;
+}
+
+.cube .cubie .face.up {
   transform: translateY(-50px) rotateX(90deg);
 }
 
-.cube .face.down {
-  background-color: white;
+.cube .cubie .face.down {
   transform: translateY(50px) rotateX(-90deg);
 }
 
-.cube .face.right {
-  background-color: red;
+.cube .cubie .face.right {
   transform: translateX(50px) rotateY(90deg);
 }
 
-.cube .face.left {
-  background-color: orange;
+.cube .cubie .face.left {
   transform: translateX(-50px) rotateY(-90deg);
 }
 
-.cube .face.front {
-  background-color: blue;
+.cube .cubie .face.front {
   transform: translateZ(50px);
 }
 
-.cube .face.back {
-  background-color: green;
+.cube .cubie .face.back {
   transform: translateZ(-50px);
+}
+
+.cube .cubie .face .sticker {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border-radius: 3px;
+}
+
+.cube .cubie .face.up .sticker {
+  background-color: yellow;
+}
+
+.cube .cubie .face.down .sticker {
+  background-color: white;
+}
+
+.cube .cubie .face.right .sticker {
+  background-color: red;
+}
+
+.cube .cubie .face.left .sticker {
+  background-color: orange;
+}
+
+.cube .cubie .face.front .sticker {
+  background-color: blue;
+}
+
+.cube .cubie .face.back .sticker {
+  background-color: green;
 }
