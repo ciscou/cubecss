@@ -168,89 +168,77 @@
     var DR   = cubieContainers[25];
     var DRF  = cubieContainers[26];
 
-    function uSlice() {
-      return [
-        ULB,
-        UL,
-        ULF,
-        UB,
-        U,
-        UF,
-        URB,
-        UR,
-        URF
-      ];
-    }
+    var USLICE = [
+      ULB,
+      UL,
+      ULF,
+      UB,
+      U,
+      UF,
+      URB,
+      UR,
+      URF
+    ];
 
-    function dSlice() {
-      return [
-        DLB,
-        DL,
-        DLF,
-        DB,
-        D,
-        DF,
-        DRB,
-        DR,
-        DRF
-      ];
-    }
+    var DSLICE = [
+      DLB,
+      DL,
+      DLF,
+      DB,
+      D,
+      DF,
+      DRB,
+      DR,
+      DRF
+    ];
 
-    function lSlice() {
-      return [
-        ULB,
-        UL,
-        ULF,
-        LB,
-        L,
-        LF,
-        DLB,
-        DL,
-        DLF
-      ];
-    }
+    var LSLICE = [
+      ULB,
+      UL,
+      ULF,
+      LB,
+      L,
+      LF,
+      DLB,
+      DL,
+      DLF
+    ];
 
-    function rSlice() {
-      return [
-        URB,
-        UR,
-        URF,
-        RB,
-        R,
-        RF,
-        DRB,
-        DR,
-        DRF
-      ];
-    }
+    var RSLICE = [
+      URB,
+      UR,
+      URF,
+      RB,
+      R,
+      RF,
+      DRB,
+      DR,
+      DRF
+    ];
 
-    function fSlice() {
-      return [
-        ULF,
-        LF,
-        DLF,
-        UF,
-        F,
-        DF,
-        URF,
-        RF,
-        DRF
-      ];
-    }
+    var FSLICE = [
+      ULF,
+      LF,
+      DLF,
+      UF,
+      F,
+      DF,
+      URF,
+      RF,
+      DRF
+    ];
 
-    function bSlice() {
-      return [
-        ULB,
-        LB,
-        DLB,
-        UB,
-        B,
-        DB,
-        URB,
-        RB,
-        DRB
-      ];
-    }
+    var BSLICE = [
+      ULB,
+      LB,
+      DLB,
+      UB,
+      B,
+      DB,
+      URB,
+      RB,
+      DRB
+    ];
 
     function turnU(n) {
       turning = true;
@@ -298,7 +286,7 @@
         handleQueue();
       }
 
-      uSlice().forEach(function(cubieContainer) {
+      USLICE.forEach(function(cubieContainer) {
         rotateCubieContainerY(cubieContainer, -n, cb);
       });
     }
@@ -349,7 +337,7 @@
         handleQueue();
       }
 
-      dSlice().forEach(function(cubieContainer) {
+      DSLICE.forEach(function(cubieContainer) {
         rotateCubieContainerY(cubieContainer, n, cb);
       });
     }
@@ -400,7 +388,7 @@
         handleQueue();
       }
 
-      lSlice().forEach(function(cubieContainer) {
+      LSLICE.forEach(function(cubieContainer) {
         rotateCubieContainerX(cubieContainer, -n, cb);
       });
     }
@@ -451,7 +439,7 @@
         handleQueue();
       }
 
-      rSlice().forEach(function(cubieContainer) {
+      RSLICE.forEach(function(cubieContainer) {
         rotateCubieContainerX(cubieContainer, n, cb);
       });
     }
@@ -502,7 +490,7 @@
         handleQueue();
       }
 
-      fSlice().forEach(function(cubieContainer) {
+      FSLICE.forEach(function(cubieContainer) {
         rotateCubieContainerZ(cubieContainer, n, cb);
       });
     }
@@ -553,7 +541,7 @@
         handleQueue();
       }
 
-      bSlice().forEach(function(cubieContainer) {
+      BSLICE.forEach(function(cubieContainer) {
         rotateCubieContainerZ(cubieContainer, n, cb);
       });
     }
