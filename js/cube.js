@@ -1,5 +1,6 @@
 (function() {
   var FACES = ["up", "down", "right", "left", "front", "back"];
+
   var COLOR_BY_FACE = {
     up: "#ffd500",
     down: "#ffffff",
@@ -86,9 +87,9 @@
 
   animateCube();
 
-  function rotateCubieContainerX(cubieContainer, qts, cb) {
+  function rotateCubieContainer(cubieContainer, qts, axis, cb) {
     var transitionend = function() {
-      if(cb) cb();
+      cb();
 
       transitionWas = cubieContainer.style.transition;
       cubieContainer.style.transition = "none";
@@ -101,58 +102,22 @@
       cubieContainer.removeEventListener("transitionend", transitionend, false);
     }
 
-    if(cb) {
-      cubieContainer.addEventListener("transitionend", transitionend, false);
-    }
+    cubieContainer.addEventListener("transitionend", transitionend, false);
 
-    var transform = "rotateX(" + (qts / 4) + "turn)";
+    var transform = "rotate" + axis + "(" + (qts / 4) + "turn)";
     cubieContainer.style.transform = transform;
+  }
+
+  function rotateCubieContainerX(cubieContainer, qts, cb) {
+    rotateCubieContainer(cubieContainer, qts, "X", cb);
   }
 
   function rotateCubieContainerY(cubieContainer, qts, cb) {
-    var transitionend = function() {
-      if(cb) cb();
-
-      transitionWas = cubieContainer.style.transition;
-      cubieContainer.style.transition = "none";
-      cubieContainer.style.transform = "";
-
-      setTimeout(function() {
-        cubieContainer.style.transition = transitionWas;
-      });
-
-      cubieContainer.removeEventListener("transitionend", transitionend, false);
-    }
-
-    if(cb) {
-      cubieContainer.addEventListener("transitionend", transitionend, false);
-    }
-
-    var transform = "rotateY(" + (qts / 4) + "turn)";
-    cubieContainer.style.transform = transform;
+    rotateCubieContainer(cubieContainer, qts, "Y", cb);
   }
 
   function rotateCubieContainerZ(cubieContainer, qts, cb) {
-    var transitionend = function() {
-      if(cb) cb();
-
-      transitionWas = cubieContainer.style.transition;
-      cubieContainer.style.transition = "none";
-      cubieContainer.style.transform = "";
-
-      setTimeout(function() {
-        cubieContainer.style.transition = transitionWas;
-      });
-
-      cubieContainer.removeEventListener("transitionend", transitionend, false);
-    }
-
-    if(cb) {
-      cubieContainer.addEventListener("transitionend", transitionend, false);
-    }
-
-    var transform = "rotateZ(" + (qts / 4) + "turn)";
-    cubieContainer.style.transform = transform;
+    rotateCubieContainer(cubieContainer, qts, "Z", cb);
   }
 
   function animateCube() {
@@ -162,6 +127,8 @@
     var rx = -20;
     var ry = -20;
     var rz = 0;
+
+    cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
 
     var rotateWholeCube = function() {
       cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
@@ -329,12 +296,8 @@
           cubieContainersByPosition.ub.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
 
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) })
-        } else {
-          turning = false;
-        }
+        turning = false;
+        handleQueue();
       }
 
       uSlice().forEach(function(cubieContainer) {
@@ -384,12 +347,8 @@
           cubieContainersByPosition.db.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
 
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) })
-        } else {
-          turning = false;
-        }
+        turning = false;
+        handleQueue();
       }
 
       dSlice().forEach(function(cubieContainer) {
@@ -439,12 +398,8 @@
           cubieContainersByPosition.lb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
 
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) })
-        } else {
-          turning = false;
-        }
+        turning = false;
+        handleQueue();
       }
 
       lSlice().forEach(function(cubieContainer) {
@@ -494,12 +449,8 @@
           cubieContainersByPosition.rb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
 
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) })
-        } else {
-          turning = false;
-        }
+        turning = false;
+        handleQueue();
       }
 
       rSlice().forEach(function(cubieContainer) {
@@ -549,12 +500,8 @@
           cubieContainersByPosition.rf.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
         }
 
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) })
-        } else {
-          turning = false;
-        }
+        turning = false;
+        handleQueue();
       }
 
       fSlice().forEach(function(cubieContainer) {
@@ -604,12 +551,8 @@
           cubieContainersByPosition.rb.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
         }
 
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) })
-        } else {
-          turning = false;
-        }
+        turning = false;
+        handleQueue();
       }
 
       bSlice().forEach(function(cubieContainer) {
@@ -635,6 +578,17 @@
     ];
     var turning = false;
 
+    function handleQueue() {
+      if(!turning) {
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) });
+        }
+      }
+    }
+
+    setTimeout(handleQueue, 500);
+
     document.addEventListener("keypress", function(e) {
       switch(e.key) {
         case "u":
@@ -657,12 +611,7 @@
           break;
       }
 
-      if(!turning) {
-        if(queue.length > 0) {
-          var fq = queue.shift();
-          fq[0](fq[1]);
-        }
-      }
+      handleQueue();
     }, false);
   }
 })();
