@@ -1,18 +1,41 @@
 (function() {
-  function CubeCSS() {
+  function CubeCSS(options) {
+    options ||= {};
+
+    options.container  ||= document.querySelector("body");
+
+    options.colorUp    ||= "#ffd500";
+    options.colorDown  ||= "#ffffff";
+    options.colorRight ||= "#b71234";
+    options.colorLeft  ||= "#ff5800";
+    options.colorFront ||= "#0046ad";
+    options.colorBack  ||= "#009b48";
+
+    options.cubieSize ||= 100;
+
+    var CONTAINER = options.container;
+
     var COLOR_BY_FACE = {
-      up: "#ffd500",
-      down: "#ffffff",
-      right: "#b71234",
-      left: "#ff5800",
-      front: "#0046ad",
-      back: "#009b48"
+      up: options.colorUp,
+      down: options.colorDown,
+      right: options.colorRight,
+      left: options.colorLeft,
+      front: options.colorFront,
+      back:options.colorBack
     };
+
+    var CUBIE_SIZE = options.cubieSize;
 
     function buildSticker(position) {
       var sticker = document.createElement("div");
       sticker.classList.add("sticker");
       sticker.style.backgroundColor = COLOR_BY_FACE[position];
+      sticker.style.position = "absolute";
+      sticker.style.top = "10%";
+      sticker.style.left = "10%";
+      sticker.style.right = "10%";
+      sticker.style.bottom = "10%";
+      sticker.style.borderRadius = "10%";
 
       return sticker;
     }
@@ -38,6 +61,30 @@
       var face = document.createElement("div");
       face.classList.add("face");
       face.classList.add(position);
+      face.style.position = "absolute";
+      face.style.width = "" + CUBIE_SIZE + "px";
+      face.style.height = "" + CUBIE_SIZE + "px";
+      face.style.backgroundColor = "black";
+      switch(position) {
+        case "up":
+          face.style.transform = "translateY(-" + (CUBIE_SIZE / 2) + "px) rotateX(90deg)";
+          break;
+        case "down":
+          face.style.transform = "translateY(" + (CUBIE_SIZE / 2) + "px) rotateX(-90deg)";
+          break;
+        case "right":
+          face.style.transform = "translateX(" + (CUBIE_SIZE / 2) + "px) rotateY(90deg)";
+          break;
+        case "left":
+          face.style.transform = "translateX(-" + (CUBIE_SIZE / 2) + "px) rotateY(-90deg)";
+          break;
+        case "front":
+          face.style.transform = "translateZ(" + (CUBIE_SIZE / 2) + "px)";
+          break;
+        case "back":
+          face.style.transform = "translateZ(-" + (CUBIE_SIZE / 2) + "px)";
+          break;
+      }
 
       if(hasSticker(x, y, z, position)) {
         face.appendChild(buildSticker(position));
@@ -50,7 +97,8 @@
       var cubie = document.createElement("div");
       cubie.classList.add("cubie");
 
-      cubie.style.transform = "translate3d(" + (x * 50) + "px, " + (y * 50) + "px, " + (z * 50 - 50) + "px)";
+      cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE) + "px)";
+      cubie.style.transformStyle = "preserve-3d";
 
       ["up", "down", "right", "left", "front", "back"].forEach(function(face) {
         cubie.appendChild(buildFace(x, y, z, face));
@@ -63,6 +111,10 @@
       var cubieContainer = document.createElement("div");
       cubieContainer.classList.add("cubie-container");
       cubieContainer.style.transition = "transform 500ms ease-out";
+      cubieContainer.style.position = "absolute";
+      cubieContainer.style.width = "" + (CUBIE_SIZE * 3) + "px";
+      cubieContainer.style.height = "" + (CUBIE_SIZE * 3) + "px";
+      cubieContainer.style.transformStyle = "preserve-3d";
 
       cubieContainer.appendChild(buildCubie(x, y, z));
 
@@ -72,6 +124,12 @@
     function buildCube() {
       var cube = document.createElement("div");
       cube.classList.add("cube");
+
+      cube.style.position = "relative";
+      cube.style.width = "" + (CUBIE_SIZE * 3) + "px";
+      cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
+      cube.style.transformStyle = "preserve-3d";
+      cube.style.transition = "transform 300ms ease-out";
 
       for(var x=0; x<3; x++) {
         for(var y=0; y<3; y++) {
@@ -118,7 +176,7 @@
     }
 
     var cube = buildCube();
-    document.querySelector("body").appendChild(cube);
+    CONTAINER.appendChild(cube);
 
     var rx = -20;
     var ry = -20;
@@ -565,7 +623,7 @@
     this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
   }
 
-  var cubeCSS = new CubeCSS();
+  var cubeCSS = new CubeCSS({cubieSize: 17});
   window.cubeCSS = cubeCSS;
 
   document.addEventListener("keypress", function(e) {
