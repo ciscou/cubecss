@@ -62,7 +62,7 @@
   function buildCubieContainer(x, y, z) {
     var cubieContainer = document.createElement("div");
     cubieContainer.classList.add("cubie-container");
-    cubieContainer.style.transition = "transform 300ms ease-out";
+    cubieContainer.style.transition = "transform 500ms ease-out";
 
     cubieContainer.appendChild(buildCubie(x, y, z));
 
@@ -165,7 +165,7 @@
 
     var rotateWholeCube = function() {
       cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
-      ry -= 10;
+      // ry -= 10;
       // rx -= 10;
     }
 
@@ -202,8 +202,6 @@
       dr: cubieContainers[25],
       drf: cubieContainers[26]
     }
-
-    window.cubieContainersByPosition = cubieContainersByPosition;
 
     function uSlice() {
       return [
@@ -290,6 +288,8 @@
     }
 
     function turnU(n) {
+      turning = true;
+
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -328,6 +328,13 @@
           cubieContainersByPosition.ur.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.ub.querySelector(".cubie .face.back .sticker").style.backgroundColor;
           cubieContainersByPosition.ub.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
+
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) })
+        } else {
+          turning = false;
+        }
       }
 
       uSlice().forEach(function(cubieContainer) {
@@ -336,6 +343,8 @@
     }
 
     function turnD(n) {
+      turning = true;
+
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -374,6 +383,13 @@
           cubieContainersByPosition.dr.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.db.querySelector(".cubie .face.back .sticker").style.backgroundColor;
           cubieContainersByPosition.db.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
+
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) })
+        } else {
+          turning = false;
+        }
       }
 
       dSlice().forEach(function(cubieContainer) {
@@ -382,6 +398,8 @@
     }
 
     function turnL(n) {
+      turning = true;
+
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -420,6 +438,13 @@
           cubieContainersByPosition.dl.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.lb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
           cubieContainersByPosition.lb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
+
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) })
+        } else {
+          turning = false;
+        }
       }
 
       lSlice().forEach(function(cubieContainer) {
@@ -428,6 +453,8 @@
     }
 
     function turnR(n) {
+      turning = true;
+
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -466,6 +493,13 @@
           cubieContainersByPosition.dr.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.rb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
           cubieContainersByPosition.rb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
         }
+
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) })
+        } else {
+          turning = false;
+        }
       }
 
       rSlice().forEach(function(cubieContainer) {
@@ -474,6 +508,8 @@
     }
 
     function turnF(n) {
+      turning = true;
+
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -512,6 +548,13 @@
           cubieContainersByPosition.df.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.rf.querySelector(".cubie .face.right .sticker").style.backgroundColor;
           cubieContainersByPosition.rf.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
         }
+
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) })
+        } else {
+          turning = false;
+        }
       }
 
       fSlice().forEach(function(cubieContainer) {
@@ -520,6 +563,8 @@
     }
 
     function turnB(n) {
+      turning = true;
+
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -558,6 +603,13 @@
           cubieContainersByPosition.db.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.rb.querySelector(".cubie .face.right .sticker").style.backgroundColor;
           cubieContainersByPosition.rb.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
         }
+
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          setTimeout(function() { fq[0](fq[1]) })
+        } else {
+          turning = false;
+        }
       }
 
       bSlice().forEach(function(cubieContainer) {
@@ -565,26 +617,51 @@
       });
     }
 
+    var queue = [
+      [turnR, 1],
+      [turnU, 1],
+      [turnR, -1],
+      [turnU, -1],
+      [turnR, -1],
+      [turnF, 1],
+      [turnR, 2],
+      [turnU, -1],
+      [turnR, -1],
+      [turnU, -1],
+      [turnR, 1],
+      [turnU, 1],
+      [turnR, -1],
+      [turnF, -1]
+    ];
+    var turning = false;
+
     document.addEventListener("keypress", function(e) {
       switch(e.key) {
         case "u":
-          turnU(1);
+          queue.push([turnU, 1]);
           break;
         case "d":
-          turnD(1);
+          queue.push([turnD, 1]);
           break;
         case "l":
-          turnL(1);
+          queue.push([turnL, 1]);
           break;
         case "r":
-          turnR(1);
+          queue.push([turnR, 1]);
           break;
         case "f":
-          turnF(1);
+          queue.push([turnF, 1]);
           break;
         case "b":
-          turnB(1);
+          queue.push([turnB, 1]);
           break;
+      }
+
+      if(!turning) {
+        if(queue.length > 0) {
+          var fq = queue.shift();
+          fq[0](fq[1]);
+        }
       }
     }, false);
   }
