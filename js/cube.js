@@ -1,126 +1,122 @@
 (function() {
-  var FACES = ["up", "down", "right", "left", "front", "back"];
+  function CubeCSS() {
+    var COLOR_BY_FACE = {
+      up: "#ffd500",
+      down: "#ffffff",
+      right: "#b71234",
+      left: "#ff5800",
+      front: "#0046ad",
+      back: "#009b48"
+    };
 
-  var COLOR_BY_FACE = {
-    up: "#ffd500",
-    down: "#ffffff",
-    right: "#b71234",
-    left: "#ff5800",
-    front: "#0046ad",
-    back: "#009b48"
-  };
+    function buildSticker(position) {
+      var sticker = document.createElement("div");
+      sticker.classList.add("sticker");
+      sticker.style.backgroundColor = COLOR_BY_FACE[position];
 
-  function buildSticker(position) {
-    var sticker = document.createElement("div");
-    sticker.classList.add("sticker");
-    sticker.style.backgroundColor = COLOR_BY_FACE[position];
-
-    return sticker;
-  }
-
-  function hasSticker(x, y, z, position) {
-    if((x === 0) && (position === "left"))
-      return true;
-    if((x === 2) && (position === "right"))
-      return true;
-    if((y === 0) && (position === "up"))
-      return true;
-    if((y === 2) && (position === "down"))
-      return true;
-    if((z === 2) && (position === "front"))
-      return true;
-    if((z === 0) && (position === "back"))
-      return true;
-
-    return false;
-  }
-
-  function buildFace(x, y, z, position) {
-    var face = document.createElement("div");
-    face.classList.add("face");
-    face.classList.add(position);
-
-    if(hasSticker(x, y, z, position)) {
-      face.appendChild(buildSticker(position));
+      return sticker;
     }
 
-    return face;
-  }
+    function hasSticker(x, y, z, position) {
+      if((x === 0) && (position === "left"))
+        return true;
+      if((x === 2) && (position === "right"))
+        return true;
+      if((y === 0) && (position === "up"))
+        return true;
+      if((y === 2) && (position === "down"))
+        return true;
+      if((z === 2) && (position === "front"))
+        return true;
+      if((z === 0) && (position === "back"))
+        return true;
 
-  function buildCubie(x, y, z) {
-    var cubie = document.createElement("div");
-    cubie.classList.add("cubie");
+      return false;
+    }
 
-    cubie.style.transform = "translate3d(" + (x * 50) + "px, " + (y * 50) + "px, " + (z * 50 - 50) + "px)";
+    function buildFace(x, y, z, position) {
+      var face = document.createElement("div");
+      face.classList.add("face");
+      face.classList.add(position);
 
-    FACES.forEach(function(face) {
-      cubie.appendChild(buildFace(x, y, z, face));
-    });
-
-    return cubie;
-  }
-
-  function buildCubieContainer(x, y, z) {
-    var cubieContainer = document.createElement("div");
-    cubieContainer.classList.add("cubie-container");
-    cubieContainer.style.transition = "transform 500ms ease-out";
-
-    cubieContainer.appendChild(buildCubie(x, y, z));
-
-    return cubieContainer;
-  }
-
-  function buildCube() {
-    var cube = document.createElement("div");
-    cube.classList.add("cube");
-
-    for(var x=0; x<3; x++) {
-      for(var y=0; y<3; y++) {
-        for(var z=0; z<3; z++) {
-          cube.appendChild(buildCubieContainer(x, y, z));
-        }
+      if(hasSticker(x, y, z, position)) {
+        face.appendChild(buildSticker(position));
       }
+
+      return face;
     }
 
-    return cube;
-  };
+    function buildCubie(x, y, z) {
+      var cubie = document.createElement("div");
+      cubie.classList.add("cubie");
 
-  animateCube();
+      cubie.style.transform = "translate3d(" + (x * 50) + "px, " + (y * 50) + "px, " + (z * 50 - 50) + "px)";
 
-  function rotateCubieContainer(cubieContainer, qts, axis, cb) {
-    var transitionend = function() {
-      cb();
-
-      transitionWas = cubieContainer.style.transition;
-      cubieContainer.style.transition = "none";
-      cubieContainer.style.transform = "";
-
-      setTimeout(function() {
-        cubieContainer.style.transition = transitionWas;
+      ["up", "down", "right", "left", "front", "back"].forEach(function(face) {
+        cubie.appendChild(buildFace(x, y, z, face));
       });
 
-      cubieContainer.removeEventListener("transitionend", transitionend, false);
+      return cubie;
     }
 
-    cubieContainer.addEventListener("transitionend", transitionend, false);
+    function buildCubieContainer(x, y, z) {
+      var cubieContainer = document.createElement("div");
+      cubieContainer.classList.add("cubie-container");
+      cubieContainer.style.transition = "transform 500ms ease-out";
 
-    var transform = "rotate" + axis + "(" + (qts / 4) + "turn)";
-    cubieContainer.style.transform = transform;
-  }
+      cubieContainer.appendChild(buildCubie(x, y, z));
 
-  function rotateCubieContainerX(cubieContainer, qts, cb) {
-    rotateCubieContainer(cubieContainer, qts, "X", cb);
-  }
+      return cubieContainer;
+    }
 
-  function rotateCubieContainerY(cubieContainer, qts, cb) {
-    rotateCubieContainer(cubieContainer, qts, "Y", cb);
-  }
+    function buildCube() {
+      var cube = document.createElement("div");
+      cube.classList.add("cube");
 
-  function rotateCubieContainerZ(cubieContainer, qts, cb) {
-    rotateCubieContainer(cubieContainer, qts, "Z", cb);
-  }
+      for(var x=0; x<3; x++) {
+        for(var y=0; y<3; y++) {
+          for(var z=0; z<3; z++) {
+            cube.appendChild(buildCubieContainer(x, y, z));
+          }
+        }
+      }
 
-  function animateCube() {
+      return cube;
+    };
+
+    function rotateCubieContainer(cubieContainer, qts, axis, cb) {
+      var transitionend = function() {
+        cb();
+
+        transitionWas = cubieContainer.style.transition;
+        cubieContainer.style.transition = "none";
+        cubieContainer.style.transform = "";
+
+        setTimeout(function() {
+          cubieContainer.style.transition = transitionWas;
+        });
+
+        cubieContainer.removeEventListener("transitionend", transitionend, false);
+      }
+
+      cubieContainer.addEventListener("transitionend", transitionend, false);
+
+      var transform = "rotate" + axis + "(" + (qts / 4) + "turn)";
+      cubieContainer.style.transform = transform;
+    }
+
+    function rotateCubieContainerX(cubieContainer, qts, cb) {
+      rotateCubieContainer(cubieContainer, qts, "X", cb);
+    }
+
+    function rotateCubieContainerY(cubieContainer, qts, cb) {
+      rotateCubieContainer(cubieContainer, qts, "Y", cb);
+    }
+
+    function rotateCubieContainerZ(cubieContainer, qts, cb) {
+      rotateCubieContainer(cubieContainer, qts, "Z", cb);
+    }
+
     var cube = buildCube();
     document.querySelector("body").appendChild(cube);
 
@@ -130,6 +126,7 @@
 
     cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
 
+    /*
     var rotateWholeCube = function() {
       cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
       // ry -= 10;
@@ -137,6 +134,7 @@
     }
 
     setInterval(rotateWholeCube, 500);
+    */
 
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
@@ -241,8 +239,6 @@
     ];
 
     function turnU(n) {
-      turning = true;
-
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -292,8 +288,6 @@
     }
 
     function turnD(n) {
-      turning = true;
-
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -343,8 +337,6 @@
     }
 
     function turnL(n) {
-      turning = true;
-
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -394,8 +386,6 @@
     }
 
     function turnR(n) {
-      turning = true;
-
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -445,8 +435,6 @@
     }
 
     function turnF(n) {
-      turning = true;
-
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -496,8 +484,6 @@
     }
 
     function turnB(n) {
-      turning = true;
-
       var remaining = 9;
       var cb = function() {
         remaining--;
@@ -546,58 +532,81 @@
       });
     }
 
-    var queue = [
-      [turnR, 1],
-      [turnU, 1],
-      [turnR, -1],
-      [turnU, -1],
-      [turnR, -1],
-      [turnF, 1],
-      [turnR, 2],
-      [turnU, -1],
-      [turnR, -1],
-      [turnU, -1],
-      [turnR, 1],
-      [turnU, 1],
-      [turnR, -1],
-      [turnF, -1]
-    ];
+    var queue = [];
     var turning = false;
 
     function handleQueue() {
       if(!turning) {
         if(queue.length > 0) {
+          turning = true;
           var fq = queue.shift();
           setTimeout(function() { fq[0](fq[1]) });
         }
       }
     }
 
-    setTimeout(handleQueue, 500);
-
-    document.addEventListener("keypress", function(e) {
-      switch(e.key) {
-        case "u":
-          queue.push([turnU, 1]);
-          break;
-        case "d":
-          queue.push([turnD, 1]);
-          break;
-        case "l":
-          queue.push([turnL, 1]);
-          break;
-        case "r":
-          queue.push([turnR, 1]);
-          break;
-        case "f":
-          queue.push([turnF, 1]);
-          break;
-        case "b":
-          queue.push([turnB, 1]);
-          break;
-      }
-
-      handleQueue();
-    }, false);
+    this.u = function()  { queue.push([turnU,  1]); handleQueue() };
+    this.r = function()  { queue.push([turnR,  1]); handleQueue() };
+    this.f = function()  { queue.push([turnF,  1]); handleQueue() };
+    this.d = function()  { queue.push([turnD,  1]); handleQueue() };
+    this.l = function()  { queue.push([turnL,  1]); handleQueue() };
+    this.b = function()  { queue.push([turnB,  1]); handleQueue() };
+    this.ui = function() { queue.push([turnU, -1]); handleQueue() };
+    this.ri = function() { queue.push([turnR, -1]); handleQueue() };
+    this.fi = function() { queue.push([turnF, -1]); handleQueue() };
+    this.di = function() { queue.push([turnD, -1]); handleQueue() };
+    this.li = function() { queue.push([turnL, -1]); handleQueue() };
+    this.bi = function() { queue.push([turnB, -1]); handleQueue() };
+    this.u2 = function() { queue.push([turnU,  2]); handleQueue() };
+    this.r2 = function() { queue.push([turnR,  2]); handleQueue() };
+    this.f2 = function() { queue.push([turnF,  2]); handleQueue() };
+    this.d2 = function() { queue.push([turnD,  2]); handleQueue() };
+    this.l2 = function() { queue.push([turnL,  2]); handleQueue() };
+    this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
   }
+
+  var cubeCSS = new CubeCSS();
+  window.cubeCSS = cubeCSS;
+
+  document.addEventListener("keypress", function(e) {
+    switch(e.key) {
+      case "u":
+        queue.push([turnU, 1]);
+        break;
+      case "d":
+        queue.push([turnD, 1]);
+        break;
+      case "l":
+        queue.push([turnL, 1]);
+        break;
+      case "r":
+        queue.push([turnR, 1]);
+        break;
+      case "f":
+        queue.push([turnF, 1]);
+        break;
+      case "b":
+        queue.push([turnB, 1]);
+        break;
+    }
+
+    handleQueue();
+  }, false);
+
+  setTimeout(function() {
+    cubeCSS.r();
+    cubeCSS.u();
+    cubeCSS.ri();
+    cubeCSS.ui();
+    cubeCSS.ri();
+    cubeCSS.f();
+    cubeCSS.r2();
+    cubeCSS.ui();
+    cubeCSS.ri();
+    cubeCSS.ui();
+    cubeCSS.r();
+    cubeCSS.u();
+    cubeCSS.ri();
+    cubeCSS.fi();
+  }, 500);
 })();
