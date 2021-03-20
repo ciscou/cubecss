@@ -129,6 +129,8 @@
       drf: cubieContainers[26]
     }
 
+    window.cubieContainersByPosition = cubieContainersByPosition;
+
     function uSlice() {
       return [
         cubieContainersByPosition.ulb,
@@ -189,8 +191,6 @@
       cubieContainersByPosition.uf = cubieContainersByPosition.ur;
       cubieContainersByPosition.ur = cubieContainersByPosition.ub;
       cubieContainersByPosition.ub = tmp;
-
-      console.log(cubieContainersByPosition, Object.keys(cubieContainersByPosition).length);
     }
 
     function turnL() {
@@ -211,8 +211,6 @@
       cubieContainersByPosition.lb = cubieContainersByPosition.dl;
       cubieContainersByPosition.dl = cubieContainersByPosition.lf;
       cubieContainersByPosition.lf = tmp;
-
-      console.log(cubieContainersByPosition, Object.keys(cubieContainersByPosition).length);
     }
 
     function turnR() {
@@ -220,25 +218,33 @@
         transformCubieContainer(cubieContainer, 90, 0, 0);
       });
 
-      var tmp;
+      for(var i=0; i<3; i++) { // TODO hack reverse direction
+        var tmp;
 
-      tmp = cubieContainersByPosition.urb;
-      cubieContainersByPosition.urb = cubieContainersByPosition.drb;
-      cubieContainersByPosition.drb = cubieContainersByPosition.drf;
-      cubieContainersByPosition.drf = cubieContainersByPosition.urf;
-      cubieContainersByPosition.urf = tmp;
+        tmp = cubieContainersByPosition.urb;
+        cubieContainersByPosition.urb = cubieContainersByPosition.drb;
+        cubieContainersByPosition.drb = cubieContainersByPosition.drf;
+        cubieContainersByPosition.drf = cubieContainersByPosition.urf;
+        cubieContainersByPosition.urf = tmp;
 
-      tmp = cubieContainersByPosition.ur;
-      cubieContainersByPosition.ur = cubieContainersByPosition.rb;
-      cubieContainersByPosition.rb = cubieContainersByPosition.dr;
-      cubieContainersByPosition.dr = cubieContainersByPosition.rf;
-      cubieContainersByPosition.rf = tmp;
+        tmp = cubieContainersByPosition.ur;
+        cubieContainersByPosition.ur = cubieContainersByPosition.rb;
+        cubieContainersByPosition.rb = cubieContainersByPosition.dr;
+        cubieContainersByPosition.dr = cubieContainersByPosition.rf;
+        cubieContainersByPosition.rf = tmp;
+      }
+    }
 
-      console.log(cubieContainersByPosition, Object.keys(cubieContainersByPosition).length);
+    function turnX() {
+      transformCubieContainer(cube, -90, 0, 0);
     }
 
     function turnY() {
       transformCubieContainer(cube, 0, -90, 0);
+    }
+
+    function turnZ() {
+      transformCubieContainer(cube, 0, 0, 90);
     }
 
     document.addEventListener("keypress", function(e) {
@@ -252,8 +258,14 @@
         case "r":
           turnR();
           break;
+        case "x":
+          turnX();
+          break;
         case "y":
           turnY();
+          break;
+        case "z":
+          turnZ();
           break;
       }
     }, false);
