@@ -1,9 +1,18 @@
 (function() {
   var FACES = ["up", "down", "right", "left", "front", "back"];
+  var COLOR_BY_FACE = {
+    up: "#ffd500",
+    down: "#ffffff",
+    right: "#b71234",
+    left: "#ff5800",
+    front: "#0046ad",
+    back: "#009b48"
+  };
 
-  function buildSticker() {
+  function buildSticker(position) {
     var sticker = document.createElement("div");
     sticker.classList.add("sticker");
+    sticker.style.backgroundColor = COLOR_BY_FACE[position];
 
     return sticker;
   }
@@ -31,7 +40,7 @@
     face.classList.add(position);
 
     if(hasSticker(x, y, z, position)) {
-      face.appendChild(buildSticker());
+      face.appendChild(buildSticker(position));
     }
 
     return face;
@@ -53,9 +62,7 @@
   function buildCubieContainer(x, y, z) {
     var cubieContainer = document.createElement("div");
     cubieContainer.classList.add("cubie-container");
-    cubieContainer.dataset.rx = 0;
-    cubieContainer.dataset.ry = 0;
-    cubieContainer.dataset.rz = 0;
+    cubieContainer.style.transition = "transform 300ms ease-out";
 
     cubieContainer.appendChild(buildCubie(x, y, z));
 
@@ -65,9 +72,6 @@
   function buildCube() {
     var cube = document.createElement("div");
     cube.classList.add("cube");
-    cube.dataset.rx = 0;
-    cube.dataset.ry = 0;
-    cube.dataset.rz = 0;
 
     for(var x=0; x<3; x++) {
       for(var y=0; y<3; y++) {
@@ -82,12 +86,66 @@
 
   animateCube();
 
-  function transformCubieContainer(cubieContainer, dx, dy, dz) {
-    cubieContainer.dataset.rx = parseInt(cubieContainer.dataset.rx) + dx;
-    cubieContainer.dataset.ry = parseInt(cubieContainer.dataset.ry) + dy;
-    cubieContainer.dataset.rz = parseInt(cubieContainer.dataset.rz) + dz;
+  function rotateCubieContainerX(cubieContainer, qts, cb) {
+    var transitionend = function() {
+      if(cb) cb();
 
-    var transform = "rotateX(" + cubieContainer.dataset.rx + "deg) rotateY(" + cubieContainer.dataset.ry + "deg) rotateZ(" + cubieContainer.dataset.rz + "deg)";
+      transitionWas = cubieContainer.style.transition;
+      cubieContainer.style.transition = "none";
+      cubieContainer.style.transform = "";
+
+      setTimeout(function() {
+        cubieContainer.style.transition = transitionWas;
+      });
+
+      cubieContainer.removeEventListener("transitionend", transitionend, false);
+    }
+
+    cubieContainer.addEventListener("transitionend", transitionend, false);
+
+    var transform = "rotateX(" + (qts / 4) + "turn)";
+    cubieContainer.style.transform = transform;
+  }
+
+  function rotateCubieContainerY(cubieContainer, qts, cb) {
+    var transitionend = function() {
+      if(cb) cb();
+
+      transitionWas = cubieContainer.style.transition;
+      cubieContainer.style.transition = "none";
+      cubieContainer.style.transform = "";
+
+      setTimeout(function() {
+        cubieContainer.style.transition = transitionWas;
+      });
+
+      cubieContainer.removeEventListener("transitionend", transitionend, false);
+    }
+
+    cubieContainer.addEventListener("transitionend", transitionend, false);
+
+    var transform = "rotateY(" + (qts / 4) + "turn)";
+    cubieContainer.style.transform = transform;
+  }
+
+  function rotateCubieContainerZ(cubieContainer, qts, cb) {
+    var transitionend = function() {
+      if(cb) cb();
+
+      transitionWas = cubieContainer.style.transition;
+      cubieContainer.style.transition = "none";
+      cubieContainer.style.transform = "";
+
+      setTimeout(function() {
+        cubieContainer.style.transition = transitionWas;
+      });
+
+      cubieContainer.removeEventListener("transitionend", transitionend, false);
+    }
+
+    cubieContainer.addEventListener("transitionend", transitionend, false);
+
+    var transform = "rotateZ(" + (qts / 4) + "turn)";
     cubieContainer.style.transform = transform;
   }
 
@@ -95,7 +153,7 @@
     var cube = buildCube();
     document.querySelector("body").appendChild(cube);
 
-    transformCubieContainer(cube, -20, -20, 0);
+    cube.style.transform = "rotateX(-20deg) rotateY(-20deg)";
 
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
@@ -174,28 +232,52 @@
     }
 
     function turnU() {
+      var remaining = 9;
+      var cb = function() {
+        remaining--;
+        if(remaining > 0) return;
+
+        var tmp;
+
+        tmp = cubieContainersByPosition.ulb.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.ulb.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.ulf.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.ulf.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.urf.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.urf.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.urb.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.urb.querySelector(".cubie .face.up .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.ulb.querySelector(".cubie .face.left .sticker").style.backgroundColor;
+        cubieContainersByPosition.ulb.querySelector(".cubie .face.left .sticker").style.backgroundColor = cubieContainersByPosition.ulf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+        cubieContainersByPosition.ulf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.urf.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.urf.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.urb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+        cubieContainersByPosition.urb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.ulb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+        cubieContainersByPosition.ulb.querySelector(".cubie .face.back .sticker").style.backgroundColor = cubieContainersByPosition.ulf.querySelector(".cubie .face.left .sticker").style.backgroundColor;
+        cubieContainersByPosition.ulf.querySelector(".cubie .face.left .sticker").style.backgroundColor = cubieContainersByPosition.urf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+        cubieContainersByPosition.urf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.urb.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.urb.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.ul.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.ul.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.uf.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.uf.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.ur.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.ur.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.ub.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.ub.querySelector(".cubie .face.up .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.ul.querySelector(".cubie .face.left .sticker").style.backgroundColor;
+        cubieContainersByPosition.ul.querySelector(".cubie .face.left .sticker").style.backgroundColor = cubieContainersByPosition.uf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+        cubieContainersByPosition.uf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.ur.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.ur.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.ub.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+        cubieContainersByPosition.ub.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+      }
+
       uSlice().forEach(function(cubieContainer) {
-        transformCubieContainer(cubieContainer, 0, -90, 0);
+        rotateCubieContainerY(cubieContainer, -1, cb);
       });
-
-      var tmp;
-
-      tmp = cubieContainersByPosition.ulb;
-      cubieContainersByPosition.ulb = cubieContainersByPosition.ulf;
-      cubieContainersByPosition.ulf = cubieContainersByPosition.urf;
-      cubieContainersByPosition.urf = cubieContainersByPosition.urb;
-      cubieContainersByPosition.urb = tmp;
-
-      tmp = cubieContainersByPosition.ul;
-      cubieContainersByPosition.ul = cubieContainersByPosition.uf;
-      cubieContainersByPosition.uf = cubieContainersByPosition.ur;
-      cubieContainersByPosition.ur = cubieContainersByPosition.ub;
-      cubieContainersByPosition.ub = tmp;
     }
 
     function turnL() {
       lSlice().forEach(function(cubieContainer) {
-        transformCubieContainer(cubieContainer, -90, 0, 0);
+        rotateCubieContainerX(cubieContainer, -1);
       });
 
       var tmp;
@@ -214,37 +296,60 @@
     }
 
     function turnR() {
-      rSlice().forEach(function(cubieContainer) {
-        transformCubieContainer(cubieContainer, 90, 0, 0);
-      });
+      var remaining = 9;
+      var cb = function() {
+        remaining--;
+        if(remaining > 0) return;
 
-      for(var i=0; i<3; i++) { // TODO hack reverse direction
         var tmp;
 
-        tmp = cubieContainersByPosition.urb;
-        cubieContainersByPosition.urb = cubieContainersByPosition.drb;
-        cubieContainersByPosition.drb = cubieContainersByPosition.drf;
-        cubieContainersByPosition.drf = cubieContainersByPosition.urf;
-        cubieContainersByPosition.urf = tmp;
+        tmp = cubieContainersByPosition.urf.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        console.log("tmp", tmp);
+        cubieContainersByPosition.urf.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.drf.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.drf.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.drb.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.drb.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.urb.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.urb.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
 
-        tmp = cubieContainersByPosition.ur;
-        cubieContainersByPosition.ur = cubieContainersByPosition.rb;
-        cubieContainersByPosition.rb = cubieContainersByPosition.dr;
-        cubieContainersByPosition.dr = cubieContainersByPosition.rf;
-        cubieContainersByPosition.rf = tmp;
+        tmp = cubieContainersByPosition.urf.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.urf.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.drf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+        cubieContainersByPosition.drf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.drb.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+        cubieContainersByPosition.drb.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.urb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+        cubieContainersByPosition.urb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.urf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+        cubieContainersByPosition.urf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.drf.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+        cubieContainersByPosition.drf.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.drb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+        cubieContainersByPosition.drb.querySelector(".cubie .face.back .sticker").style.backgroundColor = cubieContainersByPosition.urb.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.urb.querySelector(".cubie .face.up .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.ur.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.ur.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.rf.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.rf.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.dr.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.dr.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.rb.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+        cubieContainersByPosition.rb.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+
+        tmp = cubieContainersByPosition.ur.querySelector(".cubie .face.up .sticker").style.backgroundColor;
+        cubieContainersByPosition.ur.querySelector(".cubie .face.up .sticker").style.backgroundColor = cubieContainersByPosition.rf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+        cubieContainersByPosition.rf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.dr.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+        cubieContainersByPosition.dr.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.rb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+        cubieContainersByPosition.rb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
       }
+
+      rSlice().forEach(function(cubieContainer) {
+        rotateCubieContainerX(cubieContainer, 1, cb);
+      });
     }
 
     function turnX() {
-      transformCubieContainer(cube, -90, 0, 0);
+      rotateCubieContainerX(cube, -1);
     }
 
     function turnY() {
-      transformCubieContainer(cube, 0, -90, 0);
+      rotateCubieContainerY(cube, -1);
     }
 
     function turnZ() {
-      transformCubieContainer(cube, 0, 0, 90);
+      rotateCubieContainerZ(cube, 1);
     }
 
     document.addEventListener("keypress", function(e) {

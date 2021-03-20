@@ -19,7 +19,6 @@ body {
   width: 150px;
   height: 150px;
   transform-style: preserve-3d;
-  transition: transform 300ms ease-out;
 }
 
 .cube .cubie-container .cubie {
@@ -64,28 +63,4 @@ body {
   right: 5px;
   bottom: 5px;
   border-radius: 5px;
-}
-
-.cube .cubie .face.up .sticker {
-  background-color: #ffd500;
-}
-
-.cube .cubie .face.down .sticker {
-  background-color: white;
-}
-
-.cube .cubie .face.right .sticker {
-  background-color: #b71234;
-}
-
-.cube .cubie .face.left .sticker {
-  background-color: #ff5800;
-}
-
-.cube .cubie .face.front .sticker {
-  background-color: #0046ad;
-}
-
-.cube .cubie .face.back .sticker {
-  background-color: #009b48;
 }
