@@ -203,6 +203,20 @@
       ];
     }
 
+    function dSlice() {
+      return [
+        cubieContainersByPosition.dlb,
+        cubieContainersByPosition.dl,
+        cubieContainersByPosition.dlf,
+        cubieContainersByPosition.db,
+        cubieContainersByPosition.d,
+        cubieContainersByPosition.df,
+        cubieContainersByPosition.drb,
+        cubieContainersByPosition.dr,
+        cubieContainersByPosition.drf
+      ];
+    }
+
     function lSlice() {
       return [
         cubieContainersByPosition.ulb,
@@ -236,8 +250,6 @@
       var cb = function() {
         remaining--;
         if(remaining > 0) return;
-
-        console.log("callback", (n < 0 ? 3 : n));
 
         var tmp;
 
@@ -279,13 +291,57 @@
       });
     }
 
-    function turnL(n) {
+    function turnD(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if(remaining > 0) return;
 
-        console.log("callback", (n < 0 ? 1 : 4 - n));
+        var tmp;
+
+        for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+          tmp = cubieContainersByPosition.dlb.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.dlb.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.dlf.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.dlf.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.drf.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.drf.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.drb.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.drb.querySelector(".cubie .face.down .sticker").style.backgroundColor = tmp;
+
+          tmp = cubieContainersByPosition.dlb.querySelector(".cubie .face.left .sticker").style.backgroundColor;
+          cubieContainersByPosition.dlb.querySelector(".cubie .face.left .sticker").style.backgroundColor = cubieContainersByPosition.dlf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+          cubieContainersByPosition.dlf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.drf.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+          cubieContainersByPosition.drf.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.drb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+          cubieContainersByPosition.drb.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+
+          tmp = cubieContainersByPosition.dlb.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+          cubieContainersByPosition.dlb.querySelector(".cubie .face.back .sticker").style.backgroundColor = cubieContainersByPosition.dlf.querySelector(".cubie .face.left .sticker").style.backgroundColor;
+          cubieContainersByPosition.dlf.querySelector(".cubie .face.left .sticker").style.backgroundColor = cubieContainersByPosition.drf.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+          cubieContainersByPosition.drf.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.drb.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+          cubieContainersByPosition.drb.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+
+          tmp = cubieContainersByPosition.dl.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.dl.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.df.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.df.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.dr.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.dr.querySelector(".cubie .face.down .sticker").style.backgroundColor = cubieContainersByPosition.db.querySelector(".cubie .face.down .sticker").style.backgroundColor;
+          cubieContainersByPosition.db.querySelector(".cubie .face.down .sticker").style.backgroundColor = tmp;
+
+          tmp = cubieContainersByPosition.dl.querySelector(".cubie .face.left .sticker").style.backgroundColor;
+          cubieContainersByPosition.dl.querySelector(".cubie .face.left .sticker").style.backgroundColor = cubieContainersByPosition.df.querySelector(".cubie .face.front .sticker").style.backgroundColor;
+          cubieContainersByPosition.df.querySelector(".cubie .face.front .sticker").style.backgroundColor = cubieContainersByPosition.dr.querySelector(".cubie .face.right .sticker").style.backgroundColor;
+          cubieContainersByPosition.dr.querySelector(".cubie .face.right .sticker").style.backgroundColor = cubieContainersByPosition.db.querySelector(".cubie .face.back .sticker").style.backgroundColor;
+          cubieContainersByPosition.db.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+        }
+      }
+
+      dSlice().forEach(function(cubieContainer) {
+        rotateCubieContainerY(cubieContainer, n, cb);
+      });
+    }
+
+    function turnL(n) {
+      var remaining = 9;
+      var cb = function() {
+        remaining--;
+        if(remaining > 0) return;
 
         var tmp;
 
@@ -332,8 +388,6 @@
       var cb = function() {
         remaining--;
         if(remaining > 0) return;
-
-        console.log("callback", (n < 0 ? 3 : n));
 
         var tmp;
 
@@ -391,6 +445,9 @@
       switch(e.key) {
         case "u":
           turnU(1);
+          break;
+        case "d":
+          turnD(1);
           break;
         case "l":
           turnL(1);
