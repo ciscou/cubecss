@@ -112,8 +112,10 @@
       cubieContainer.classList.add("cubie-container");
       cubieContainer.style.transition = "transform 500ms ease-out";
       cubieContainer.style.position = "absolute";
-      cubieContainer.style.width = "" + (CUBIE_SIZE * 3) + "px";
-      cubieContainer.style.height = "" + (CUBIE_SIZE * 3) + "px";
+      cubieContainer.style.top = "0";
+      cubieContainer.style.left = "0";
+      cubieContainer.style.bottom = "0";
+      cubieContainer.style.right = "0";
       cubieContainer.style.transformStyle = "preserve-3d";
 
       cubieContainer.appendChild(buildCubie(x, y, z));
@@ -300,7 +302,7 @@
       var remaining = 9;
       var cb = function() {
         remaining--;
-        if(remaining > 0) return;
+        if((remaining > 0) && animating) return;
 
         var tmp;
 
@@ -340,16 +342,20 @@
         handleQueue();
       }
 
-      USLICE.forEach(function(cubieContainer) {
-        rotateCubieContainerY(cubieContainer, -n, cb);
-      });
+      if(animating) {
+        USLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer, -n, cb);
+        });
+      } else {
+        cb();
+      }
     }
 
     function turnD(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
-        if(remaining > 0) return;
+        if((remaining > 0) && animating) return;
 
         var tmp;
 
@@ -389,16 +395,20 @@
         handleQueue();
       }
 
-      DSLICE.forEach(function(cubieContainer) {
-        rotateCubieContainerY(cubieContainer, n, cb);
-      });
+      if(animating) {
+        DSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer, n, cb);
+        });
+      } else {
+        cb();
+      }
     }
 
     function turnL(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
-        if(remaining > 0) return;
+        if((remaining > 0) && animating) return;
 
         var tmp;
 
@@ -438,16 +448,20 @@
         handleQueue();
       }
 
-      LSLICE.forEach(function(cubieContainer) {
-        rotateCubieContainerX(cubieContainer, -n, cb);
-      });
+      if(animating) {
+        LSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer, -n, cb);
+        });
+      } else {
+        cb();
+      }
     }
 
     function turnR(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
-        if(remaining > 0) return;
+        if((remaining > 0) && animating) return;
 
         var tmp;
 
@@ -487,16 +501,20 @@
         handleQueue();
       }
 
-      RSLICE.forEach(function(cubieContainer) {
-        rotateCubieContainerX(cubieContainer, n, cb);
-      });
+      if(animating) {
+        RSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer, n, cb);
+        });
+      } else {
+        cb();
+      }
     }
 
     function turnF(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
-        if(remaining > 0) return;
+        if((remaining > 0) && animating) return;
 
         var tmp;
 
@@ -536,16 +554,20 @@
         handleQueue();
       }
 
-      FSLICE.forEach(function(cubieContainer) {
-        rotateCubieContainerZ(cubieContainer, n, cb);
-      });
+      if(animating) {
+        FSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer, n, cb);
+        });
+      } else {
+        cb();
+      }
     }
 
     function turnB(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
-        if(remaining > 0) return;
+        if((remaining > 0) && animating) return;
 
         var tmp;
 
@@ -585,20 +607,29 @@
         handleQueue();
       }
 
-      BSLICE.forEach(function(cubieContainer) {
-        rotateCubieContainerZ(cubieContainer, n, cb);
-      });
+      if(animating) {
+        BSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer, n, cb);
+        });
+      } else {
+        cb();
+      }
     }
 
     var queue = [];
     var turning = false;
+    var animating = true;
 
     function handleQueue() {
       if(!turning) {
         if(queue.length > 0) {
           turning = true;
           var fq = queue.shift();
-          setTimeout(function() { fq[0](fq[1]) });
+          if(animating) {
+            setTimeout(function() { fq[0](fq[1]) });
+          } else {
+            fq[0](fq[1]);
+          }
         }
       }
     }
@@ -621,6 +652,8 @@
     this.d2 = function() { queue.push([turnD,  2]); handleQueue() };
     this.l2 = function() { queue.push([turnL,  2]); handleQueue() };
     this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
+
+    this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
   }
 
   var cubeCSS = new CubeCSS({cubieSize: 50});
@@ -651,6 +684,23 @@
     handleQueue();
   }, false);
 
+  cubeCSS.withoutAnimation(function() {
+    cubeCSS.r();
+    cubeCSS.u();
+    cubeCSS.ri();
+    cubeCSS.ui();
+    cubeCSS.ri();
+    cubeCSS.f();
+    cubeCSS.r2();
+    cubeCSS.ui();
+    cubeCSS.ri();
+    cubeCSS.ui();
+    cubeCSS.r();
+    cubeCSS.u();
+    cubeCSS.ri();
+    cubeCSS.fi();
+  });
+
   setTimeout(function() {
     cubeCSS.r();
     cubeCSS.u();
@@ -666,5 +716,5 @@
     cubeCSS.u();
     cubeCSS.ri();
     cubeCSS.fi();
-  }, 500);
+  }, 1000);
 })();
