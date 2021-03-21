@@ -145,11 +145,17 @@
       // cube.style.transition = "transform 300ms ease-out";
 
       cube.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         lastTouchX = e.touches[0].clientX;
         lastTouchY = e.touches[0].clientY;
       }, false);
 
       cube.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         var touchX = e.touches[0].clientX;
         var touchY = e.touches[0].clientY;
 
@@ -159,6 +165,9 @@
         ry += dx / 2;
         rx -= dy / 2;
 
+        if(rx < -45) rx = -45;
+        if(rx >  45) rx =  45;
+
         cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
 
         lastTouchX = e.touches[0].clientX;
@@ -166,6 +175,8 @@
       }, false);
 
       cube.addEventListener("touchend", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
       }, false);
 
       for(var x=0; x<3; x++) {
