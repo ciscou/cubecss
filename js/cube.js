@@ -133,7 +133,40 @@
       cube.style.width = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.transformStyle = "preserve-3d";
+
+      var rx = -25;
+      var ry = -45;
+      var rz = 0;
+
+      var lastTouchX;
+      var lastTouchY;
+
+      cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       // cube.style.transition = "transform 300ms ease-out";
+
+      cube.addEventListener("touchstart", function(e) {
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      }, false);
+
+      cube.addEventListener("touchmove", function(e) {
+        var touchX = e.touches[0].clientX;
+        var touchY = e.touches[0].clientY;
+
+        var dx = touchX - lastTouchX;
+        var dy = touchY - lastTouchY;
+
+        ry += dx / 2;
+        rx -= dy / 2;
+
+        cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      }, false);
+
+      cube.addEventListener("touchend", function(e) {
+      }, false);
 
       for(var x=0; x<3; x++) {
         for(var y=0; y<3; y++) {
@@ -703,7 +736,7 @@
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
   }
 
-  var cubeCSS = new CubeCSS({cubieSize: 100});
+  var cubeCSS = new CubeCSS({cubieSize: 50});
   window.cubeCSS = cubeCSS;
 
   /*
@@ -806,12 +839,6 @@
     cubeCSS.ri();
     cubeCSS.fi();
   }, 7000);
-
-  var rx = -25;
-  var ry = -45;
-
-  cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
-  cubeCSS.el.style.transition = "transform 300ms ease-out";
 
   /*
   var rotateWholeCube = function() {
