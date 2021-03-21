@@ -198,33 +198,72 @@
 
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
-    var ULB  = cubieContainers[0];
-    var UL   = cubieContainers[1];
-    var ULF  = cubieContainers[2];
-    var LB   = cubieContainers[3];
-    var L    = cubieContainers[4];
-    var LF   = cubieContainers[5];
-    var DLB  = cubieContainers[6];
-    var DL   = cubieContainers[7];
-    var DLF  = cubieContainers[8];
-    var UB   = cubieContainers[9];
-    var U    = cubieContainers[10];
-    var UF   = cubieContainers[11];
-    var B    = cubieContainers[12];
-    var CORE = cubieContainers[13];
-    var F    = cubieContainers[14];
-    var DB   = cubieContainers[15];
-    var D    = cubieContainers[16];
-    var DF   = cubieContainers[17];
-    var URB  = cubieContainers[18];
-    var UR   = cubieContainers[19];
-    var URF  = cubieContainers[20];
-    var RB   = cubieContainers[21];
-    var R    = cubieContainers[22];
-    var RF   = cubieContainers[23];
-    var DRB  = cubieContainers[24];
-    var DR   = cubieContainers[25];
-    var DRF  = cubieContainers[26];
+    var ULB  = { el: cubieContainers[0]  };
+    var UL   = { el: cubieContainers[1]  };
+    var ULF  = { el: cubieContainers[2]  };
+    var LB   = { el: cubieContainers[3]  };
+    var L    = { el: cubieContainers[4]  };
+    var LF   = { el: cubieContainers[5]  };
+    var DLB  = { el: cubieContainers[6]  };
+    var DL   = { el: cubieContainers[7]  };
+    var DLF  = { el: cubieContainers[8]  };
+    var UB   = { el: cubieContainers[9]  };
+    var U    = { el: cubieContainers[10] };
+    var UF   = { el: cubieContainers[11] };
+    var B    = { el: cubieContainers[12] };
+    var CORE = { el: cubieContainers[13] };
+    var F    = { el: cubieContainers[14] };
+    var DB   = { el: cubieContainers[15] };
+    var D    = { el: cubieContainers[16] };
+    var DF   = { el: cubieContainers[17] };
+    var URB  = { el: cubieContainers[18] };
+    var UR   = { el: cubieContainers[19] };
+    var URF  = { el: cubieContainers[20] };
+    var RB   = { el: cubieContainers[21] };
+    var R    = { el: cubieContainers[22] };
+    var RF   = { el: cubieContainers[23] };
+    var DRB  = { el: cubieContainers[24] };
+    var DR   = { el: cubieContainers[25] };
+    var DRF  = { el: cubieContainers[26] };
+
+    [
+      ULB,
+      UL,
+      ULF,
+      LB,
+      L,
+      LF,
+      DLB,
+      DL,
+      DLF,
+      UB,
+      U,
+      UF,
+      B,
+      CORE,
+      F,
+      DB,
+      D,
+      DF,
+      URB,
+      UR,
+      URF,
+      RB,
+      R,
+      RF,
+      DRB,
+      DR,
+      DRF
+    ].forEach(function(cc) {
+      cc.stickers = {};
+
+      cc.stickers.up = cc.el.querySelector(".cubie .face.up .sticker");
+      cc.stickers.down = cc.el.querySelector(".cubie .face.down .sticker");
+      cc.stickers.right = cc.el.querySelector(".cubie .face.right .sticker");
+      cc.stickers.left = cc.el.querySelector(".cubie .face.left .sticker");
+      cc.stickers.front = cc.el.querySelector(".cubie .face.front .sticker");
+      cc.stickers.back = cc.el.querySelector(".cubie .face.back .sticker");
+    });
 
     var USLICE = [
       ULB,
@@ -307,35 +346,35 @@
         var tmp;
 
         for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = ULB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.up .sticker").style.backgroundColor = ULF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.up .sticker").style.backgroundColor = URF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.up .sticker").style.backgroundColor = URB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.up .sticker").style.backgroundColor = tmp;
+          tmp = ULB.stickers.up.style.backgroundColor;
+          ULB.stickers.up.style.backgroundColor = ULF.stickers.up.style.backgroundColor;
+          ULF.stickers.up.style.backgroundColor = URF.stickers.up.style.backgroundColor;
+          URF.stickers.up.style.backgroundColor = URB.stickers.up.style.backgroundColor;
+          URB.stickers.up.style.backgroundColor = tmp;
 
-          tmp = ULB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.left .sticker").style.backgroundColor  = ULF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.front .sticker").style.backgroundColor = URF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.right .sticker").style.backgroundColor = URB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = ULB.stickers.left.style.backgroundColor;
+          ULB.stickers.left.style.backgroundColor  = ULF.stickers.front.style.backgroundColor;
+          ULF.stickers.front.style.backgroundColor = URF.stickers.right.style.backgroundColor;
+          URF.stickers.right.style.backgroundColor = URB.stickers.back.style.backgroundColor;
+          URB.stickers.back.style.backgroundColor  = tmp;
 
-          tmp = ULB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = ULF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.left .sticker").style.backgroundColor  = URF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.front .sticker").style.backgroundColor = URB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = ULB.stickers.back.style.backgroundColor;
+          ULB.stickers.back.style.backgroundColor  = ULF.stickers.left.style.backgroundColor;
+          ULF.stickers.left.style.backgroundColor  = URF.stickers.front.style.backgroundColor;
+          URF.stickers.front.style.backgroundColor = URB.stickers.right.style.backgroundColor;
+          URB.stickers.right.style.backgroundColor = tmp;
 
-          tmp = UL.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UL.querySelector(".cubie .face.up .sticker").style.backgroundColor = UF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UF.querySelector(".cubie .face.up .sticker").style.backgroundColor = UR.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UR.querySelector(".cubie .face.up .sticker").style.backgroundColor = UB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UB.querySelector(".cubie .face.up .sticker").style.backgroundColor = tmp;
+          tmp = UL.stickers.up.style.backgroundColor;
+          UL.stickers.up.style.backgroundColor = UF.stickers.up.style.backgroundColor;
+          UF.stickers.up.style.backgroundColor = UR.stickers.up.style.backgroundColor;
+          UR.stickers.up.style.backgroundColor = UB.stickers.up.style.backgroundColor;
+          UB.stickers.up.style.backgroundColor = tmp;
 
-          tmp = UL.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          UL.querySelector(".cubie .face.left .sticker").style.backgroundColor  = UF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          UF.querySelector(".cubie .face.front .sticker").style.backgroundColor = UR.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          UR.querySelector(".cubie .face.right .sticker").style.backgroundColor = UB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          UB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = UL.stickers.left.style.backgroundColor;
+          UL.stickers.left.style.backgroundColor  = UF.stickers.front.style.backgroundColor;
+          UF.stickers.front.style.backgroundColor = UR.stickers.right.style.backgroundColor;
+          UR.stickers.right.style.backgroundColor = UB.stickers.back.style.backgroundColor;
+          UB.stickers.back.style.backgroundColor  = tmp;
         }
 
         turning = false;
@@ -344,7 +383,7 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer, -n, cb);
+          rotateCubieContainerY(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -360,35 +399,35 @@
         var tmp;
 
         for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
-          tmp = DLB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.down .sticker").style.backgroundColor = DLF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.down .sticker").style.backgroundColor = DRF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.down .sticker").style.backgroundColor = DRB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.down .sticker").style.backgroundColor = tmp;
+          tmp = DLB.stickers.down.style.backgroundColor;
+          DLB.stickers.down.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
+          DLF.stickers.down.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
+          DRF.stickers.down.style.backgroundColor = DRB.stickers.down.style.backgroundColor;
+          DRB.stickers.down.style.backgroundColor = tmp;
 
-          tmp = DLB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DLF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DRF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.right .sticker").style.backgroundColor = DRB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = DLB.stickers.left.style.backgroundColor;
+          DLB.stickers.left.style.backgroundColor  = DLF.stickers.front.style.backgroundColor;
+          DLF.stickers.front.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
+          DRF.stickers.right.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
+          DRB.stickers.back.style.backgroundColor  = tmp;
 
-          tmp = DLB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = DLF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DRF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DRB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = DLB.stickers.back.style.backgroundColor;
+          DLB.stickers.back.style.backgroundColor  = DLF.stickers.left.style.backgroundColor;
+          DLF.stickers.left.style.backgroundColor  = DRF.stickers.front.style.backgroundColor;
+          DRF.stickers.front.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
+          DRB.stickers.right.style.backgroundColor = tmp;
 
-          tmp = DL.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DL.querySelector(".cubie .face.down .sticker").style.backgroundColor = DF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DF.querySelector(".cubie .face.down .sticker").style.backgroundColor = DR.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DR.querySelector(".cubie .face.down .sticker").style.backgroundColor = DB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DB.querySelector(".cubie .face.down .sticker").style.backgroundColor = tmp;
+          tmp = DL.stickers.down.style.backgroundColor;
+          DL.stickers.down.style.backgroundColor = DF.stickers.down.style.backgroundColor;
+          DF.stickers.down.style.backgroundColor = DR.stickers.down.style.backgroundColor;
+          DR.stickers.down.style.backgroundColor = DB.stickers.down.style.backgroundColor;
+          DB.stickers.down.style.backgroundColor = tmp;
 
-          tmp = DL.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DL.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DR.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DR.querySelector(".cubie .face.right .sticker").style.backgroundColor = DB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = DL.stickers.left.style.backgroundColor;
+          DL.stickers.left.style.backgroundColor  = DF.stickers.front.style.backgroundColor;
+          DF.stickers.front.style.backgroundColor = DR.stickers.right.style.backgroundColor;
+          DR.stickers.right.style.backgroundColor = DB.stickers.back.style.backgroundColor;
+          DB.stickers.back.style.backgroundColor  = tmp;
         }
 
         turning = false;
@@ -397,7 +436,7 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer, n, cb);
+          rotateCubieContainerY(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -413,35 +452,35 @@
         var tmp;
 
         for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
-          tmp = ULF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.left .sticker").style.backgroundColor = DLF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.left .sticker").style.backgroundColor = DLB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.left .sticker").style.backgroundColor = ULB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.left .sticker").style.backgroundColor = tmp;
+          tmp = ULF.stickers.left.style.backgroundColor;
+          ULF.stickers.left.style.backgroundColor = DLF.stickers.left.style.backgroundColor;
+          DLF.stickers.left.style.backgroundColor = DLB.stickers.left.style.backgroundColor;
+          DLB.stickers.left.style.backgroundColor = ULB.stickers.left.style.backgroundColor;
+          ULB.stickers.left.style.backgroundColor = tmp;
 
-          tmp = ULF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.up .sticker").style.backgroundColor    = DLF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DLB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.down .sticker").style.backgroundColor  = ULB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = ULF.stickers.up.style.backgroundColor;
+          ULF.stickers.up.style.backgroundColor    = DLF.stickers.front.style.backgroundColor;
+          DLF.stickers.front.style.backgroundColor = DLB.stickers.down.style.backgroundColor;
+          DLB.stickers.down.style.backgroundColor  = ULB.stickers.back.style.backgroundColor;
+          ULB.stickers.back.style.backgroundColor  = tmp;
 
-          tmp = ULF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DLF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.down .sticker").style.backgroundColor  = DLB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = ULB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.up .sticker").style.backgroundColor    = tmp;
+          tmp = ULF.stickers.front.style.backgroundColor;
+          ULF.stickers.front.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
+          DLF.stickers.down.style.backgroundColor  = DLB.stickers.back.style.backgroundColor;
+          DLB.stickers.back.style.backgroundColor  = ULB.stickers.up.style.backgroundColor;
+          ULB.stickers.up.style.backgroundColor    = tmp;
 
-          tmp = UL.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          UL.querySelector(".cubie .face.left .sticker").style.backgroundColor = LF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          LF.querySelector(".cubie .face.left .sticker").style.backgroundColor = DL.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DL.querySelector(".cubie .face.left .sticker").style.backgroundColor = LB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          LB.querySelector(".cubie .face.left .sticker").style.backgroundColor = tmp;
+          tmp = UL.stickers.left.style.backgroundColor;
+          UL.stickers.left.style.backgroundColor = LF.stickers.left.style.backgroundColor;
+          LF.stickers.left.style.backgroundColor = DL.stickers.left.style.backgroundColor;
+          DL.stickers.left.style.backgroundColor = LB.stickers.left.style.backgroundColor;
+          LB.stickers.left.style.backgroundColor = tmp;
 
-          tmp = UL.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UL.querySelector(".cubie .face.up .sticker").style.backgroundColor    = LF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          LF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DL.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DL.querySelector(".cubie .face.down .sticker").style.backgroundColor  = LB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          LB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = UL.stickers.up.style.backgroundColor;
+          UL.stickers.up.style.backgroundColor    = LF.stickers.front.style.backgroundColor;
+          LF.stickers.front.style.backgroundColor = DL.stickers.down.style.backgroundColor;
+          DL.stickers.down.style.backgroundColor  = LB.stickers.back.style.backgroundColor;
+          LB.stickers.back.style.backgroundColor  = tmp;
         }
 
         turning = false;
@@ -450,7 +489,7 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer, -n, cb);
+          rotateCubieContainerX(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -466,35 +505,35 @@
         var tmp;
 
         for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = URF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.right .sticker").style.backgroundColor = DRF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.right .sticker").style.backgroundColor = DRB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.right .sticker").style.backgroundColor = URB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = URF.stickers.right.style.backgroundColor;
+          URF.stickers.right.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
+          DRF.stickers.right.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
+          DRB.stickers.right.style.backgroundColor = URB.stickers.right.style.backgroundColor;
+          URB.stickers.right.style.backgroundColor = tmp;
 
-          tmp = URF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.up .sticker").style.backgroundColor    = DRF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DRB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.down .sticker").style.backgroundColor  = URB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = URF.stickers.up.style.backgroundColor;
+          URF.stickers.up.style.backgroundColor    = DRF.stickers.front.style.backgroundColor;
+          DRF.stickers.front.style.backgroundColor = DRB.stickers.down.style.backgroundColor;
+          DRB.stickers.down.style.backgroundColor  = URB.stickers.back.style.backgroundColor;
+          URB.stickers.back.style.backgroundColor  = tmp;
 
-          tmp = URF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DRF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.down .sticker").style.backgroundColor  = DRB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = URB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.up .sticker").style.backgroundColor    = tmp;
+          tmp = URF.stickers.front.style.backgroundColor;
+          URF.stickers.front.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
+          DRF.stickers.down.style.backgroundColor  = DRB.stickers.back.style.backgroundColor;
+          DRB.stickers.back.style.backgroundColor  = URB.stickers.up.style.backgroundColor;
+          URB.stickers.up.style.backgroundColor    = tmp;
 
-          tmp = UR.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          UR.querySelector(".cubie .face.right .sticker").style.backgroundColor = RF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          RF.querySelector(".cubie .face.right .sticker").style.backgroundColor = DR.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DR.querySelector(".cubie .face.right .sticker").style.backgroundColor = RB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          RB.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = UR.stickers.right.style.backgroundColor;
+          UR.stickers.right.style.backgroundColor = RF.stickers.right.style.backgroundColor;
+          RF.stickers.right.style.backgroundColor = DR.stickers.right.style.backgroundColor;
+          DR.stickers.right.style.backgroundColor = RB.stickers.right.style.backgroundColor;
+          RB.stickers.right.style.backgroundColor = tmp;
 
-          tmp = UR.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UR.querySelector(".cubie .face.up .sticker").style.backgroundColor    = RF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          RF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DR.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DR.querySelector(".cubie .face.down .sticker").style.backgroundColor  = RB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          RB.querySelector(".cubie .face.back .sticker").style.backgroundColor  = tmp;
+          tmp = UR.stickers.up.style.backgroundColor;
+          UR.stickers.up.style.backgroundColor    = RF.stickers.front.style.backgroundColor;
+          RF.stickers.front.style.backgroundColor = DR.stickers.down.style.backgroundColor;
+          DR.stickers.down.style.backgroundColor  = RB.stickers.back.style.backgroundColor;
+          RB.stickers.back.style.backgroundColor  = tmp;
         }
 
         turning = false;
@@ -503,7 +542,7 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer, n, cb);
+          rotateCubieContainerX(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -519,35 +558,35 @@
         var tmp;
 
         for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = ULF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DLF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DRF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.front .sticker").style.backgroundColor = URF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.front .sticker").style.backgroundColor = tmp;
+          tmp = ULF.stickers.front.style.backgroundColor;
+          ULF.stickers.front.style.backgroundColor = DLF.stickers.front.style.backgroundColor;
+          DLF.stickers.front.style.backgroundColor = DRF.stickers.front.style.backgroundColor;
+          DRF.stickers.front.style.backgroundColor = URF.stickers.front.style.backgroundColor;
+          URF.stickers.front.style.backgroundColor = tmp;
 
-          tmp = ULF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.up .sticker").style.backgroundColor    = DLF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DRF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.down .sticker").style.backgroundColor  = URF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = ULF.stickers.up.style.backgroundColor;
+          ULF.stickers.up.style.backgroundColor    = DLF.stickers.left.style.backgroundColor;
+          DLF.stickers.left.style.backgroundColor  = DRF.stickers.down.style.backgroundColor;
+          DRF.stickers.down.style.backgroundColor  = URF.stickers.right.style.backgroundColor;
+          URF.stickers.right.style.backgroundColor = tmp;
 
-          tmp = ULF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          ULF.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DLF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DLF.querySelector(".cubie .face.down .sticker").style.backgroundColor  = DRF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DRF.querySelector(".cubie .face.right .sticker").style.backgroundColor = URF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          URF.querySelector(".cubie .face.up .sticker").style.backgroundColor    = tmp;
+          tmp = ULF.stickers.left.style.backgroundColor;
+          ULF.stickers.left.style.backgroundColor  = DLF.stickers.down.style.backgroundColor;
+          DLF.stickers.down.style.backgroundColor  = DRF.stickers.right.style.backgroundColor;
+          DRF.stickers.right.style.backgroundColor = URF.stickers.up.style.backgroundColor;
+          URF.stickers.up.style.backgroundColor    = tmp;
 
-          tmp = UF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          UF.querySelector(".cubie .face.front .sticker").style.backgroundColor = LF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          LF.querySelector(".cubie .face.front .sticker").style.backgroundColor = DF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          DF.querySelector(".cubie .face.front .sticker").style.backgroundColor = RF.querySelector(".cubie .face.front .sticker").style.backgroundColor;
-          RF.querySelector(".cubie .face.front .sticker").style.backgroundColor = tmp;
+          tmp = UF.stickers.front.style.backgroundColor;
+          UF.stickers.front.style.backgroundColor = LF.stickers.front.style.backgroundColor;
+          LF.stickers.front.style.backgroundColor = DF.stickers.front.style.backgroundColor;
+          DF.stickers.front.style.backgroundColor = RF.stickers.front.style.backgroundColor;
+          RF.stickers.front.style.backgroundColor = tmp;
 
-          tmp = UF.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UF.querySelector(".cubie .face.up .sticker").style.backgroundColor    = LF.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          LF.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DF.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DF.querySelector(".cubie .face.down .sticker").style.backgroundColor  = RF.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          RF.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = UF.stickers.up.style.backgroundColor;
+          UF.stickers.up.style.backgroundColor    = LF.stickers.left.style.backgroundColor;
+          LF.stickers.left.style.backgroundColor  = DF.stickers.down.style.backgroundColor;
+          DF.stickers.down.style.backgroundColor  = RF.stickers.right.style.backgroundColor;
+          RF.stickers.right.style.backgroundColor = tmp;
         }
 
         turning = false;
@@ -556,7 +595,7 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer, n, cb);
+          rotateCubieContainerZ(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -572,35 +611,35 @@
         var tmp;
 
         for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = ULB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.back .sticker").style.backgroundColor = DLB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.back .sticker").style.backgroundColor = DRB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.back .sticker").style.backgroundColor = URB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+          tmp = ULB.stickers.back.style.backgroundColor;
+          ULB.stickers.back.style.backgroundColor = DLB.stickers.back.style.backgroundColor;
+          DLB.stickers.back.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
+          DRB.stickers.back.style.backgroundColor = URB.stickers.back.style.backgroundColor;
+          URB.stickers.back.style.backgroundColor = tmp;
 
-          tmp = ULB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.up .sticker").style.backgroundColor    = DLB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DRB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.down .sticker").style.backgroundColor  = URB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = ULB.stickers.up.style.backgroundColor;
+          ULB.stickers.up.style.backgroundColor    = DLB.stickers.left.style.backgroundColor;
+          DLB.stickers.left.style.backgroundColor  = DRB.stickers.down.style.backgroundColor;
+          DRB.stickers.down.style.backgroundColor  = URB.stickers.right.style.backgroundColor;
+          URB.stickers.right.style.backgroundColor = tmp;
 
-          tmp = ULB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          ULB.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DLB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DLB.querySelector(".cubie .face.down .sticker").style.backgroundColor  = DRB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          DRB.querySelector(".cubie .face.right .sticker").style.backgroundColor = URB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          URB.querySelector(".cubie .face.up .sticker").style.backgroundColor    = tmp;
+          tmp = ULB.stickers.left.style.backgroundColor;
+          ULB.stickers.left.style.backgroundColor  = DLB.stickers.down.style.backgroundColor;
+          DLB.stickers.down.style.backgroundColor  = DRB.stickers.right.style.backgroundColor;
+          DRB.stickers.right.style.backgroundColor = URB.stickers.up.style.backgroundColor;
+          URB.stickers.up.style.backgroundColor    = tmp;
 
-          tmp = UB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          UB.querySelector(".cubie .face.back .sticker").style.backgroundColor = LB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          LB.querySelector(".cubie .face.back .sticker").style.backgroundColor = DB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          DB.querySelector(".cubie .face.back .sticker").style.backgroundColor = RB.querySelector(".cubie .face.back .sticker").style.backgroundColor;
-          RB.querySelector(".cubie .face.back .sticker").style.backgroundColor = tmp;
+          tmp = UB.stickers.back.style.backgroundColor;
+          UB.stickers.back.style.backgroundColor = LB.stickers.back.style.backgroundColor;
+          LB.stickers.back.style.backgroundColor = DB.stickers.back.style.backgroundColor;
+          DB.stickers.back.style.backgroundColor = RB.stickers.back.style.backgroundColor;
+          RB.stickers.back.style.backgroundColor = tmp;
 
-          tmp = UB.querySelector(".cubie .face.up .sticker").style.backgroundColor;
-          UB.querySelector(".cubie .face.up .sticker").style.backgroundColor    = LB.querySelector(".cubie .face.left .sticker").style.backgroundColor;
-          LB.querySelector(".cubie .face.left .sticker").style.backgroundColor  = DB.querySelector(".cubie .face.down .sticker").style.backgroundColor;
-          DB.querySelector(".cubie .face.down .sticker").style.backgroundColor  = RB.querySelector(".cubie .face.right .sticker").style.backgroundColor;
-          RB.querySelector(".cubie .face.right .sticker").style.backgroundColor = tmp;
+          tmp = UB.stickers.up.style.backgroundColor;
+          UB.stickers.up.style.backgroundColor    = LB.stickers.left.style.backgroundColor;
+          LB.stickers.left.style.backgroundColor  = DB.stickers.down.style.backgroundColor;
+          DB.stickers.down.style.backgroundColor  = RB.stickers.right.style.backgroundColor;
+          RB.stickers.right.style.backgroundColor = tmp;
         }
 
         turning = false;
@@ -609,7 +648,7 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer, n, cb);
+          rotateCubieContainerZ(cubieContainer.el, n, cb);
         });
       } else {
         cb();
