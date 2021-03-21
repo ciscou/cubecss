@@ -9,9 +9,9 @@
     options.colorFront ||= "#0046ad";
     options.colorBack  ||= "#009b48";
 
-    options.cubieSize ||= 100;
-
     var CONTAINER = options.container;
+
+    options.cubieSize ||= CONTAINER.offsetWidth / 6;
 
     var COLOR_BY_FACE = {
       up: options.colorUp,
@@ -234,7 +234,14 @@
     }
 
     var cube = buildCube();
-    CONTAINER.appendChild(cube);
+    cubeWrapper = document.createElement("div");
+    cubeWrapper.style.display = "flex";
+    cubeWrapper.style.justifyContent = "center";
+    cubeWrapper.style.alignItems = "center";
+    cubeWrapper.style.height = (CUBIE_SIZE * 5.5) + "px"
+    cubeWrapper.classList.add("cube-wrapper");
+    cubeWrapper.appendChild(cube);
+    CONTAINER.appendChild(cubeWrapper);
 
     this.el = cube;
 
@@ -757,7 +764,7 @@
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
   }
 
-  var cubeCSS = new CubeCSS({container: document.querySelector(".cube-container"), cubieSize: 50});
+  var cubeCSS = new CubeCSS({container: document.querySelector(".cube-container")});
   window.cubeCSS = cubeCSS;
 
   /*

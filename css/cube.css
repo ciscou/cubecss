@@ -10,11 +10,5 @@ body {
 }
 
 .cube-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.controls {
-  margin-top: 50px;
+  width: 50%;
 }
