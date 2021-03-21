@@ -703,26 +703,42 @@
   document.addEventListener("keypress", function(e) {
     switch(e.key) {
       case "u":
-        queue.push([turnU, 1]);
+        cubeCSS.u();
         break;
       case "d":
-        queue.push([turnD, 1]);
+        cubeCSS.d();
         break;
       case "l":
-        queue.push([turnL, 1]);
+        cubeCSS.l();
         break;
       case "r":
-        queue.push([turnR, 1]);
+        cubeCSS.r();
         break;
       case "f":
-        queue.push([turnF, 1]);
+        cubeCSS.f();
         break;
       case "b":
-        queue.push([turnB, 1]);
+        cubeCSS.b();
+        break;
+      case "U":
+        cubeCSS.ui();
+        break;
+      case "D":
+        cubeCSS.di();
+        break;
+      case "L":
+        cubeCSS.li();
+        break;
+      case "R":
+        cubeCSS.ri();
+        break;
+      case "F":
+        cubeCSS.fi();
+        break;
+      case "B":
+        cubeCSS.bi();
         break;
     }
-
-    handleQueue();
   }, false);
 
   cubeCSS.withoutAnimation(function() {
