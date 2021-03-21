@@ -226,35 +226,37 @@
     var DR   = { el: cubieContainers[25] };
     var DRF  = { el: cubieContainers[26] };
 
-    [
-      ULB,
-      UL,
-      ULF,
-      LB,
-      L,
-      LF,
-      DLB,
-      DL,
-      DLF,
-      UB,
-      U,
-      UF,
-      B,
-      CORE,
-      F,
-      DB,
-      D,
-      DF,
-      URB,
-      UR,
-      URF,
-      RB,
-      R,
-      RF,
-      DRB,
-      DR,
-      DRF
-    ].forEach(function(cc) {
+    this.cubies = {
+      ULB: ULB,
+      UL: UL,
+      ULF: ULF,
+      LB: LB,
+      L: L,
+      LF: LF,
+      DLB: DLB,
+      DL: DL,
+      DLF: DLF,
+      UB: UB,
+      U: U,
+      UF: UF,
+      B: B,
+      CORE: CORE,
+      F: F,
+      DB: DB,
+      D: D,
+      DF: DF,
+      URB: URB,
+      UR: UR,
+      URF: URF,
+      RB: RB,
+      R: R,
+      RF: RF,
+      DRB: DRB,
+      DR: DR,
+      DRF: DRF
+    }
+
+    Object.values(this.cubies).forEach(function(cc) {
       cc.stickers = {};
 
       cc.stickers.up = cc.el.querySelector(".cubie .face.up .sticker");
