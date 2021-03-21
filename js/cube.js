@@ -1,5 +1,4 @@
 (function() {
-  // TODO play with perspective
   // TODO rotate whole cube with mouse / touch
 
   function CubeCSS(options) {
@@ -250,12 +249,19 @@
     Object.values(this.cubies).forEach(function(cc) {
       cc.stickers = {};
 
-      cc.stickers.up = cc.el.querySelector(".cubie .face.up .sticker");
-      cc.stickers.down = cc.el.querySelector(".cubie .face.down .sticker");
+      cc.stickers.up    = cc.el.querySelector(".cubie .face.up .sticker");
+      cc.stickers.down  = cc.el.querySelector(".cubie .face.down .sticker");
       cc.stickers.right = cc.el.querySelector(".cubie .face.right .sticker");
-      cc.stickers.left = cc.el.querySelector(".cubie .face.left .sticker");
+      cc.stickers.left  = cc.el.querySelector(".cubie .face.left .sticker");
       cc.stickers.front = cc.el.querySelector(".cubie .face.front .sticker");
-      cc.stickers.back = cc.el.querySelector(".cubie .face.back .sticker");
+      cc.stickers.back  = cc.el.querySelector(".cubie .face.back .sticker");
+
+      if(!cc.stickers.up)    delete cc.stickers.up;
+      if(!cc.stickers.down)  delete cc.stickers.down;
+      if(!cc.stickers.right) delete cc.stickers.right;
+      if(!cc.stickers.left)  delete cc.stickers.left;
+      if(!cc.stickers.front) delete cc.stickers.front;
+      if(!cc.stickers.back)  delete cc.stickers.back;
     });
 
     var USLICE = [
@@ -701,10 +707,8 @@
   window.cubeCSS = cubeCSS;
 
   /*
-  cubeCSS.slices.D.forEach(function(cc) {
+  cubeCSS.slices.U.forEach(function(cc) {
     Object.values(cc.stickers).forEach(function(s) {
-      if(!s) return;
-
       s.style.backgroundColor = "#444"
     });
   })
@@ -748,6 +752,24 @@
       case "B":
         cubeCSS.bi();
         break;
+      case "x":
+        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(0.25turn)"
+        break;
+      case "y":
+        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateY(0.25turn)"
+        break;
+      case "z":
+        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(0.25turn)"
+        break;
+      case "X":
+        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(-0.25turn)"
+        break;
+      case "Y":
+        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateY(-0.25turn)"
+        break;
+      case "Z":
+        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(-0.25turn)"
+        break;
     }
   }, false);
 
@@ -788,6 +810,10 @@
   var rx = -25;
   var ry = -45;
 
+  cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+  cubeCSS.el.style.transition = "transform 300ms ease-out";
+
+  /*
   var rotateWholeCube = function() {
     ry -= 360;
 
@@ -797,7 +823,7 @@
     })
   }
 
-  cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
   setTimeout(rotateWholeCube, 1000);
   setTimeout(rotateWholeCube, 15000);
+  */
 })();
