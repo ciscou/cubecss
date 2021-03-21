@@ -843,6 +843,30 @@
     cubeCSS.fi();
   }, 1000);
 
+  document.querySelector("button.turn-u").addEventListener("click", function() {
+    cubeCSS.u();
+  }, false);
+
+  document.querySelector("button.turn-r").addEventListener("click", function() {
+    cubeCSS.r();
+  }, false);
+
+  document.querySelector("button.turn-f").addEventListener("click", function() {
+    cubeCSS.f();
+  }, false);
+
+  document.querySelector("button.turn-d").addEventListener("click", function() {
+    cubeCSS.d();
+  }, false);
+
+  document.querySelector("button.turn-l").addEventListener("click", function() {
+    cubeCSS.l();
+  }, false);
+
+  document.querySelector("button.turn-b").addEventListener("click", function() {
+    cubeCSS.b();
+  }, false);
+
   /*
   var rotateWholeCube = function() {
     ry -= 360;
