@@ -4,8 +4,6 @@
   function CubeCSS(options) {
     options ||= {};
 
-    options.container  ||= document.querySelector("body");
-
     options.colorUp    ||= "#ffd500";
     options.colorDown  ||= "#ffffff";
     options.colorRight ||= "#b71234";
@@ -140,24 +138,27 @@
 
       var lastTouchX;
       var lastTouchY;
+      var dragging;
 
       cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
-      // cube.style.transition = "transform 300ms ease-out";
 
-      cube.addEventListener("touchstart", function(e) {
+      var handleTouchStart = function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        lastTouchX = e.touches[0].clientX;
-        lastTouchY = e.touches[0].clientY;
-      }, false);
+        dragging = true;
+        lastTouchX = e.clientX || e.touches[0].clientX;
+        lastTouchY = e.clientY || e.touches[0].clientY;
+      }
 
-      cube.addEventListener("touchmove", function(e) {
+      var handleTouchMove = function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        var touchX = e.touches[0].clientX;
-        var touchY = e.touches[0].clientY;
+        if(!dragging) return;
+
+        var touchX = e.clientX || e.touches[0].clientX;
+        var touchY = e.clientY || e.touches[0].clientY;
 
         var dx = touchX - lastTouchX;
         var dy = touchY - lastTouchY;
@@ -168,16 +169,27 @@
         if(rx < -45) rx = -45;
         if(rx >  45) rx =  45;
 
+        lastTouchX = e.clientX || e.touches[0].clientX;
+        lastTouchY = e.clientY || e.touches[0].clientY;
+
         cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+      }
 
-        lastTouchX = e.touches[0].clientX;
-        lastTouchY = e.touches[0].clientY;
-      }, false);
-
-      cube.addEventListener("touchend", function(e) {
+      var handleTouchEnd = function(e) {
         e.preventDefault();
         e.stopPropagation();
-      }, false);
+
+        dragging = false;
+      }
+
+      CONTAINER.addEventListener("touchstart", handleTouchStart, false);
+      CONTAINER.addEventListener("touchmove", handleTouchMove, false);
+      CONTAINER.addEventListener("touchend", handleTouchEnd, false);
+
+      CONTAINER.addEventListener("mousedown", handleTouchStart, false);
+      CONTAINER.addEventListener("mousemove", handleTouchMove, false);
+      CONTAINER.addEventListener("mouseleave", handleTouchEnd, false);
+      CONTAINER.addEventListener("mouseup", handleTouchEnd, false);
 
       for(var x=0; x<3; x++) {
         for(var y=0; y<3; y++) {
@@ -747,7 +759,7 @@
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
   }
 
-  var cubeCSS = new CubeCSS({cubieSize: 50});
+  var cubeCSS = new CubeCSS({container: document.querySelector(".cube-container"), cubieSize: 50});
   window.cubeCSS = cubeCSS;
 
   /*
