@@ -808,24 +808,6 @@
       case "B":
         cubeCSS.bi();
         break;
-      case "x":
-        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(0.25turn)"
-        break;
-      case "y":
-        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateY(0.25turn)"
-        break;
-      case "z":
-        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(0.25turn)"
-        break;
-      case "X":
-        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(-0.25turn)"
-        break;
-      case "Y":
-        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateY(-0.25turn)"
-        break;
-      case "Z":
-        cubeCSS.el.style.transform = cubeCSS.el.style.transform + " rotateZ(-0.25turn)"
-        break;
     }
   }, false);
 
@@ -861,7 +843,7 @@
     cubeCSS.u();
     cubeCSS.ri();
     cubeCSS.fi();
-  }, 7000);
+  }, 1000);
 
   /*
   var rotateWholeCube = function() {
