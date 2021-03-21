@@ -1,4 +1,7 @@
 (function() {
+  // TODO play with perspective
+  // TODO rotate whole cube with mouse / touch
+
   function CubeCSS(options) {
     options ||= {};
 
@@ -131,7 +134,7 @@
       cube.style.width = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.transformStyle = "preserve-3d";
-      cube.style.transition = "transform 300ms ease-out";
+      // cube.style.transition = "transform 300ms ease-out";
 
       for(var x=0; x<3; x++) {
         for(var y=0; y<3; y++) {
@@ -182,11 +185,7 @@
 
     this.el = cube;
 
-    var rx = -20;
-    var ry = -20;
-    var rz = 0;
-
-    cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+    cube.style.transform = "rotateX(-25deg) rotateY(-45deg)";
 
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
@@ -330,6 +329,15 @@
       RB,
       DRB
     ];
+
+    this.slices = {
+      U: USLICE,
+      D: DSLICE,
+      R: RSLICE,
+      L: LSLICE,
+      F: FSLICE,
+      B: BSLICE
+    }
 
     function turnU(n) {
       var remaining = 9;
@@ -689,8 +697,18 @@
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
   }
 
-  var cubeCSS = new CubeCSS({cubieSize: 50});
+  var cubeCSS = new CubeCSS({cubieSize: 100});
   window.cubeCSS = cubeCSS;
+
+  /*
+  cubeCSS.slices.D.forEach(function(cc) {
+    Object.values(cc.stickers).forEach(function(s) {
+      if(!s) return;
+
+      s.style.backgroundColor = "#444"
+    });
+  })
+  */
 
   document.addEventListener("keypress", function(e) {
     switch(e.key) {
@@ -765,17 +783,21 @@
     cubeCSS.u();
     cubeCSS.ri();
     cubeCSS.fi();
-  }, 5000);
+  }, 7000);
 
-  var rx = -20;
-  var ry = -20;
+  var rx = -25;
+  var ry = -45;
+
   var rotateWholeCube = function() {
     ry -= 360;
-    // rx -= 10;
-    cubeCSS.el.style.transition = "transform 15s linear";
+
     setTimeout(function() {
+      cubeCSS.el.style.transition = "transform 5s linear";
       cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
     })
   }
-  rotateWholeCube();
+
+  cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+  setTimeout(rotateWholeCube, 1000);
+  setTimeout(rotateWholeCube, 15000);
 })();
