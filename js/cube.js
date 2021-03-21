@@ -1,6 +1,4 @@
 (function() {
-  // TODO rotate whole cube with mouse / touch
-
   function CubeCSS(options) {
     options ||= {};
 
@@ -31,11 +29,11 @@
       sticker.classList.add("sticker");
       sticker.style.backgroundColor = COLOR_BY_FACE[position];
       sticker.style.position = "absolute";
-      sticker.style.top = "10%";
-      sticker.style.left = "10%";
-      sticker.style.right = "10%";
-      sticker.style.bottom = "10%";
-      sticker.style.borderRadius = "10%";
+      sticker.style.top = "8%";
+      sticker.style.left = "8%";
+      sticker.style.right = "8%";
+      sticker.style.bottom = "8%";
+      sticker.style.borderRadius = "8%";
 
       return sticker;
     }
@@ -110,7 +108,7 @@
     function buildCubieContainer(x, y, z) {
       var cubieContainer = document.createElement("div");
       cubieContainer.classList.add("cubie-container");
-      cubieContainer.style.transition = "transform 500ms ease-out";
+      cubieContainer.style.transition = "transform 350ms ease-out";
       cubieContainer.style.position = "absolute";
       cubieContainer.style.top = "0";
       cubieContainer.style.left = "0";
