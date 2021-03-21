@@ -188,16 +188,6 @@
 
     cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
 
-    /*
-    var rotateWholeCube = function() {
-      cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
-      // ry -= 10;
-      // rx -= 10;
-    }
-
-    setInterval(rotateWholeCube, 500);
-    */
-
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
     var ULB  = { el: cubieContainers[0]  };
@@ -775,5 +765,17 @@
     cubeCSS.u();
     cubeCSS.ri();
     cubeCSS.fi();
-  }, 1000);
+  }, 5000);
+
+  var rx = -20;
+  var ry = -20;
+  var rotateWholeCube = function() {
+    ry -= 360;
+    // rx -= 10;
+    cubeCSS.el.style.transition = "transform 15s linear";
+    setTimeout(function() {
+      cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+    })
+  }
+  rotateWholeCube();
 })();
