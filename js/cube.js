@@ -623,7 +623,7 @@
     this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
   }
 
-  var cubeCSS = new CubeCSS({cubieSize: 17});
+  var cubeCSS = new CubeCSS({cubieSize: 50});
   window.cubeCSS = cubeCSS;
 
   document.addEventListener("keypress", function(e) {
