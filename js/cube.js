@@ -180,6 +180,8 @@
     var cube = buildCube();
     CONTAINER.appendChild(cube);
 
+    this.el = cube;
+
     var rx = -20;
     var ry = -20;
     var rz = 0;
