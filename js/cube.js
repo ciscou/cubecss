@@ -641,6 +641,31 @@
       }
     }
 
+    function turnUw(n) {
+      var remaining = 18;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnUCallback(n);
+        turnECallback(n === 2 ? n : -n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        USLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer.el, -n, cb);
+        });
+        ESLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer.el, -n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
     function turnDCallback(n) {
       var tmp;
 
@@ -698,6 +723,31 @@
       }
     }
 
+    function turnDw(n) {
+      var remaining = 18;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnDCallback(n);
+        turnECallback(n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        DSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer.el, n, cb);
+        });
+        ESLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer.el, n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
     function turnLCallback(n) {
       var tmp;
 
@@ -748,6 +798,31 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer.el, -n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
+    function turnLw(n) {
+      var remaining = 18;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnLCallback(n);
+        turnMCallback(n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        LSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer.el, -n, cb);
+        });
+        MSLICE.forEach(function(cubieContainer) {
           rotateCubieContainerX(cubieContainer.el, -n, cb);
         });
       } else {
@@ -875,6 +950,31 @@
       }
     }
 
+    function turnRw(n) {
+      var remaining = 18;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnRCallback(n);
+        turnMCallback(n === 2 ? n : -n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        RSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer.el, n, cb);
+        });
+        MSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer.el, n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
     function turnFCallback(n) {
       var tmp;
 
@@ -925,6 +1025,31 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer.el, n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
+    function turnFw(n) {
+      var remaining = 18;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnFCallback(n);
+        turnSCallback(n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        FSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer.el, n, cb);
+        });
+        SSLICE.forEach(function(cubieContainer) {
           rotateCubieContainerZ(cubieContainer.el, n, cb);
         });
       } else {
@@ -989,6 +1114,31 @@
       }
     }
 
+    function turnBw(n) {
+      var remaining = 18;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnBCallback(n);
+        turnSCallback(n === 2 ? n : -n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        BSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer.el, -n, cb);
+        });
+        SSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer.el, -n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
     var queue = [];
     var queueIdx = 0;
     var turning = false;
@@ -1028,6 +1178,24 @@
     this.d2 = function() { queue.push([turnD,  2]); handleQueue() };
     this.l2 = function() { queue.push([turnL,  2]); handleQueue() };
     this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
+    this.uw = function()  { queue.push([turnUw,  1]); handleQueue() };
+    this.rw = function()  { queue.push([turnRw,  1]); handleQueue() };
+    this.fw = function()  { queue.push([turnFw,  1]); handleQueue() };
+    this.dw = function()  { queue.push([turnDw,  1]); handleQueue() };
+    this.lw = function()  { queue.push([turnLw,  1]); handleQueue() };
+    this.bw = function()  { queue.push([turnBw,  1]); handleQueue() };
+    this.uwi = function() { queue.push([turnUw, -1]); handleQueue() };
+    this.rwi = function() { queue.push([turnRw, -1]); handleQueue() };
+    this.fwi = function() { queue.push([turnFw, -1]); handleQueue() };
+    this.dwi = function() { queue.push([turnDw, -1]); handleQueue() };
+    this.lwi = function() { queue.push([turnLw, -1]); handleQueue() };
+    this.bwi = function() { queue.push([turnBw, -1]); handleQueue() };
+    this.uw2 = function() { queue.push([turnUw,  2]); handleQueue() };
+    this.rw2 = function() { queue.push([turnRw,  2]); handleQueue() };
+    this.fw2 = function() { queue.push([turnFw,  2]); handleQueue() };
+    this.dw2 = function() { queue.push([turnDw,  2]); handleQueue() };
+    this.lw2 = function() { queue.push([turnLw,  2]); handleQueue() };
+    this.bw2 = function() { queue.push([turnBw,  2]); handleQueue() };
     this.x  = function() { queue.push([turnX,  1]); handleQueue() };
     this.y  = function() { queue.push([turnY,  1]); handleQueue() };
     this.z  = function() { queue.push([turnZ,  1]); handleQueue() };
