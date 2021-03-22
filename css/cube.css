@@ -57,4 +57,7 @@ iframe {
 
 .iframe-html-container {
   font-family: monospace;
+  overflow-x: scroll;
+  width: 90%;
+  margin: 0 auto;
 }
