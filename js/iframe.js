@@ -2,6 +2,18 @@
   var cubeCSS = new CubeCSS({container: document.querySelector(".cube-container")});
   window.cubeCSS = cubeCSS;
 
+  var urlParams = new URLSearchParams(window.location.search);
+
+  var preseq = [];
+  if(urlParams.has("preseq")) {
+    preseq = urlParams.get("preseq").split(",")
+  }
+
+  var seq = [];
+  if(urlParams.has("seq")) {
+    seq = urlParams.get("seq").split(",")
+  }
+
   /*
   cubeCSS.slices.U.forEach(function(cc) {
     Object.values(cc.stickers).forEach(function(s) {
@@ -53,38 +65,66 @@
   }, false);
   */
 
+  function performMove(move) {
+    switch(move) {
+      case "U":
+        cubeCSS.u();
+        break;
+      case "D":
+        cubeCSS.d();
+        break;
+      case "R":
+        cubeCSS.r();
+        break;
+      case "L":
+        cubeCSS.l();
+        break;
+      case "F":
+        cubeCSS.f();
+        break;
+      case "B":
+        cubeCSS.b();
+        break;
+      case "U'":
+      case "Ui":
+        cubeCSS.ui();
+        break;
+      case "D'":
+      case "Di":
+        cubeCSS.di();
+        break;
+      case "R'":
+      case "Ri":
+        cubeCSS.ri();
+        break;
+      case "L'":
+      case "Li":
+        cubeCSS.li();
+        break;
+      case "F'":
+      case "Fi":
+        cubeCSS.fi();
+        break;
+      case "B'":
+      case "Bi":
+        cubeCSS.bi();
+        break;
+      default:
+        console.log("Invalid movement", move);
+        break;
+    }
+  }
+
   cubeCSS.withoutAnimation(function() {
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.f();
-    cubeCSS.r2();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.fi();
+    preseq.forEach(function(move) {
+      performMove(move);
+    });
 
     cubeCSS.pause();
 
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.f();
-    cubeCSS.r2();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.fi();
+    seq.forEach(function(move) {
+      performMove(move);
+    });
   });
 
   document.querySelector("button.play").addEventListener("click", function() {

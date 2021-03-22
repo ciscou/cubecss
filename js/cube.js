@@ -130,8 +130,8 @@
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.transformStyle = "preserve-3d";
 
-      var rx = -25;
-      var ry = -45;
+      var rx = -20;
+      var ry = -25;
       var rz = 0;
 
       var lastTouchX;
@@ -245,7 +245,7 @@
 
     this.el = cube;
 
-    cube.style.transform = "rotateX(-25deg) rotateY(-45deg)";
+    cube.style.transform = "rotateX(-25deg) rotateY(-20)";
 
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 

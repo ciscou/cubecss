@@ -1,10 +1,17 @@
 body {
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
   background-image: radial-gradient( circle 732px at -23.9% -25.1%,  rgba(30,39,107,1) 6.1%, rgba(188,104,142,1) 100.2% );
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+}
+
+.iframe-container {
+  text-align: center;
 }
