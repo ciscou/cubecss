@@ -3,12 +3,8 @@ body {
   padding: 0;
   background-image: radial-gradient( circle 732px at -23.9% -25.1%,  rgba(30,39,107,1) 6.1%, rgba(188,104,142,1) 100.2% );
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-}
-
-.cube-container {
-  width: 50%;
 }

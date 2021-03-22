@@ -725,19 +725,22 @@
     }
 
     var queue = [];
+    var queueIdx = 0;
     var turning = false;
     var animating = true;
+    var playing = true;
 
     function handleQueue() {
-      if(!turning) {
-        if(queue.length > 0) {
-          turning = true;
-          var fq = queue.shift();
-          if(animating) {
-            setTimeout(function() { fq[0](fq[1]) });
-          } else {
-            fq[0](fq[1]);
-          }
+      if(turning) return;
+      if(!playing) return;
+
+      if(queueIdx < queue.length) {
+        turning = true;
+        var fq = queue[queueIdx++];
+        if(animating) {
+          setTimeout(function() { fq[0](fq[1]) });
+        } else {
+          fq[0](fq[1]);
         }
       }
     }
@@ -762,129 +765,9 @@
     this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
 
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
+    this.pause = function() { playing = false; };
+    this.play = function() { playing = true; handleQueue() };
   }
 
-  var cubeCSS = new CubeCSS({container: document.querySelector(".cube-container")});
-  window.cubeCSS = cubeCSS;
-
-  /*
-  cubeCSS.slices.U.forEach(function(cc) {
-    Object.values(cc.stickers).forEach(function(s) {
-      s.style.backgroundColor = "#444"
-    });
-  })
-  */
-
-  document.addEventListener("keypress", function(e) {
-    switch(e.key) {
-      case "u":
-        cubeCSS.u();
-        break;
-      case "d":
-        cubeCSS.d();
-        break;
-      case "l":
-        cubeCSS.l();
-        break;
-      case "r":
-        cubeCSS.r();
-        break;
-      case "f":
-        cubeCSS.f();
-        break;
-      case "b":
-        cubeCSS.b();
-        break;
-      case "U":
-        cubeCSS.ui();
-        break;
-      case "D":
-        cubeCSS.di();
-        break;
-      case "L":
-        cubeCSS.li();
-        break;
-      case "R":
-        cubeCSS.ri();
-        break;
-      case "F":
-        cubeCSS.fi();
-        break;
-      case "B":
-        cubeCSS.bi();
-        break;
-    }
-  }, false);
-
-  cubeCSS.withoutAnimation(function() {
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.f();
-    cubeCSS.r2();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.fi();
-  });
-
-  setTimeout(function() {
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.f();
-    cubeCSS.r2();
-    cubeCSS.ui();
-    cubeCSS.ri();
-    cubeCSS.ui();
-    cubeCSS.r();
-    cubeCSS.u();
-    cubeCSS.ri();
-    cubeCSS.fi();
-  }, 1000);
-
-  document.querySelector("button.turn-u").addEventListener("click", function() {
-    cubeCSS.u();
-  }, false);
-
-  document.querySelector("button.turn-r").addEventListener("click", function() {
-    cubeCSS.r();
-  }, false);
-
-  document.querySelector("button.turn-f").addEventListener("click", function() {
-    cubeCSS.f();
-  }, false);
-
-  document.querySelector("button.turn-d").addEventListener("click", function() {
-    cubeCSS.d();
-  }, false);
-
-  document.querySelector("button.turn-l").addEventListener("click", function() {
-    cubeCSS.l();
-  }, false);
-
-  document.querySelector("button.turn-b").addEventListener("click", function() {
-    cubeCSS.b();
-  }, false);
-
-  /*
-  var rotateWholeCube = function() {
-    ry -= 360;
-
-    setTimeout(function() {
-      cubeCSS.el.style.transition = "transform 5s linear";
-      cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
-    })
-  }
-
-  setTimeout(rotateWholeCube, 1000);
-  setTimeout(rotateWholeCube, 15000);
-  */
+  window.CubeCSS = CubeCSS;
 })();

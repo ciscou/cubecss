@@ -1,0 +1,33 @@
+*,
+*::before,
+*::after {
+  box-sizing: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cube-container {
+  width: 100%;
+}
+
+.controls button {
+  border: 0;
+  background: none;
+  font-size: 2em;
+  padding: 0;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.controls button:focus {
+  outline: none;
+}
+
+.controls button:active {
+  transform: scale(0.9);
+}
