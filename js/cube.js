@@ -464,7 +464,7 @@
     function turnMCallback(n) {
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
         tmp = U.stickers.up.style.backgroundColor;
         U.stickers.up.style.backgroundColor = F.stickers.front.style.backgroundColor;
         F.stickers.front.style.backgroundColor = D.stickers.down.style.backgroundColor;
@@ -488,7 +488,7 @@
     function turnECallback(n) {
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
         tmp = F.stickers.front.style.backgroundColor;
         F.stickers.front.style.backgroundColor = R.stickers.right.style.backgroundColor;
         R.stickers.right.style.backgroundColor = B.stickers.back.style.backgroundColor;
@@ -536,7 +536,7 @@
     function turnX(n) {
       var cb = function() {
         turnLCallback(n == 2 ? 2 : -n);
-        turnMCallback(n == 2 ? 2 :  n);
+        turnMCallback(n == 2 ? 2 : -n);
         turnRCallback(n == 2 ? 2 :  n);
 
         turning = false;
@@ -553,7 +553,7 @@
     function turnY(n) {
       var cb = function() {
         turnDCallback(n == 2 ? 2 : -n);
-        turnECallback(n == 2 ? 2 :  n);
+        turnECallback(n == 2 ? 2 : -n);
         turnUCallback(n == 2 ? 2 :  n);
 
         turning = false;
@@ -805,7 +805,7 @@
 
       if(animating) {
         MSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, n, cb);
+          rotateCubieContainerX(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -826,7 +826,7 @@
 
       if(animating) {
         ESLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, -n, cb);
+          rotateCubieContainerY(cubieContainer.el, n, cb);
         });
       } else {
         cb();
