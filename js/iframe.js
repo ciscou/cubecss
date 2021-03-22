@@ -117,7 +117,7 @@
       }
 
       Object.values(c.stickers).forEach(function(s) {
-        s.style.backgroundColor = "#444";
+        s.style.backgroundColor = "#777"; // TODO configurable
       });
     });
 

@@ -62,7 +62,7 @@
       face.style.position = "absolute";
       face.style.width = "" + CUBIE_SIZE + "px";
       face.style.height = "" + CUBIE_SIZE + "px";
-      face.style.backgroundColor = "black";
+      face.style.backgroundColor = "black"; // TODO configurable???
       switch(position) {
         case "up":
           face.style.transform = "translateY(-" + (CUBIE_SIZE / 2) + "px) rotateX(90deg)";
@@ -108,7 +108,7 @@
     function buildCubieContainer(x, y, z) {
       var cubieContainer = document.createElement("div");
       cubieContainer.classList.add("cubie-container");
-      cubieContainer.style.transition = "transform 350ms ease-out";
+      cubieContainer.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
       cubieContainer.style.position = "absolute";
       cubieContainer.style.top = "0";
       cubieContainer.style.left = "0";
@@ -130,9 +130,9 @@
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.transformStyle = "preserve-3d";
 
-      var rx = -15;
-      var ry = -15;
-      var rz = 0;
+      var rx = -15; // TODO configurable
+      var ry = -15; // TODO configurable
+      var rz = 0; // TODO configurable???
 
       var lastTouchX;
       var lastTouchY;
