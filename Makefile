@@ -2,7 +2,7 @@ AWS_BUCKET            = s3://cubecss
 AWS_REGION            = us-east-1
 CACHE_FOREVER         = --cache-control="max-age=1576800000"
 NO_CACHE              = --cache-control="max-age=0, no-cache"
-ASSETS_ONLY           = --exclude "*" --include "*.js" --include "*.css" --include "*.svg" --include "*.woff" --include "*.eot" --include "*.ttf" --include "*.woff2" --include "*.png"
+ASSETS_ONLY           = --exclude "*" --include "*.js" --include "*.css" --include "*.svg" --include "*.woff" --include "*.eot" --include "*.ttf" --include "*.woff2" --include "*.png" --include "*.map"
 HTML_ONLY             = --exclude "*" --include "*.html"
 AWS_COMMAND           = aws s3 sync dist/ ${AWS_BUCKET}/ --region ${AWS_REGION} --acl=public-read --delete
 DEPLOY_ASSETS_COMMAND = ${AWS_COMMAND} ${CACHE_FOREVER} ${ASSETS_ONLY}
