@@ -34,8 +34,8 @@
   }
 
   if(urlParams.has("rx")) options.rx = urlParams.get("rx");
-  if(urlParams.has("ry")) options.rx = urlParams.get("rx");
-  if(urlParams.has("rz")) options.rx = urlParams.get("rx");
+  if(urlParams.has("ry")) options.ry = urlParams.get("ry");
+  if(urlParams.has("rz")) options.rz = urlParams.get("rz");
 
   var cubeCSS = new CubeCSS(options);
 
