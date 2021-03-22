@@ -85,6 +85,24 @@
       case "B":
         cubeCSS.b();
         break;
+      case "U2":
+        cubeCSS.u2();
+        break;
+      case "D2":
+        cubeCSS.d2();
+        break;
+      case "R2":
+        cubeCSS.r2();
+        break;
+      case "L2":
+        cubeCSS.l2();
+        break;
+      case "F2":
+        cubeCSS.f2();
+        break;
+      case "B2":
+        cubeCSS.b2();
+        break;
       case "U'":
       case "Ui":
         cubeCSS.ui();

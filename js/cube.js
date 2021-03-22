@@ -130,8 +130,8 @@
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.transformStyle = "preserve-3d";
 
-      var rx = -20;
-      var ry = -25;
+      var rx = -15;
+      var ry = -15;
       var rz = 0;
 
       var lastTouchX;
@@ -244,8 +244,6 @@
     CONTAINER.appendChild(cubeWrapper);
 
     this.el = cube;
-
-    cube.style.transform = "rotateX(-25deg) rotateY(-20)";
 
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
@@ -679,7 +677,7 @@
 
         var tmp;
 
-        for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
           tmp = ULB.stickers.back.style.backgroundColor;
           ULB.stickers.back.style.backgroundColor = DLB.stickers.back.style.backgroundColor;
           DLB.stickers.back.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
@@ -717,7 +715,7 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, n, cb);
+          rotateCubieContainerZ(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
