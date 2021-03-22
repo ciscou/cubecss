@@ -1,7 +1,4 @@
 (function() {
-  // TODO events
-  // TODO play / pause button, disable some
-
   EventEmitter = function() {
     var listeners = {};
 
