@@ -5,7 +5,7 @@ NO_CACHE              = --cache-control="max-age=0, no-cache"
 ASSETS_ONLY           = --exclude "*" --include "*.js" --include "*.css" --include "*.svg" --include "*.woff" --include "*.eot" --include "*.ttf" --include "*.woff2" --include "*.png"
 HTML_ONLY             = --exclude "*" --include "*.html"
 AWS_COMMAND           = aws s3 sync dist/ ${AWS_BUCKET}/ --region ${AWS_REGION} --acl=public-read --delete
-DEPLOY_ASSETS_COMMAND = ${AWS_COMMAND} ${NO_CACHE} ${ASSETS_ONLY}
+DEPLOY_ASSETS_COMMAND = ${AWS_COMMAND} ${CACHE_FOREVER} ${ASSETS_ONLY}
 DEPLOY_HTML_COMMAND   = ${AWS_COMMAND} ${NO_CACHE} ${HTML_ONLY}
 
 all: deploy

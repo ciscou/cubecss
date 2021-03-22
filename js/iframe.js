@@ -1,7 +1,4 @@
 (function() {
-  var cubeCSS = new CubeCSS({container: document.querySelector(".cube-container")});
-  window.cubeCSS = cubeCSS;
-
   var urlParams = new URLSearchParams(window.location.search);
 
   var preseq = [];
@@ -19,48 +16,23 @@
     stickerless = urlParams.get("stickerless").split(",")
   }
 
-  /*
-  document.addEventListener("keypress", function(e) {
-    switch(e.key) {
-      case "u":
-        cubeCSS.u();
-        break;
-      case "d":
-        cubeCSS.d();
-        break;
-      case "l":
-        cubeCSS.l();
-        break;
-      case "r":
-        cubeCSS.r();
-        break;
-      case "f":
-        cubeCSS.f();
-        break;
-      case "b":
-        cubeCSS.b();
-        break;
-      case "U":
-        cubeCSS.ui();
-        break;
-      case "D":
-        cubeCSS.di();
-        break;
-      case "L":
-        cubeCSS.li();
-        break;
-      case "R":
-        cubeCSS.ri();
-        break;
-      case "F":
-        cubeCSS.fi();
-        break;
-      case "B":
-        cubeCSS.bi();
-        break;
-    }
-  }, false);
-  */
+  var colorUp    = urlParams.get("clru");
+  var colorDown  = urlParams.get("clrd");
+  var colorLeft  = urlParams.get("clrl");
+  var colorRight = urlParams.get("clrr");
+  var colorFront = urlParams.get("clrf");
+  var colorBack  = urlParams.get("clrb");
+
+  var cubeCSS = new CubeCSS({
+    container: document.querySelector(".cube-container"),
+    colorUp: colorUp,
+    colorDown: colorDown,
+    colorRight: colorRight,
+    colorLeft: colorLeft,
+    colorFront: colorFront,
+    colorBack: colorBack
+  });
+
 
   function performMove(move) {
     switch(move) {
@@ -141,7 +113,7 @@
       var c = cubeCSS.cubies[cubie];
       if(!c) {
         console.log("Invalid cubie", cubie);
-        return
+        return;
       }
 
       Object.values(c.stickers).forEach(function(s) {
@@ -176,18 +148,4 @@
       cubeCSS.play();
     });
   }, false);
-
-  /*
-  var rotateWholeCube = function() {
-    ry -= 360;
-
-    setTimeout(function() {
-      cubeCSS.el.style.transition = "transform 5s linear";
-      cubeCSS.el.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
-    })
-  }
-
-  setTimeout(rotateWholeCube, 1000);
-  setTimeout(rotateWholeCube, 15000);
-  */
 })();

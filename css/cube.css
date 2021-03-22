@@ -12,3 +12,49 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
+form.playground {
+  width: 50%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+form.playground .label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form.playground .label + .label {
+  margin-top: .25em;
+}
+
+form.playground .label span {
+  flex: 1;
+  text-align: right;
+  margin-right: .5em;
+}
+
+form.playground .label span.checkboxes-span {
+  align-self: flex-start;
+  margin-right: 0;
+  padding-right: 0.5em;
+}
+
+form.playground .label input {
+  flex: 1;
+}
+
+form.playground .label .checkboxes-wrapper {
+  flex: 1;
+  text-align: left;
+}
+
+iframe {
+  display: block;
+  margin: 0 auto;
+}
+
+.iframe-html-container {
+  font-family: monospace;
+}
