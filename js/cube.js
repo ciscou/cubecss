@@ -130,7 +130,7 @@
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
 
       cube.style.transformStyle = "preserve-3d";
-      cube.style.transition = "transform 150ms ease-out";
+      cube.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
 
       for(var x=0; x<3; x++) {
         for(var y=0; y<3; y++) {
@@ -154,7 +154,6 @@
       cubeWrapper.style.alignItems = "center";
       cubeWrapper.style.height = (CUBIE_SIZE * 5.2) + "px"
       cubeWrapper.style.transformStyle = "preserve-3d";
-      cubeWrapper.style.transition = "transform 150ms ease-out";
       cubeWrapper.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       cubeWrapper.classList.add("cube-wrapper");
 
@@ -212,6 +211,39 @@
       CONTAINER.addEventListener("mouseup", handleTouchEnd, false);
 
       return cubeWrapper;
+    }
+
+    function rotateCube(cube, qts, axis, cb) {
+      var transitionend = function() {
+        cb();
+
+        transitionWas = cube.style.transition;
+        cube.style.transition = "none";
+        cube.style.transform = "";
+
+        setTimeout(function() {
+          cube.style.transition = transitionWas;
+        });
+
+        cube.removeEventListener("transitionend", transitionend, false);
+      }
+
+      cube.addEventListener("transitionend", transitionend, false);
+
+      var transform = "rotate" + axis + "(" + (qts / 4) + "turn)";
+      cube.style.transform = transform;
+    }
+
+    function rotateCubeX(cube, qts, cb) {
+      rotateCube(cube, qts, "X", cb);
+    }
+
+    function rotateCubeY(cube, qts, cb) {
+      rotateCube(cube, qts, "Y", cb);
+    }
+
+    function rotateCubeZ(cube, qts, cb) {
+      rotateCube(cube, qts, "Z", cb);
     }
 
     function rotateCubieContainer(cubieContainer, qts, axis, cb) {
@@ -405,6 +437,21 @@
       DRB
     ];
 
+    var MSLICE = [
+      CORE, U, F, D, B,
+      UB, UF, DB, DF
+    ];
+
+    var ESLICE = [
+      CORE, L, F, R, B,
+      LF, LB, RF, RB
+    ];
+
+    var SSLICE = [
+      CORE, U, R, D, L,
+      UL, UR, DL, DR
+    ];
+
     this.slices = {
       U: USLICE,
       D: DSLICE,
@@ -414,45 +461,172 @@
       B: BSLICE
     }
 
+    function turnMCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        tmp = U.stickers.up.style.backgroundColor;
+        U.stickers.up.style.backgroundColor = F.stickers.front.style.backgroundColor;
+        F.stickers.front.style.backgroundColor = D.stickers.down.style.backgroundColor;
+        D.stickers.down.style.backgroundColor = B.stickers.back.style.backgroundColor;
+        B.stickers.back.style.backgroundColor = tmp;
+
+        tmp = UB.stickers.up.style.backgroundColor;
+        UB.stickers.up.style.backgroundColor = UF.stickers.front.style.backgroundColor;
+        UF.stickers.front.style.backgroundColor = DF.stickers.down.style.backgroundColor;
+        DF.stickers.down.style.backgroundColor = DB.stickers.back.style.backgroundColor;
+        DB.stickers.back.style.backgroundColor = tmp;
+
+        tmp = UB.stickers.back.style.backgroundColor;
+        UB.stickers.back.style.backgroundColor = UF.stickers.up.style.backgroundColor;
+        UF.stickers.up.style.backgroundColor = DF.stickers.front.style.backgroundColor;
+        DF.stickers.front.style.backgroundColor = DB.stickers.down.style.backgroundColor;
+        DB.stickers.down.style.backgroundColor = tmp;
+      }
+    }
+
+    function turnECallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        tmp = F.stickers.front.style.backgroundColor;
+        F.stickers.front.style.backgroundColor = R.stickers.right.style.backgroundColor;
+        R.stickers.right.style.backgroundColor = B.stickers.back.style.backgroundColor;
+        B.stickers.back.style.backgroundColor = L.stickers.left.style.backgroundColor;
+        L.stickers.left.style.backgroundColor = tmp;
+
+        tmp = LF.stickers.left.style.backgroundColor;
+        LF.stickers.left.style.backgroundColor = RF.stickers.front.style.backgroundColor;
+        RF.stickers.front.style.backgroundColor = RB.stickers.right.style.backgroundColor;
+        RB.stickers.right.style.backgroundColor = LB.stickers.back.style.backgroundColor;
+        LB.stickers.back.style.backgroundColor = tmp;
+
+        tmp = LF.stickers.front.style.backgroundColor;
+        LF.stickers.front.style.backgroundColor = RF.stickers.right.style.backgroundColor;
+        RF.stickers.right.style.backgroundColor = RB.stickers.back.style.backgroundColor;
+        RB.stickers.back.style.backgroundColor = LB.stickers.left.style.backgroundColor;
+        LB.stickers.left.style.backgroundColor = tmp;
+      }
+    }
+
+    function turnSCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        tmp = U.stickers.up.style.backgroundColor;
+        U.stickers.up.style.backgroundColor = L.stickers.left.style.backgroundColor;
+        L.stickers.left.style.backgroundColor = D.stickers.down.style.backgroundColor;
+        D.stickers.down.style.backgroundColor = R.stickers.right.style.backgroundColor;
+        R.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UL.stickers.up.style.backgroundColor;
+        UL.stickers.up.style.backgroundColor = DL.stickers.left.style.backgroundColor;
+        DL.stickers.left.style.backgroundColor = DR.stickers.down.style.backgroundColor;
+        DR.stickers.down.style.backgroundColor = UR.stickers.right.style.backgroundColor;
+        UR.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UL.stickers.left.style.backgroundColor;
+        UL.stickers.left.style.backgroundColor = DL.stickers.down.style.backgroundColor;
+        DL.stickers.down.style.backgroundColor = DR.stickers.right.style.backgroundColor;
+        DR.stickers.right.style.backgroundColor = UR.stickers.up.style.backgroundColor;
+        UR.stickers.up.style.backgroundColor = tmp;
+      }
+    }
+
+    function turnX(n) {
+      var cb = function() {
+        turnLCallback(n == 2 ? 2 : -n);
+        turnMCallback(n == 2 ? 2 :  n);
+        turnRCallback(n == 2 ? 2 :  n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        rotateCubeX(cube, n, cb);
+      } else {
+        cb();
+      }
+    }
+
+    function turnY(n) {
+      var cb = function() {
+        turnDCallback(n == 2 ? 2 : -n);
+        turnECallback(n == 2 ? 2 :  n);
+        turnUCallback(n == 2 ? 2 :  n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        rotateCubeY(cube, -n, cb);
+      } else {
+        cb();
+      }
+    }
+
+    function turnZ(n) {
+      var cb = function() {
+        turnBCallback(n == 2 ? 2 : -n);
+        turnSCallback(n == 2 ? 2 :  n);
+        turnFCallback(n == 2 ? 2 :  n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        rotateCubeZ(cube, n, cb);
+      } else {
+        cb();
+      }
+    }
+
+    function turnUCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        tmp = ULB.stickers.up.style.backgroundColor;
+        ULB.stickers.up.style.backgroundColor = ULF.stickers.up.style.backgroundColor;
+        ULF.stickers.up.style.backgroundColor = URF.stickers.up.style.backgroundColor;
+        URF.stickers.up.style.backgroundColor = URB.stickers.up.style.backgroundColor;
+        URB.stickers.up.style.backgroundColor = tmp;
+
+        tmp = ULB.stickers.left.style.backgroundColor;
+        ULB.stickers.left.style.backgroundColor  = ULF.stickers.front.style.backgroundColor;
+        ULF.stickers.front.style.backgroundColor = URF.stickers.right.style.backgroundColor;
+        URF.stickers.right.style.backgroundColor = URB.stickers.back.style.backgroundColor;
+        URB.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = ULB.stickers.back.style.backgroundColor;
+        ULB.stickers.back.style.backgroundColor  = ULF.stickers.left.style.backgroundColor;
+        ULF.stickers.left.style.backgroundColor  = URF.stickers.front.style.backgroundColor;
+        URF.stickers.front.style.backgroundColor = URB.stickers.right.style.backgroundColor;
+        URB.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UL.stickers.up.style.backgroundColor;
+        UL.stickers.up.style.backgroundColor = UF.stickers.up.style.backgroundColor;
+        UF.stickers.up.style.backgroundColor = UR.stickers.up.style.backgroundColor;
+        UR.stickers.up.style.backgroundColor = UB.stickers.up.style.backgroundColor;
+        UB.stickers.up.style.backgroundColor = tmp;
+
+        tmp = UL.stickers.left.style.backgroundColor;
+        UL.stickers.left.style.backgroundColor  = UF.stickers.front.style.backgroundColor;
+        UF.stickers.front.style.backgroundColor = UR.stickers.right.style.backgroundColor;
+        UR.stickers.right.style.backgroundColor = UB.stickers.back.style.backgroundColor;
+        UB.stickers.back.style.backgroundColor  = tmp;
+      }
+    }
+
     function turnU(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        var tmp;
-
-        for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = ULB.stickers.up.style.backgroundColor;
-          ULB.stickers.up.style.backgroundColor = ULF.stickers.up.style.backgroundColor;
-          ULF.stickers.up.style.backgroundColor = URF.stickers.up.style.backgroundColor;
-          URF.stickers.up.style.backgroundColor = URB.stickers.up.style.backgroundColor;
-          URB.stickers.up.style.backgroundColor = tmp;
-
-          tmp = ULB.stickers.left.style.backgroundColor;
-          ULB.stickers.left.style.backgroundColor  = ULF.stickers.front.style.backgroundColor;
-          ULF.stickers.front.style.backgroundColor = URF.stickers.right.style.backgroundColor;
-          URF.stickers.right.style.backgroundColor = URB.stickers.back.style.backgroundColor;
-          URB.stickers.back.style.backgroundColor  = tmp;
-
-          tmp = ULB.stickers.back.style.backgroundColor;
-          ULB.stickers.back.style.backgroundColor  = ULF.stickers.left.style.backgroundColor;
-          ULF.stickers.left.style.backgroundColor  = URF.stickers.front.style.backgroundColor;
-          URF.stickers.front.style.backgroundColor = URB.stickers.right.style.backgroundColor;
-          URB.stickers.right.style.backgroundColor = tmp;
-
-          tmp = UL.stickers.up.style.backgroundColor;
-          UL.stickers.up.style.backgroundColor = UF.stickers.up.style.backgroundColor;
-          UF.stickers.up.style.backgroundColor = UR.stickers.up.style.backgroundColor;
-          UR.stickers.up.style.backgroundColor = UB.stickers.up.style.backgroundColor;
-          UB.stickers.up.style.backgroundColor = tmp;
-
-          tmp = UL.stickers.left.style.backgroundColor;
-          UL.stickers.left.style.backgroundColor  = UF.stickers.front.style.backgroundColor;
-          UF.stickers.front.style.backgroundColor = UR.stickers.right.style.backgroundColor;
-          UR.stickers.right.style.backgroundColor = UB.stickers.back.style.backgroundColor;
-          UB.stickers.back.style.backgroundColor  = tmp;
-        }
+        turnUCallback(n);
 
         turning = false;
         handleQueue();
@@ -467,45 +641,49 @@
       }
     }
 
+    function turnDCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+        tmp = DLB.stickers.down.style.backgroundColor;
+        DLB.stickers.down.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
+        DLF.stickers.down.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
+        DRF.stickers.down.style.backgroundColor = DRB.stickers.down.style.backgroundColor;
+        DRB.stickers.down.style.backgroundColor = tmp;
+
+        tmp = DLB.stickers.left.style.backgroundColor;
+        DLB.stickers.left.style.backgroundColor  = DLF.stickers.front.style.backgroundColor;
+        DLF.stickers.front.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
+        DRF.stickers.right.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
+        DRB.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = DLB.stickers.back.style.backgroundColor;
+        DLB.stickers.back.style.backgroundColor  = DLF.stickers.left.style.backgroundColor;
+        DLF.stickers.left.style.backgroundColor  = DRF.stickers.front.style.backgroundColor;
+        DRF.stickers.front.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
+        DRB.stickers.right.style.backgroundColor = tmp;
+
+        tmp = DL.stickers.down.style.backgroundColor;
+        DL.stickers.down.style.backgroundColor = DF.stickers.down.style.backgroundColor;
+        DF.stickers.down.style.backgroundColor = DR.stickers.down.style.backgroundColor;
+        DR.stickers.down.style.backgroundColor = DB.stickers.down.style.backgroundColor;
+        DB.stickers.down.style.backgroundColor = tmp;
+
+        tmp = DL.stickers.left.style.backgroundColor;
+        DL.stickers.left.style.backgroundColor  = DF.stickers.front.style.backgroundColor;
+        DF.stickers.front.style.backgroundColor = DR.stickers.right.style.backgroundColor;
+        DR.stickers.right.style.backgroundColor = DB.stickers.back.style.backgroundColor;
+        DB.stickers.back.style.backgroundColor  = tmp;
+      }
+    }
+
     function turnD(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        var tmp;
-
-        for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
-          tmp = DLB.stickers.down.style.backgroundColor;
-          DLB.stickers.down.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
-          DLF.stickers.down.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
-          DRF.stickers.down.style.backgroundColor = DRB.stickers.down.style.backgroundColor;
-          DRB.stickers.down.style.backgroundColor = tmp;
-
-          tmp = DLB.stickers.left.style.backgroundColor;
-          DLB.stickers.left.style.backgroundColor  = DLF.stickers.front.style.backgroundColor;
-          DLF.stickers.front.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
-          DRF.stickers.right.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
-          DRB.stickers.back.style.backgroundColor  = tmp;
-
-          tmp = DLB.stickers.back.style.backgroundColor;
-          DLB.stickers.back.style.backgroundColor  = DLF.stickers.left.style.backgroundColor;
-          DLF.stickers.left.style.backgroundColor  = DRF.stickers.front.style.backgroundColor;
-          DRF.stickers.front.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
-          DRB.stickers.right.style.backgroundColor = tmp;
-
-          tmp = DL.stickers.down.style.backgroundColor;
-          DL.stickers.down.style.backgroundColor = DF.stickers.down.style.backgroundColor;
-          DF.stickers.down.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-          DR.stickers.down.style.backgroundColor = DB.stickers.down.style.backgroundColor;
-          DB.stickers.down.style.backgroundColor = tmp;
-
-          tmp = DL.stickers.left.style.backgroundColor;
-          DL.stickers.left.style.backgroundColor  = DF.stickers.front.style.backgroundColor;
-          DF.stickers.front.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-          DR.stickers.right.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-          DB.stickers.back.style.backgroundColor  = tmp;
-        }
+        turnDCallback(n);
 
         turning = false;
         handleQueue();
@@ -520,45 +698,49 @@
       }
     }
 
+    function turnLCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+        tmp = ULF.stickers.left.style.backgroundColor;
+        ULF.stickers.left.style.backgroundColor = DLF.stickers.left.style.backgroundColor;
+        DLF.stickers.left.style.backgroundColor = DLB.stickers.left.style.backgroundColor;
+        DLB.stickers.left.style.backgroundColor = ULB.stickers.left.style.backgroundColor;
+        ULB.stickers.left.style.backgroundColor = tmp;
+
+        tmp = ULF.stickers.up.style.backgroundColor;
+        ULF.stickers.up.style.backgroundColor    = DLF.stickers.front.style.backgroundColor;
+        DLF.stickers.front.style.backgroundColor = DLB.stickers.down.style.backgroundColor;
+        DLB.stickers.down.style.backgroundColor  = ULB.stickers.back.style.backgroundColor;
+        ULB.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = ULF.stickers.front.style.backgroundColor;
+        ULF.stickers.front.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
+        DLF.stickers.down.style.backgroundColor  = DLB.stickers.back.style.backgroundColor;
+        DLB.stickers.back.style.backgroundColor  = ULB.stickers.up.style.backgroundColor;
+        ULB.stickers.up.style.backgroundColor    = tmp;
+
+        tmp = UL.stickers.left.style.backgroundColor;
+        UL.stickers.left.style.backgroundColor = LF.stickers.left.style.backgroundColor;
+        LF.stickers.left.style.backgroundColor = DL.stickers.left.style.backgroundColor;
+        DL.stickers.left.style.backgroundColor = LB.stickers.left.style.backgroundColor;
+        LB.stickers.left.style.backgroundColor = tmp;
+
+        tmp = UL.stickers.up.style.backgroundColor;
+        UL.stickers.up.style.backgroundColor    = LF.stickers.front.style.backgroundColor;
+        LF.stickers.front.style.backgroundColor = DL.stickers.down.style.backgroundColor;
+        DL.stickers.down.style.backgroundColor  = LB.stickers.back.style.backgroundColor;
+        LB.stickers.back.style.backgroundColor  = tmp;
+      }
+    }
+
     function turnL(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        var tmp;
-
-        for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
-          tmp = ULF.stickers.left.style.backgroundColor;
-          ULF.stickers.left.style.backgroundColor = DLF.stickers.left.style.backgroundColor;
-          DLF.stickers.left.style.backgroundColor = DLB.stickers.left.style.backgroundColor;
-          DLB.stickers.left.style.backgroundColor = ULB.stickers.left.style.backgroundColor;
-          ULB.stickers.left.style.backgroundColor = tmp;
-
-          tmp = ULF.stickers.up.style.backgroundColor;
-          ULF.stickers.up.style.backgroundColor    = DLF.stickers.front.style.backgroundColor;
-          DLF.stickers.front.style.backgroundColor = DLB.stickers.down.style.backgroundColor;
-          DLB.stickers.down.style.backgroundColor  = ULB.stickers.back.style.backgroundColor;
-          ULB.stickers.back.style.backgroundColor  = tmp;
-
-          tmp = ULF.stickers.front.style.backgroundColor;
-          ULF.stickers.front.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
-          DLF.stickers.down.style.backgroundColor  = DLB.stickers.back.style.backgroundColor;
-          DLB.stickers.back.style.backgroundColor  = ULB.stickers.up.style.backgroundColor;
-          ULB.stickers.up.style.backgroundColor    = tmp;
-
-          tmp = UL.stickers.left.style.backgroundColor;
-          UL.stickers.left.style.backgroundColor = LF.stickers.left.style.backgroundColor;
-          LF.stickers.left.style.backgroundColor = DL.stickers.left.style.backgroundColor;
-          DL.stickers.left.style.backgroundColor = LB.stickers.left.style.backgroundColor;
-          LB.stickers.left.style.backgroundColor = tmp;
-
-          tmp = UL.stickers.up.style.backgroundColor;
-          UL.stickers.up.style.backgroundColor    = LF.stickers.front.style.backgroundColor;
-          LF.stickers.front.style.backgroundColor = DL.stickers.down.style.backgroundColor;
-          DL.stickers.down.style.backgroundColor  = LB.stickers.back.style.backgroundColor;
-          LB.stickers.back.style.backgroundColor  = tmp;
-        }
+        turnLCallback(n);
 
         turning = false;
         handleQueue();
@@ -573,45 +755,112 @@
       }
     }
 
+    function turnRCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        tmp = URF.stickers.right.style.backgroundColor;
+        URF.stickers.right.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
+        DRF.stickers.right.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
+        DRB.stickers.right.style.backgroundColor = URB.stickers.right.style.backgroundColor;
+        URB.stickers.right.style.backgroundColor = tmp;
+
+        tmp = URF.stickers.up.style.backgroundColor;
+        URF.stickers.up.style.backgroundColor    = DRF.stickers.front.style.backgroundColor;
+        DRF.stickers.front.style.backgroundColor = DRB.stickers.down.style.backgroundColor;
+        DRB.stickers.down.style.backgroundColor  = URB.stickers.back.style.backgroundColor;
+        URB.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = URF.stickers.front.style.backgroundColor;
+        URF.stickers.front.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
+        DRF.stickers.down.style.backgroundColor  = DRB.stickers.back.style.backgroundColor;
+        DRB.stickers.back.style.backgroundColor  = URB.stickers.up.style.backgroundColor;
+        URB.stickers.up.style.backgroundColor    = tmp;
+
+        tmp = UR.stickers.right.style.backgroundColor;
+        UR.stickers.right.style.backgroundColor = RF.stickers.right.style.backgroundColor;
+        RF.stickers.right.style.backgroundColor = DR.stickers.right.style.backgroundColor;
+        DR.stickers.right.style.backgroundColor = RB.stickers.right.style.backgroundColor;
+        RB.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UR.stickers.up.style.backgroundColor;
+        UR.stickers.up.style.backgroundColor    = RF.stickers.front.style.backgroundColor;
+        RF.stickers.front.style.backgroundColor = DR.stickers.down.style.backgroundColor;
+        DR.stickers.down.style.backgroundColor  = RB.stickers.back.style.backgroundColor;
+        RB.stickers.back.style.backgroundColor  = tmp;
+      }
+    }
+
+    function turnM(n) {
+      var remaining = 9;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnMCallback(n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        MSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerX(cubieContainer.el, n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
+    function turnE(n) {
+      var remaining = 9;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnECallback(n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        ESLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerY(cubieContainer.el, -n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
+    function turnS(n) {
+      var remaining = 9;
+      var cb = function() {
+        remaining--;
+        if((remaining > 0) && animating) return;
+
+        turnSCallback(n);
+
+        turning = false;
+        handleQueue();
+      }
+
+      if(animating) {
+        SSLICE.forEach(function(cubieContainer) {
+          rotateCubieContainerZ(cubieContainer.el, n, cb);
+        });
+      } else {
+        cb();
+      }
+    }
+
     function turnR(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        var tmp;
-
-        for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = URF.stickers.right.style.backgroundColor;
-          URF.stickers.right.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
-          DRF.stickers.right.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
-          DRB.stickers.right.style.backgroundColor = URB.stickers.right.style.backgroundColor;
-          URB.stickers.right.style.backgroundColor = tmp;
-
-          tmp = URF.stickers.up.style.backgroundColor;
-          URF.stickers.up.style.backgroundColor    = DRF.stickers.front.style.backgroundColor;
-          DRF.stickers.front.style.backgroundColor = DRB.stickers.down.style.backgroundColor;
-          DRB.stickers.down.style.backgroundColor  = URB.stickers.back.style.backgroundColor;
-          URB.stickers.back.style.backgroundColor  = tmp;
-
-          tmp = URF.stickers.front.style.backgroundColor;
-          URF.stickers.front.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
-          DRF.stickers.down.style.backgroundColor  = DRB.stickers.back.style.backgroundColor;
-          DRB.stickers.back.style.backgroundColor  = URB.stickers.up.style.backgroundColor;
-          URB.stickers.up.style.backgroundColor    = tmp;
-
-          tmp = UR.stickers.right.style.backgroundColor;
-          UR.stickers.right.style.backgroundColor = RF.stickers.right.style.backgroundColor;
-          RF.stickers.right.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-          DR.stickers.right.style.backgroundColor = RB.stickers.right.style.backgroundColor;
-          RB.stickers.right.style.backgroundColor = tmp;
-
-          tmp = UR.stickers.up.style.backgroundColor;
-          UR.stickers.up.style.backgroundColor    = RF.stickers.front.style.backgroundColor;
-          RF.stickers.front.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-          DR.stickers.down.style.backgroundColor  = RB.stickers.back.style.backgroundColor;
-          RB.stickers.back.style.backgroundColor  = tmp;
-        }
+        turnRCallback(n);
 
         turning = false;
         handleQueue();
@@ -626,45 +875,49 @@
       }
     }
 
+    function turnFCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+        tmp = ULF.stickers.front.style.backgroundColor;
+        ULF.stickers.front.style.backgroundColor = DLF.stickers.front.style.backgroundColor;
+        DLF.stickers.front.style.backgroundColor = DRF.stickers.front.style.backgroundColor;
+        DRF.stickers.front.style.backgroundColor = URF.stickers.front.style.backgroundColor;
+        URF.stickers.front.style.backgroundColor = tmp;
+
+        tmp = ULF.stickers.up.style.backgroundColor;
+        ULF.stickers.up.style.backgroundColor    = DLF.stickers.left.style.backgroundColor;
+        DLF.stickers.left.style.backgroundColor  = DRF.stickers.down.style.backgroundColor;
+        DRF.stickers.down.style.backgroundColor  = URF.stickers.right.style.backgroundColor;
+        URF.stickers.right.style.backgroundColor = tmp;
+
+        tmp = ULF.stickers.left.style.backgroundColor;
+        ULF.stickers.left.style.backgroundColor  = DLF.stickers.down.style.backgroundColor;
+        DLF.stickers.down.style.backgroundColor  = DRF.stickers.right.style.backgroundColor;
+        DRF.stickers.right.style.backgroundColor = URF.stickers.up.style.backgroundColor;
+        URF.stickers.up.style.backgroundColor    = tmp;
+
+        tmp = UF.stickers.front.style.backgroundColor;
+        UF.stickers.front.style.backgroundColor = LF.stickers.front.style.backgroundColor;
+        LF.stickers.front.style.backgroundColor = DF.stickers.front.style.backgroundColor;
+        DF.stickers.front.style.backgroundColor = RF.stickers.front.style.backgroundColor;
+        RF.stickers.front.style.backgroundColor = tmp;
+
+        tmp = UF.stickers.up.style.backgroundColor;
+        UF.stickers.up.style.backgroundColor    = LF.stickers.left.style.backgroundColor;
+        LF.stickers.left.style.backgroundColor  = DF.stickers.down.style.backgroundColor;
+        DF.stickers.down.style.backgroundColor  = RF.stickers.right.style.backgroundColor;
+        RF.stickers.right.style.backgroundColor = tmp;
+      }
+    }
+
     function turnF(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        var tmp;
-
-        for(var i=0; i<(n < 0 ? 3 : n); i++) {
-          tmp = ULF.stickers.front.style.backgroundColor;
-          ULF.stickers.front.style.backgroundColor = DLF.stickers.front.style.backgroundColor;
-          DLF.stickers.front.style.backgroundColor = DRF.stickers.front.style.backgroundColor;
-          DRF.stickers.front.style.backgroundColor = URF.stickers.front.style.backgroundColor;
-          URF.stickers.front.style.backgroundColor = tmp;
-
-          tmp = ULF.stickers.up.style.backgroundColor;
-          ULF.stickers.up.style.backgroundColor    = DLF.stickers.left.style.backgroundColor;
-          DLF.stickers.left.style.backgroundColor  = DRF.stickers.down.style.backgroundColor;
-          DRF.stickers.down.style.backgroundColor  = URF.stickers.right.style.backgroundColor;
-          URF.stickers.right.style.backgroundColor = tmp;
-
-          tmp = ULF.stickers.left.style.backgroundColor;
-          ULF.stickers.left.style.backgroundColor  = DLF.stickers.down.style.backgroundColor;
-          DLF.stickers.down.style.backgroundColor  = DRF.stickers.right.style.backgroundColor;
-          DRF.stickers.right.style.backgroundColor = URF.stickers.up.style.backgroundColor;
-          URF.stickers.up.style.backgroundColor    = tmp;
-
-          tmp = UF.stickers.front.style.backgroundColor;
-          UF.stickers.front.style.backgroundColor = LF.stickers.front.style.backgroundColor;
-          LF.stickers.front.style.backgroundColor = DF.stickers.front.style.backgroundColor;
-          DF.stickers.front.style.backgroundColor = RF.stickers.front.style.backgroundColor;
-          RF.stickers.front.style.backgroundColor = tmp;
-
-          tmp = UF.stickers.up.style.backgroundColor;
-          UF.stickers.up.style.backgroundColor    = LF.stickers.left.style.backgroundColor;
-          LF.stickers.left.style.backgroundColor  = DF.stickers.down.style.backgroundColor;
-          DF.stickers.down.style.backgroundColor  = RF.stickers.right.style.backgroundColor;
-          RF.stickers.right.style.backgroundColor = tmp;
-        }
+        turnFCallback(n);
 
         turning = false;
         handleQueue();
@@ -679,45 +932,49 @@
       }
     }
 
+    function turnBCallback(n) {
+      var tmp;
+
+      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+        tmp = ULB.stickers.back.style.backgroundColor;
+        ULB.stickers.back.style.backgroundColor = DLB.stickers.back.style.backgroundColor;
+        DLB.stickers.back.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
+        DRB.stickers.back.style.backgroundColor = URB.stickers.back.style.backgroundColor;
+        URB.stickers.back.style.backgroundColor = tmp;
+
+        tmp = ULB.stickers.up.style.backgroundColor;
+        ULB.stickers.up.style.backgroundColor    = DLB.stickers.left.style.backgroundColor;
+        DLB.stickers.left.style.backgroundColor  = DRB.stickers.down.style.backgroundColor;
+        DRB.stickers.down.style.backgroundColor  = URB.stickers.right.style.backgroundColor;
+        URB.stickers.right.style.backgroundColor = tmp;
+
+        tmp = ULB.stickers.left.style.backgroundColor;
+        ULB.stickers.left.style.backgroundColor  = DLB.stickers.down.style.backgroundColor;
+        DLB.stickers.down.style.backgroundColor  = DRB.stickers.right.style.backgroundColor;
+        DRB.stickers.right.style.backgroundColor = URB.stickers.up.style.backgroundColor;
+        URB.stickers.up.style.backgroundColor    = tmp;
+
+        tmp = UB.stickers.back.style.backgroundColor;
+        UB.stickers.back.style.backgroundColor = LB.stickers.back.style.backgroundColor;
+        LB.stickers.back.style.backgroundColor = DB.stickers.back.style.backgroundColor;
+        DB.stickers.back.style.backgroundColor = RB.stickers.back.style.backgroundColor;
+        RB.stickers.back.style.backgroundColor = tmp;
+
+        tmp = UB.stickers.up.style.backgroundColor;
+        UB.stickers.up.style.backgroundColor    = LB.stickers.left.style.backgroundColor;
+        LB.stickers.left.style.backgroundColor  = DB.stickers.down.style.backgroundColor;
+        DB.stickers.down.style.backgroundColor  = RB.stickers.right.style.backgroundColor;
+        RB.stickers.right.style.backgroundColor = tmp;
+      }
+    }
+
     function turnB(n) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        var tmp;
-
-        for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
-          tmp = ULB.stickers.back.style.backgroundColor;
-          ULB.stickers.back.style.backgroundColor = DLB.stickers.back.style.backgroundColor;
-          DLB.stickers.back.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
-          DRB.stickers.back.style.backgroundColor = URB.stickers.back.style.backgroundColor;
-          URB.stickers.back.style.backgroundColor = tmp;
-
-          tmp = ULB.stickers.up.style.backgroundColor;
-          ULB.stickers.up.style.backgroundColor    = DLB.stickers.left.style.backgroundColor;
-          DLB.stickers.left.style.backgroundColor  = DRB.stickers.down.style.backgroundColor;
-          DRB.stickers.down.style.backgroundColor  = URB.stickers.right.style.backgroundColor;
-          URB.stickers.right.style.backgroundColor = tmp;
-
-          tmp = ULB.stickers.left.style.backgroundColor;
-          ULB.stickers.left.style.backgroundColor  = DLB.stickers.down.style.backgroundColor;
-          DLB.stickers.down.style.backgroundColor  = DRB.stickers.right.style.backgroundColor;
-          DRB.stickers.right.style.backgroundColor = URB.stickers.up.style.backgroundColor;
-          URB.stickers.up.style.backgroundColor    = tmp;
-
-          tmp = UB.stickers.back.style.backgroundColor;
-          UB.stickers.back.style.backgroundColor = LB.stickers.back.style.backgroundColor;
-          LB.stickers.back.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-          DB.stickers.back.style.backgroundColor = RB.stickers.back.style.backgroundColor;
-          RB.stickers.back.style.backgroundColor = tmp;
-
-          tmp = UB.stickers.up.style.backgroundColor;
-          UB.stickers.up.style.backgroundColor    = LB.stickers.left.style.backgroundColor;
-          LB.stickers.left.style.backgroundColor  = DB.stickers.down.style.backgroundColor;
-          DB.stickers.down.style.backgroundColor  = RB.stickers.right.style.backgroundColor;
-          RB.stickers.right.style.backgroundColor = tmp;
-        }
+        turnBCallback(n);
 
         turning = false;
         handleQueue();
@@ -771,6 +1028,24 @@
     this.d2 = function() { queue.push([turnD,  2]); handleQueue() };
     this.l2 = function() { queue.push([turnL,  2]); handleQueue() };
     this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
+    this.x  = function() { queue.push([turnX,  1]); handleQueue() };
+    this.y  = function() { queue.push([turnY,  1]); handleQueue() };
+    this.z  = function() { queue.push([turnZ,  1]); handleQueue() };
+    this.xi = function() { queue.push([turnX, -1]); handleQueue() };
+    this.yi = function() { queue.push([turnY, -1]); handleQueue() };
+    this.zi = function() { queue.push([turnZ, -1]); handleQueue() };
+    this.x2 = function() { queue.push([turnX,  2]); handleQueue() };
+    this.y2 = function() { queue.push([turnY,  2]); handleQueue() };
+    this.z2 = function() { queue.push([turnZ,  2]); handleQueue() };
+    this.m  = function() { queue.push([turnM,  1]); handleQueue() };
+    this.e  = function() { queue.push([turnE,  1]); handleQueue() };
+    this.s  = function() { queue.push([turnS,  1]); handleQueue() };
+    this.mi = function() { queue.push([turnM, -1]); handleQueue() };
+    this.ei = function() { queue.push([turnE, -1]); handleQueue() };
+    this.si = function() { queue.push([turnS, -1]); handleQueue() };
+    this.m2 = function() { queue.push([turnM,  2]); handleQueue() };
+    this.e2 = function() { queue.push([turnE,  2]); handleQueue() };
+    this.s2 = function() { queue.push([turnS,  2]); handleQueue() };
 
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
     this.pause = function() { playing = false; };

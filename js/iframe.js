@@ -33,6 +33,7 @@
     colorBack: colorBack
   });
 
+  window.cubeCSS = cubeCSS;
 
   function performMove(move) {
     switch(move) {
