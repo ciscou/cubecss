@@ -14,6 +14,7 @@ body {
 
 .cube-container {
   width: 100%;
+  overflow: hidden;
 }
 
 .controls button {
