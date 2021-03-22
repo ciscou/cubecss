@@ -38,6 +38,14 @@
   if(urlParams.has("rz")) options.rz = urlParams.get("rz");
 
   var cubeCSS = new CubeCSS(options);
+  cubeCSS.on("turning", function() {
+    document.querySelector("button.play").style.display = "none";
+    document.querySelector("button.pause").style.display = "inline";
+  });
+  cubeCSS.on("finish", function() {
+    document.querySelector("button.play").style.display = "inline";
+    document.querySelector("button.pause").style.display = "none";
+  });
 
   window.cubeCSS = cubeCSS;
 
@@ -274,7 +282,15 @@
     })
   }, false);
 
-  document.querySelector("button.step").addEventListener("click", function() {
+  document.querySelector("button.step-backward").addEventListener("click", function() {
+    if(cubeCSS.turning()) return;
+    if(cubeCSS.idx() <= preseq.length) return;
+
+    cubeCSS.pause();
+    cubeCSS.undo();
+  }, false);
+
+  document.querySelector("button.step-forward").addEventListener("click", function() {
     cubeCSS.play();
     cubeCSS.pause();
   }, false);

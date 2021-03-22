@@ -1,5 +1,26 @@
 (function() {
+  // TODO events
+  // TODO play / pause button, disable some
+
+  EventEmitter = function() {
+    var listeners = {};
+
+    this.on = function(event, callback) {
+      listeners[event] ||= [];
+      listeners[event].push(callback)
+    }
+
+    this.emit = function(event) {
+      listeners[event] ||= [];
+      listeners[event].forEach(function(callback) {
+        callback();
+      })
+    }
+  }
+
   function CubeCSS(options) {
+    var ee = new EventEmitter();
+
     options ||= {};
 
     options.colorUp    ||= "#ffd500";
@@ -1133,7 +1154,13 @@
 
     function handleQueue() {
       if(turning) return;
-      if(!playing) return;
+
+      if(!playing) {
+        ee.emit("finish");
+        return;
+      }
+
+      ee.emit("turning");
 
       if(queueIdx < queue.length) {
         turning = true;
@@ -1143,17 +1170,18 @@
         } else {
           fq[0](fq[1]);
         }
+      } else {
+        ee.emit("finish");
       }
     }
 
     function undo() {
-      console.log("undo", queueIdx, turning, playing);
-
       if(turning) return;
       if(playing) return;
 
       if(queueIdx > 0) {
         turning = true;
+        ee.emit("turning");
         queueIdx--;
         var fq = queue[queueIdx];
         if(animating) {
@@ -1227,6 +1255,8 @@
     this.undo = function() { undo() }
     this.playing = function() { return playing }
     this.turning = function() { return turning }
+
+    this.on = function(e, cb) { ee.on(e, cb) };
   }
 
   window.CubeCSS = CubeCSS;
