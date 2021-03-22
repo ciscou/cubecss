@@ -13,7 +13,7 @@
 
     var RX = -15;
     var RY = -15;
-    var RZ = -15;
+    var RZ = 0;
 
     if(options.hasOwnProperty("rx")) RX = options.rx;
     if(options.hasOwnProperty("ry")) RY = options.ry;
