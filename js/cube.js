@@ -128,17 +128,39 @@
       cube.style.position = "relative";
       cube.style.width = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
-      cube.style.transformStyle = "preserve-3d";
 
+      cube.style.transformStyle = "preserve-3d";
+      cube.style.transition = "transform 150ms ease-out";
+
+      for(var x=0; x<3; x++) {
+        for(var y=0; y<3; y++) {
+          for(var z=0; z<3; z++) {
+            cube.appendChild(buildCubieContainer(x, y, z));
+          }
+        }
+      }
+
+      return cube;
+    };
+
+    function buildCubeWrapper() {
       var rx = -15; // TODO configurable
       var ry = -15; // TODO configurable
       var rz = 0; // TODO configurable???
 
+      cubeWrapper = document.createElement("div");
+      cubeWrapper.style.display = "flex";
+      cubeWrapper.style.justifyContent = "center";
+      cubeWrapper.style.alignItems = "center";
+      cubeWrapper.style.height = (CUBIE_SIZE * 5.2) + "px"
+      cubeWrapper.style.transformStyle = "preserve-3d";
+      cubeWrapper.style.transition = "transform 150ms ease-out";
+      cubeWrapper.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+      cubeWrapper.classList.add("cube-wrapper");
+
       var lastTouchX;
       var lastTouchY;
       var dragging;
-
-      cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
 
       var handleTouchStart = function(e) {
         e.preventDefault();
@@ -170,7 +192,7 @@
         lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
         lastTouchY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+        cubeWrapper.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       }
 
       var handleTouchEnd = function(e) {
@@ -189,16 +211,8 @@
       CONTAINER.addEventListener("mouseleave", handleTouchEnd, false);
       CONTAINER.addEventListener("mouseup", handleTouchEnd, false);
 
-      for(var x=0; x<3; x++) {
-        for(var y=0; y<3; y++) {
-          for(var z=0; z<3; z++) {
-            cube.appendChild(buildCubieContainer(x, y, z));
-          }
-        }
-      }
-
-      return cube;
-    };
+      return cubeWrapper;
+    }
 
     function rotateCubieContainer(cubieContainer, qts, axis, cb) {
       var transitionend = function() {
@@ -234,12 +248,8 @@
     }
 
     var cube = buildCube();
-    cubeWrapper = document.createElement("div");
-    cubeWrapper.style.display = "flex";
-    cubeWrapper.style.justifyContent = "center";
-    cubeWrapper.style.alignItems = "center";
-    cubeWrapper.style.height = (CUBIE_SIZE * 5.2) + "px"
-    cubeWrapper.classList.add("cube-wrapper");
+    var cubeWrapper = buildCubeWrapper();
+
     cubeWrapper.appendChild(cube);
     CONTAINER.appendChild(cubeWrapper);
 
