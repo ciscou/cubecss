@@ -34,6 +34,7 @@
 
     function buildSticker(position) {
       var sticker = document.createElement("div");
+
       sticker.classList.add("sticker");
       sticker.style.backgroundColor = COLOR_BY_FACE[position];
       sticker.style.position = "absolute";
@@ -65,12 +66,15 @@
 
     function buildFace(x, y, z, position) {
       var face = document.createElement("div");
+
       face.classList.add("face");
       face.classList.add(position);
+
       face.style.position = "absolute";
       face.style.width = "" + CUBIE_SIZE + "px";
       face.style.height = "" + CUBIE_SIZE + "px";
       face.style.backgroundColor = "black"; // TODO configurable???
+
       switch(position) {
         case "up":
           face.style.transform = "translateY(-" + (CUBIE_SIZE / 2) + "px) rotateX(90deg)";
@@ -101,6 +105,7 @@
 
     function buildCubie(x, y, z) {
       var cubie = document.createElement("div");
+
       cubie.classList.add("cubie");
 
       cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE) + "px)";
@@ -115,7 +120,9 @@
 
     function buildCubieContainer(x, y, z) {
       var cubieContainer = document.createElement("div");
+
       cubieContainer.classList.add("cubie-container");
+
       cubieContainer.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
       cubieContainer.style.position = "absolute";
       cubieContainer.style.top = "0";
@@ -131,12 +138,12 @@
 
     function buildCube() {
       var cube = document.createElement("div");
+
       cube.classList.add("cube");
 
       cube.style.position = "relative";
       cube.style.width = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
-
       cube.style.transformStyle = "preserve-3d";
       cube.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
 
@@ -157,6 +164,7 @@
       var rz = RZ;
 
       cubeWrapper = document.createElement("div");
+
       cubeWrapper.style.display = "flex";
       cubeWrapper.style.justifyContent = "center";
       cubeWrapper.style.alignItems = "center";
@@ -221,70 +229,37 @@
       return cubeWrapper;
     }
 
-    function rotateCube(cube, qts, axis, cb) {
+    function rotateEl(el, qts, axis, cb) {
       var transitionend = function() {
         cb();
 
-        transitionWas = cube.style.transition;
-        cube.style.transition = "none";
-        cube.style.transform = "";
+        transitionWas = el.style.transition;
+        el.style.transition = "none";
+        el.style.transform = "";
 
         setTimeout(function() {
-          cube.style.transition = transitionWas;
+          el.style.transition = transitionWas;
         });
 
-        cube.removeEventListener("transitionend", transitionend, false);
+        el.removeEventListener("transitionend", transitionend, false);
       }
 
-      cube.addEventListener("transitionend", transitionend, false);
+      el.addEventListener("transitionend", transitionend, false);
 
       var transform = "rotate" + axis + "(" + (qts / 4) + "turn)";
-      cube.style.transform = transform;
+      el.style.transform = transform;
     }
 
-    function rotateCubeX(cube, qts, cb) {
-      rotateCube(cube, qts, "X", cb);
+    function rotateElX(el, qts, cb) {
+      rotateEl(el, qts, "X", cb);
     }
 
-    function rotateCubeY(cube, qts, cb) {
-      rotateCube(cube, qts, "Y", cb);
+    function rotateElY(el, qts, cb) {
+      rotateEl(el, qts, "Y", cb);
     }
 
-    function rotateCubeZ(cube, qts, cb) {
-      rotateCube(cube, qts, "Z", cb);
-    }
-
-    function rotateCubieContainer(cubieContainer, qts, axis, cb) {
-      var transitionend = function() {
-        cb();
-
-        transitionWas = cubieContainer.style.transition;
-        cubieContainer.style.transition = "none";
-        cubieContainer.style.transform = "";
-
-        setTimeout(function() {
-          cubieContainer.style.transition = transitionWas;
-        });
-
-        cubieContainer.removeEventListener("transitionend", transitionend, false);
-      }
-
-      cubieContainer.addEventListener("transitionend", transitionend, false);
-
-      var transform = "rotate" + axis + "(" + (qts / 4) + "turn)";
-      cubieContainer.style.transform = transform;
-    }
-
-    function rotateCubieContainerX(cubieContainer, qts, cb) {
-      rotateCubieContainer(cubieContainer, qts, "X", cb);
-    }
-
-    function rotateCubieContainerY(cubieContainer, qts, cb) {
-      rotateCubieContainer(cubieContainer, qts, "Y", cb);
-    }
-
-    function rotateCubieContainerZ(cubieContainer, qts, cb) {
-      rotateCubieContainer(cubieContainer, qts, "Z", cb);
+    function rotateElZ(el, qts, cb) {
+      rotateEl(el, qts, "Z", cb);
     }
 
     var cube = buildCube();
@@ -466,7 +441,10 @@
       R: RSLICE,
       L: LSLICE,
       F: FSLICE,
-      B: BSLICE
+      B: BSLICE,
+      M: MSLICE,
+      E: ESLICE,
+      S: SSLICE
     }
 
     function turnMCallback(n) {
@@ -543,16 +521,16 @@
 
     function turnX(n) {
       var cb = function() {
-        turnLCallback(n == 2 ? 2 : -n);
-        turnMCallback(n == 2 ? 2 : -n);
-        turnRCallback(n == 2 ? 2 :  n);
+        turnLCallback(n === 2 ? 2 : -n);
+        turnMCallback(n === 2 ? 2 : -n);
+        turnRCallback(n === 2 ? 2 :  n);
 
         turning = false;
         handleQueue();
       }
 
       if(animating) {
-        rotateCubeX(cube, n, cb);
+        rotateElX(cube, n, cb);
       } else {
         cb();
       }
@@ -560,16 +538,16 @@
 
     function turnY(n) {
       var cb = function() {
-        turnDCallback(n == 2 ? 2 : -n);
-        turnECallback(n == 2 ? 2 : -n);
-        turnUCallback(n == 2 ? 2 :  n);
+        turnDCallback(n === 2 ? 2 : -n);
+        turnECallback(n === 2 ? 2 : -n);
+        turnUCallback(n === 2 ? 2 :  n);
 
         turning = false;
         handleQueue();
       }
 
       if(animating) {
-        rotateCubeY(cube, -n, cb);
+        rotateElY(cube, -n, cb);
       } else {
         cb();
       }
@@ -577,16 +555,16 @@
 
     function turnZ(n) {
       var cb = function() {
-        turnBCallback(n == 2 ? 2 : -n);
-        turnSCallback(n == 2 ? 2 :  n);
-        turnFCallback(n == 2 ? 2 :  n);
+        turnBCallback(n === 2 ? 2 : -n);
+        turnSCallback(n === 2 ? 2 :  n);
+        turnFCallback(n === 2 ? 2 :  n);
 
         turning = false;
         handleQueue();
       }
 
       if(animating) {
-        rotateCubeZ(cube, n, cb);
+        rotateElZ(cube, n, cb);
       } else {
         cb();
       }
@@ -642,7 +620,7 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, -n, cb);
+          rotateElY(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -664,10 +642,10 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, -n, cb);
+          rotateElY(cubieContainer.el, -n, cb);
         });
         ESLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, -n, cb);
+          rotateElY(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -724,7 +702,7 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -746,10 +724,10 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, n, cb);
         });
         ESLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -806,7 +784,7 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -828,10 +806,10 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -n, cb);
         });
         MSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -888,7 +866,7 @@
 
       if(animating) {
         MSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -909,7 +887,7 @@
 
       if(animating) {
         ESLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -930,7 +908,7 @@
 
       if(animating) {
         SSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -951,7 +929,7 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, n, cb);
+          rotateElX(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -973,10 +951,10 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, n, cb);
+          rotateElX(cubieContainer.el, n, cb);
         });
         MSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerX(cubieContainer.el, n, cb);
+          rotateElX(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -1033,7 +1011,7 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -1055,10 +1033,10 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, n, cb);
         });
         SSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, n, cb);
         });
       } else {
         cb();
@@ -1115,7 +1093,7 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, -n, cb);
+          rotateElZ(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
@@ -1137,10 +1115,10 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, -n, cb);
+          rotateElZ(cubieContainer.el, -n, cb);
         });
         SSLICE.forEach(function(cubieContainer) {
-          rotateCubieContainerZ(cubieContainer.el, -n, cb);
+          rotateElZ(cubieContainer.el, -n, cb);
         });
       } else {
         cb();
