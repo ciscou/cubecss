@@ -260,7 +260,18 @@
   }, false);
 
   document.querySelector("button.reset").addEventListener("click", function() {
-    window.location.reload();
+    if(cubeCSS.turning()) return;
+
+    cubeCSS.pause();
+
+    cubeCSS.withoutAnimation(function() {
+      cubeCSS.play();
+      cubeCSS.pause();
+
+      while(cubeCSS.idx() > preseq.length) {
+        cubeCSS.undo();
+      }
+    })
   }, false);
 
   document.querySelector("button.step").addEventListener("click", function() {

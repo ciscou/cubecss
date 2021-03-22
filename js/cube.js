@@ -1146,6 +1146,24 @@
       }
     }
 
+    function undo() {
+      console.log("undo", queueIdx, turning, playing);
+
+      if(turning) return;
+      if(playing) return;
+
+      if(queueIdx > 0) {
+        turning = true;
+        queueIdx--;
+        var fq = queue[queueIdx];
+        if(animating) {
+          setTimeout(function() { fq[0](fq[1] === 2 ? 2 : -fq[1]) });
+        } else {
+          fq[0](fq[1] === 2 ? 2 : -fq[1]);
+        }
+      }
+    }
+
     this.u = function()  { queue.push([turnU,  1]); handleQueue() };
     this.r = function()  { queue.push([turnR,  1]); handleQueue() };
     this.f = function()  { queue.push([turnF,  1]); handleQueue() };
@@ -1204,6 +1222,11 @@
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
     this.pause = function() { playing = false; };
     this.play = function() { playing = true; handleQueue() };
+
+    this.idx = function() { return queueIdx }
+    this.undo = function() { undo() }
+    this.playing = function() { return playing }
+    this.turning = function() { return turning }
   }
 
   window.CubeCSS = CubeCSS;
