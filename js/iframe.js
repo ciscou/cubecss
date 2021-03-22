@@ -97,6 +97,64 @@
       case "Bi":
         cubeCSS.bi();
         break;
+      case "x":
+        cubeCSS.x();
+        break;
+      case "y":
+        cubeCSS.y();
+        break;
+      case "z":
+        cubeCSS.z();
+        break;
+      case "x2":
+        cubeCSS.x2();
+        break;
+      case "y2":
+        cubeCSS.y2();
+        break;
+      case "z2":
+        cubeCSS.z2();
+        break;
+      case "xi":
+      case "x'":
+        cubeCSS.xi();
+        break;
+      case "yi":
+      case "y'":
+        cubeCSS.yi();
+        break;
+      case "zi":
+      case "z'":
+        cubeCSS.zi();
+        break;
+      case "M":
+        cubeCSS.m();
+        break;
+      case "S":
+        cubeCSS.s();
+        break;
+      case "E":
+        cubeCSS.e();
+        break;
+      case "M2":
+        cubeCSS.m2();
+        break;
+      case "S2":
+        cubeCSS.s2();
+        break;
+      case "E2":
+        cubeCSS.e2();
+        break;
+      case "Mi":
+      case "M'":
+        cubeCSS.mi();
+        break;
+      case "Si":
+        cubeCSS.si();
+        break;
+      case "Ei":
+        cubeCSS.ei();
+        break;
       default:
         console.log("Invalid movement", move);
         break;
