@@ -14,13 +14,10 @@
     seq = urlParams.get("seq").split(",")
   }
 
-  /*
-  cubeCSS.slices.U.forEach(function(cc) {
-    Object.values(cc.stickers).forEach(function(s) {
-      s.style.backgroundColor = "#444"
-    });
-  })
-  */
+  var stickerless = [];
+  if(urlParams.has("stickerless")) {
+    stickerless = urlParams.get("stickerless").split(",")
+  }
 
   /*
   document.addEventListener("keypress", function(e) {
@@ -139,6 +136,18 @@
     });
 
     cubeCSS.pause();
+
+    stickerless.forEach(function(cubie) {
+      var c = cubeCSS.cubies[cubie];
+      if(!c) {
+        console.log("Invalid cubie", cubie);
+        return
+      }
+
+      Object.values(c.stickers).forEach(function(s) {
+        s.style.backgroundColor = "#444";
+      });
+    });
 
     seq.forEach(function(move) {
       performMove(move);
