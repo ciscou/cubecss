@@ -17,17 +17,5 @@ body {
 }
 
 .controls button {
-  border: 0;
-  background: none;
-  font-size: 2em;
-  padding: 0;
-  transition: opacity 200ms ease, transform 200ms ease;
-}
-
-.controls button:focus {
-  outline: none;
-}
-
-.controls button:active {
-  transform: scale(0.9);
+  padding: .125rem .75rem;
 }

@@ -145,8 +145,8 @@
         e.stopPropagation();
 
         dragging = true;
-        lastTouchX = e.clientX || e.touches[0].clientX;
-        lastTouchY = e.clientY || e.touches[0].clientY;
+        lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
+        lastTouchY = e.touches ? e.touches[0].clientY : e.clientY;
       }
 
       var handleTouchMove = function(e) {
@@ -155,8 +155,8 @@
 
         if(!dragging) return;
 
-        var touchX = e.clientX || e.touches[0].clientX;
-        var touchY = e.clientY || e.touches[0].clientY;
+        var touchX = e.touches ? e.touches[0].clientX : e.clientX;
+        var touchY = e.touches ? e.touches[0].clientY : e.clientY;
 
         var dx = touchX - lastTouchX;
         var dy = touchY - lastTouchY;
@@ -167,8 +167,8 @@
         if(rx < -45) rx = -45;
         if(rx >  45) rx =  45;
 
-        lastTouchX = e.clientX || e.touches[0].clientX;
-        lastTouchY = e.clientY || e.touches[0].clientY;
+        lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
+        lastTouchY = e.touches ? e.touches[0].clientY : e.clientY;
 
         cube.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       }
@@ -238,7 +238,7 @@
     cubeWrapper.style.display = "flex";
     cubeWrapper.style.justifyContent = "center";
     cubeWrapper.style.alignItems = "center";
-    cubeWrapper.style.height = (CUBIE_SIZE * 5.5) + "px"
+    cubeWrapper.style.height = (CUBIE_SIZE * 5.2) + "px"
     cubeWrapper.classList.add("cube-wrapper");
     cubeWrapper.appendChild(cube);
     CONTAINER.appendChild(cubeWrapper);
