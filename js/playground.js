@@ -26,6 +26,14 @@
     var clrfParam = clrf && `clrf=${clrf}`;
     var clrbParam = clrb && `clrb=${clrb}`;
 
+    var rx = form.querySelector("input[name=rx]").value;
+    var ry = form.querySelector("input[name=ry]").value;
+    var rz = form.querySelector("input[name=rz]").value;
+
+    var rxParam = rx && `rx=${rx}`;
+    var ryParam = ry && `ry=${ry}`;
+    var rzParam = rz && `rz=${rz}`;
+
     var stickerless = [];
     if(form.querySelector("input[name=stickerless_ulb]").checked) stickerless.push("ULB");
     if(form.querySelector("input[name=stickerless_urb]").checked) stickerless.push("URB");
@@ -62,6 +70,9 @@
     if(clrlParam) params.push(clrlParam);
     if(clrfParam) params.push(clrfParam);
     if(clrbParam) params.push(clrbParam);
+    if(rxParam) params.push(rxParam);
+    if(ryParam) params.push(ryParam);
+    if(rzParam) params.push(rzParam);
     if(stickerlessParam) params.push(stickerlessParam);
 
     var iframeHTML = `<iframe src="https://s3-eu-west-3.amazonaws.com/cubecss/iframe.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;

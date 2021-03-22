@@ -23,7 +23,7 @@
   var colorFront = urlParams.get("clrf");
   var colorBack  = urlParams.get("clrb");
 
-  var cubeCSS = new CubeCSS({
+  var options = {
     container: document.querySelector(".cube-container"),
     colorUp: colorUp,
     colorDown: colorDown,
@@ -31,7 +31,13 @@
     colorLeft: colorLeft,
     colorFront: colorFront,
     colorBack: colorBack
-  });
+  }
+
+  if(urlParams.has("rx")) options.rx = urlParams.get("rx");
+  if(urlParams.has("ry")) options.rx = urlParams.get("rx");
+  if(urlParams.has("rz")) options.rx = urlParams.get("rx");
+
+  var cubeCSS = new CubeCSS(options);
 
   window.cubeCSS = cubeCSS;
 

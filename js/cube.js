@@ -11,6 +11,14 @@
 
     var CONTAINER = options.container;
 
+    var RX = -15;
+    var RY = -15;
+    var RZ = -15;
+
+    if(options.hasOwnProperty("rx")) RX = options.rx;
+    if(options.hasOwnProperty("ry")) RY = options.ry;
+    if(options.hasOwnProperty("rz")) RZ = options.rz;
+
     options.cubieSize ||= CONTAINER.offsetWidth / 6;
 
     var COLOR_BY_FACE = {
@@ -144,9 +152,9 @@
     };
 
     function buildCubeWrapper() {
-      var rx = -15; // TODO configurable
-      var ry = -15; // TODO configurable
-      var rz = 0; // TODO configurable???
+      var rx = RX;
+      var ry = RY;
+      var rz = RZ;
 
       cubeWrapper = document.createElement("div");
       cubeWrapper.style.display = "flex";
