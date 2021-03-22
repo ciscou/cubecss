@@ -7,8 +7,8 @@
     var width = form.querySelector("input[name=width]").value;
     var height = form.querySelector("input[name=height]").value;
 
-    var preseq = form.querySelector("input[name=preseq]").value;
-    var seq = form.querySelector("input[name=seq]").value;
+    var preseq = form.querySelector("input[name=preseq]").value.replaceAll(/\s+/g, ",").replaceAll("'", "i");
+    var seq = form.querySelector("input[name=seq]").value.replaceAll(/\s+/g, ",").replaceAll("'", "i");
     var preseqParam = preseq && `preseq=${preseq}`;
     var seqParam = seq && `seq=${seq}`;
 

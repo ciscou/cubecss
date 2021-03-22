@@ -97,6 +97,66 @@
       case "Bi":
         cubeCSS.bi();
         break;
+      case "u":
+        cubeCSS.uw();
+        break;
+      case "d":
+        cubeCSS.dw();
+        break;
+      case "r":
+        cubeCSS.rw();
+        break;
+      case "l":
+        cubeCSS.lw();
+        break;
+      case "f":
+        cubeCSS.fw();
+        break;
+      case "b":
+        cubeCSS.bw();
+        break;
+      case "u2":
+        cubeCSS.uw2();
+        break;
+      case "d2":
+        cubeCSS.dw2();
+        break;
+      case "r2":
+        cubeCSS.rw2();
+        break;
+      case "l2":
+        cubeCSS.lw2();
+        break;
+      case "f2":
+        cubeCSS.fw2();
+        break;
+      case "b2":
+        cubeCSS.bw2();
+        break;
+      case "u'":
+      case "ui":
+        cubeCSS.uwi();
+        break;
+      case "d'":
+      case "di":
+        cubeCSS.dwi();
+        break;
+      case "r'":
+      case "ri":
+        cubeCSS.rwi();
+        break;
+      case "l'":
+      case "li":
+        cubeCSS.lwi();
+        break;
+      case "f'":
+      case "fi":
+        cubeCSS.fwi();
+        break;
+      case "b'":
+      case "bi":
+        cubeCSS.bwi();
+        break;
       case "x":
         cubeCSS.x();
         break;
