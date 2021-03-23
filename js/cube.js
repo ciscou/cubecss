@@ -63,7 +63,7 @@
       sticker.style.backgroundColor = COLOR_BY_FACE[position];
       sticker.style.width = "100%";
       sticker.style.height = "100%";
-      sticker.style.borderRadius = "8%";
+      sticker.style.borderRadius = "10%"; // TODO configurable???
 
       return sticker;
     }
@@ -92,7 +92,7 @@
       face.classList.add(position);
 
       face.style.position = "absolute";
-      face.style.padding = "2%";
+      face.style.padding = "2%"; // TODO configurable???
       face.style.width = "" + CUBIE_SIZE + "px";
       face.style.height = "" + CUBIE_SIZE + "px";
       face.style.backgroundColor = options.colorPlastic;
