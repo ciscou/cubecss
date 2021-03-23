@@ -30,6 +30,9 @@
   var colorRight = urlParams.get("clrr");
   var colorFront = urlParams.get("clrf");
   var colorBack  = urlParams.get("clrb");
+  var colorX     = urlParams.get("clrx");
+
+  colorX ||= "#777";
 
   var options = {
     container: document.querySelector(".cube-container"),
@@ -256,7 +259,7 @@
 
       if(c) {
         Object.values(c.stickers).forEach(function(s) {
-          s.style.backgroundColor = "#777"; // TODO configurable
+          s.style.backgroundColor = colorX;
         });
       } else {
         c = cubeCSS.cubies[cubie.slice(0, -1)];
@@ -264,22 +267,22 @@
         if(c) {
           switch(cubie.slice(-1)) {
             case "U":
-              c.stickers.up.style.backgroundColor = "#777"; // TODO configurable
+              c.stickers.up.style.backgroundColor = colorX;
               break;
             case "R":
-              c.stickers.right.style.backgroundColor = "#777"; // TODO configurable
+              c.stickers.right.style.backgroundColor = colorX;
               break;
             case "F":
-              c.stickers.front.style.backgroundColor = "#777"; // TODO configurable
+              c.stickers.front.style.backgroundColor = colorX;
               break;
             case "D":
-              c.stickers.down.style.backgroundColor = "#777"; // TODO configurable
+              c.stickers.down.style.backgroundColor = colorX;
               break;
             case "L":
-              c.stickers.left.style.backgroundColor = "#777"; // TODO configurable
+              c.stickers.left.style.backgroundColor = colorX;
               break;
             case "B":
-              c.stickers.back.style.backgroundColor = "#777"; // TODO configurable
+              c.stickers.back.style.backgroundColor = colorX;
               break;
             default:
               console.log("Invalid stickerless cubie", cubie);
