@@ -35,9 +35,9 @@
     var RY = -20;
     var RZ = 0;
 
-    if(options.hasOwnProperty("rx")) RX = options.rx;
-    if(options.hasOwnProperty("ry")) RY = options.ry;
-    if(options.hasOwnProperty("rz")) RZ = options.rz;
+    if(options.hasOwnProperty("rx")) RX = parseInt(options.rx);
+    if(options.hasOwnProperty("ry")) RY = parseInt(options.ry);
+    if(options.hasOwnProperty("rz")) RZ = parseInt(options.rz);
 
     options.cubieSize ||= CONTAINER.offsetWidth / 6;
     options.cubieSize ||= 40;

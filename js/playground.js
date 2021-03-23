@@ -12,7 +12,7 @@
 
     var preseq = form.querySelector("input[name=preseq]").value.replaceAll(/\s+/g, ",").replaceAll("'", "i");
     var seq = form.querySelector("input[name=seq]").value.replaceAll(/\s+/g, ",").replaceAll("'", "i");
-    var preseqParam = preseq && `preseq=${preseq}`;
+    var preseqParam = preseq && `preseq=${encodeURIComponent(preseq)}`;
     var seqParam = seq && `seq=${seq}`;
 
     var clru = form.querySelector("input[name=clru]").value;
@@ -24,28 +24,28 @@
     var clrx = form.querySelector("input[name=clrx]").value;
     var clrp = form.querySelector("input[name=clrp]").value;
 
-    var clruParam = clru && `clru=${clru}`;
-    var clrdParam = clrd && `clrd=${clrd}`;
-    var clrrParam = clrr && `clrr=${clrr}`;
-    var clrlParam = clrl && `clrl=${clrl}`;
-    var clrfParam = clrf && `clrf=${clrf}`;
-    var clrbParam = clrb && `clrb=${clrb}`;
-    var clrxParam = clrx && `clrx=${clrx}`;
-    var clrpParam = clrp && `clrp=${clrp}`;
+    var clruParam = clru && `clru=${encodeURIComponent(clru)}`;
+    var clrdParam = clrd && `clrd=${encodeURIComponent(clrd)}`;
+    var clrrParam = clrr && `clrr=${encodeURIComponent(clrr)}`;
+    var clrlParam = clrl && `clrl=${encodeURIComponent(clrl)}`;
+    var clrfParam = clrf && `clrf=${encodeURIComponent(clrf)}`;
+    var clrbParam = clrb && `clrb=${encodeURIComponent(clrb)}`;
+    var clrxParam = clrx && `clrx=${encodeURIComponent(clrx)}`;
+    var clrpParam = clrp && `clrp=${encodeURIComponent(clrp)}`;
 
     var rx = form.querySelector("input[name=rx]").value;
     var ry = form.querySelector("input[name=ry]").value;
     var rz = form.querySelector("input[name=rz]").value;
 
-    var rxParam = rx && `rx=${rx}`;
-    var ryParam = ry && `ry=${ry}`;
-    var rzParam = rz && `rz=${rz}`;
+    var rxParam = rx && `rx=${encodeURIComponent(rx)}`;
+    var ryParam = ry && `ry=${encodeURIComponent(ry)}`;
+    var rzParam = rz && `rz=${encodeURIComponent(rz)}`;
 
     var transition = form.querySelector("input[name=transition]").value;
     var perspective = form.querySelector("input[name=perspective]").value;
 
-    var transitionParam = transition && `transition=${transition}`;
-    var perspectiveParam = perspective && `perspective=${perspective}`;
+    var transitionParam = transition && `transition=${encodeURIComponent(transition)}`;
+    var perspectiveParam = perspective && `perspective=${encodeURIComponent(perspective)}`;
 
     var stickerless = [];
 
@@ -108,7 +108,7 @@
 
     var stickerlessParam = "";
     if(stickerless.length > 0) {
-      stickerlessParam = "stickerless=" + stickerless.join(",")
+      stickerlessParam = "stickerless=" + encodeURIComponent(stickerless.join(","));
     }
 
     var params = [];
