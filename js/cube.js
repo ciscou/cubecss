@@ -221,8 +221,8 @@
         ry += dx / 2;
         rx -= dy / 2;
 
-        if(rx < -45) rx = -45;
-        if(rx >  45) rx =  45;
+        if(rx < -75) rx = -75;
+        if(rx >  75) rx =  75;
 
         lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
         lastTouchY = e.touches ? e.touches[0].clientY : e.clientY;
