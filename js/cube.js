@@ -1192,15 +1192,15 @@
         return;
       }
 
-      ee.emit("turning");
-
       if(queueIdx < queue.length) {
         turning = true;
-        var fq = queue[queueIdx++];
+        ee.emit("turning");
+
+        var [turn, qts] = queue[queueIdx++];
         if(animating) {
-          setTimeout(function() { fq[0](fq[1]) });
+          setTimeout(function() { turn(qts) });
         } else {
-          fq[0](fq[1]);
+          turn(qts);
         }
       } else {
         ee.emit("finish");
@@ -1214,70 +1214,75 @@
       if(queueIdx > 0) {
         turning = true;
         ee.emit("turning");
-        queueIdx--;
-        var fq = queue[queueIdx];
+
+        var [turn, qts] = queue[--queueIdx];
         if(animating) {
-          setTimeout(function() { fq[0](-fq[1]) });
+          setTimeout(function() { turn(-qts) });
         } else {
-          fq[0](-fq[1]);
+          turn(-qts);
         }
       }
     }
 
-    this.u = function()  { queue.push([turnU,  1]); handleQueue() };
-    this.r = function()  { queue.push([turnR,  1]); handleQueue() };
-    this.f = function()  { queue.push([turnF,  1]); handleQueue() };
-    this.d = function()  { queue.push([turnD,  1]); handleQueue() };
-    this.l = function()  { queue.push([turnL,  1]); handleQueue() };
-    this.b = function()  { queue.push([turnB,  1]); handleQueue() };
-    this.ui = function() { queue.push([turnU, -1]); handleQueue() };
-    this.ri = function() { queue.push([turnR, -1]); handleQueue() };
-    this.fi = function() { queue.push([turnF, -1]); handleQueue() };
-    this.di = function() { queue.push([turnD, -1]); handleQueue() };
-    this.li = function() { queue.push([turnL, -1]); handleQueue() };
-    this.bi = function() { queue.push([turnB, -1]); handleQueue() };
-    this.u2 = function() { queue.push([turnU,  2]); handleQueue() };
-    this.r2 = function() { queue.push([turnR,  2]); handleQueue() };
-    this.f2 = function() { queue.push([turnF,  2]); handleQueue() };
-    this.d2 = function() { queue.push([turnD,  2]); handleQueue() };
-    this.l2 = function() { queue.push([turnL,  2]); handleQueue() };
-    this.b2 = function() { queue.push([turnB,  2]); handleQueue() };
-    this.uw = function()  { queue.push([turnUw,  1]); handleQueue() };
-    this.rw = function()  { queue.push([turnRw,  1]); handleQueue() };
-    this.fw = function()  { queue.push([turnFw,  1]); handleQueue() };
-    this.dw = function()  { queue.push([turnDw,  1]); handleQueue() };
-    this.lw = function()  { queue.push([turnLw,  1]); handleQueue() };
-    this.bw = function()  { queue.push([turnBw,  1]); handleQueue() };
-    this.uwi = function() { queue.push([turnUw, -1]); handleQueue() };
-    this.rwi = function() { queue.push([turnRw, -1]); handleQueue() };
-    this.fwi = function() { queue.push([turnFw, -1]); handleQueue() };
-    this.dwi = function() { queue.push([turnDw, -1]); handleQueue() };
-    this.lwi = function() { queue.push([turnLw, -1]); handleQueue() };
-    this.bwi = function() { queue.push([turnBw, -1]); handleQueue() };
-    this.uw2 = function() { queue.push([turnUw,  2]); handleQueue() };
-    this.rw2 = function() { queue.push([turnRw,  2]); handleQueue() };
-    this.fw2 = function() { queue.push([turnFw,  2]); handleQueue() };
-    this.dw2 = function() { queue.push([turnDw,  2]); handleQueue() };
-    this.lw2 = function() { queue.push([turnLw,  2]); handleQueue() };
-    this.bw2 = function() { queue.push([turnBw,  2]); handleQueue() };
-    this.x  = function() { queue.push([turnX,  1]); handleQueue() };
-    this.y  = function() { queue.push([turnY,  1]); handleQueue() };
-    this.z  = function() { queue.push([turnZ,  1]); handleQueue() };
-    this.xi = function() { queue.push([turnX, -1]); handleQueue() };
-    this.yi = function() { queue.push([turnY, -1]); handleQueue() };
-    this.zi = function() { queue.push([turnZ, -1]); handleQueue() };
-    this.x2 = function() { queue.push([turnX,  2]); handleQueue() };
-    this.y2 = function() { queue.push([turnY,  2]); handleQueue() };
-    this.z2 = function() { queue.push([turnZ,  2]); handleQueue() };
-    this.m  = function() { queue.push([turnM,  1]); handleQueue() };
-    this.e  = function() { queue.push([turnE,  1]); handleQueue() };
-    this.s  = function() { queue.push([turnS,  1]); handleQueue() };
-    this.mi = function() { queue.push([turnM, -1]); handleQueue() };
-    this.ei = function() { queue.push([turnE, -1]); handleQueue() };
-    this.si = function() { queue.push([turnS, -1]); handleQueue() };
-    this.m2 = function() { queue.push([turnM,  2]); handleQueue() };
-    this.e2 = function() { queue.push([turnE,  2]); handleQueue() };
-    this.s2 = function() { queue.push([turnS,  2]); handleQueue() };
+    var enqueue = function(turn, qts) {
+      queue.push([turn, qts]);
+      handleQueue();
+    };
+
+    this.u   = function() { enqueue(turnU,   1) };
+    this.r   = function() { enqueue(turnR,   1) };
+    this.f   = function() { enqueue(turnF,   1) };
+    this.d   = function() { enqueue(turnD,   1) };
+    this.l   = function() { enqueue(turnL,   1) };
+    this.b   = function() { enqueue(turnB,   1) };
+    this.ui  = function() { enqueue(turnU,  -1) };
+    this.ri  = function() { enqueue(turnR,  -1) };
+    this.fi  = function() { enqueue(turnF,  -1) };
+    this.di  = function() { enqueue(turnD,  -1) };
+    this.li  = function() { enqueue(turnL,  -1) };
+    this.bi  = function() { enqueue(turnB,  -1) };
+    this.u2  = function() { enqueue(turnU,   2) };
+    this.r2  = function() { enqueue(turnR,   2) };
+    this.f2  = function() { enqueue(turnF,   2) };
+    this.d2  = function() { enqueue(turnD,   2) };
+    this.l2  = function() { enqueue(turnL,   2) };
+    this.b2  = function() { enqueue(turnB,   2) };
+    this.uw  = function() { enqueue(turnUw,  1) };
+    this.rw  = function() { enqueue(turnRw,  1) };
+    this.fw  = function() { enqueue(turnFw,  1) };
+    this.dw  = function() { enqueue(turnDw,  1) };
+    this.lw  = function() { enqueue(turnLw,  1) };
+    this.bw  = function() { enqueue(turnBw,  1) };
+    this.uwi = function() { enqueue(turnUw, -1) };
+    this.rwi = function() { enqueue(turnRw, -1) };
+    this.fwi = function() { enqueue(turnFw, -1) };
+    this.dwi = function() { enqueue(turnDw, -1) };
+    this.lwi = function() { enqueue(turnLw, -1) };
+    this.bwi = function() { enqueue(turnBw, -1) };
+    this.uw2 = function() { enqueue(turnUw,  2) };
+    this.rw2 = function() { enqueue(turnRw,  2) };
+    this.fw2 = function() { enqueue(turnFw,  2) };
+    this.dw2 = function() { enqueue(turnDw,  2) };
+    this.lw2 = function() { enqueue(turnLw,  2) };
+    this.bw2 = function() { enqueue(turnBw,  2) };
+    this.x   = function() { enqueue(turnX,   1) };
+    this.y   = function() { enqueue(turnY,   1) };
+    this.z   = function() { enqueue(turnZ,   1) };
+    this.xi  = function() { enqueue(turnX,  -1) };
+    this.yi  = function() { enqueue(turnY,  -1) };
+    this.zi  = function() { enqueue(turnZ,  -1) };
+    this.x2  = function() { enqueue(turnX,   2) };
+    this.y2  = function() { enqueue(turnY,   2) };
+    this.z2  = function() { enqueue(turnZ,   2) };
+    this.m   = function() { enqueue(turnM,   1) };
+    this.e   = function() { enqueue(turnE,   1) };
+    this.s   = function() { enqueue(turnS,   1) };
+    this.mi  = function() { enqueue(turnM,  -1) };
+    this.ei  = function() { enqueue(turnE,  -1) };
+    this.si  = function() { enqueue(turnS,  -1) };
+    this.m2  = function() { enqueue(turnM,   2) };
+    this.e2  = function() { enqueue(turnE,   2) };
+    this.s2  = function() { enqueue(turnS,   2) };
 
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
     this.pause = function() { playing = false; };
