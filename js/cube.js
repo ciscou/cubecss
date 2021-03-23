@@ -29,8 +29,8 @@
 
     var CONTAINER = options.container;
 
-    var RX = -15;
-    var RY = -15;
+    var RX = -20;
+    var RY = -20;
     var RZ = 0;
 
     if(options.hasOwnProperty("rx")) RX = options.rx;
