@@ -8,15 +8,20 @@ body {
   text-align: center;
 }
 
+.container {
+  width: 90%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-form.playground {
-  width: 90%;
-  max-width: 300px;
-  margin: 0 auto;
+form.playground input {
+  margin: 0;
+  font-size: inherit;
 }
 
 form.playground .label {
@@ -26,28 +31,28 @@ form.playground .label {
 }
 
 form.playground .label + .label {
-  margin-top: .25em;
+  margin-top: .5em;
 }
 
 form.playground .label span {
-  flex: 1;
   text-align: right;
-  margin-right: .5em;
 }
 
 form.playground .label span.checkboxes-span {
   align-self: flex-start;
-  margin-right: 0;
-  padding-right: 0.5em;
-}
-
-form.playground .label input {
-  flex: 1;
 }
 
 form.playground .label .checkboxes-wrapper {
-  flex: 1;
   text-align: left;
+}
+
+form.playground .label > * {
+  flex: 1 0 33%;
+}
+
+form.playground .label > * + * {
+  margin-left: .5rem;
+  flex: 1 0 66%;
 }
 
 iframe {
@@ -58,6 +63,5 @@ iframe {
 .iframe-html-container {
   font-family: monospace;
   overflow-x: scroll;
-  width: 90%;
   margin: 0 auto;
 }
