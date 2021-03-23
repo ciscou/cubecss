@@ -38,6 +38,7 @@
     if(options.hasOwnProperty("rz")) RZ = options.rz;
 
     options.cubieSize ||= CONTAINER.offsetWidth / 6;
+    options.cubieSize ||= 40;
 
     var COLOR_BY_FACE = {
       up: options.colorUp,
