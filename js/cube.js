@@ -196,6 +196,8 @@
       var dragging;
 
       var handleTouchStart = function(e) {
+        if(!e.cancelable) return;
+
         e.preventDefault();
         e.stopPropagation();
 
@@ -465,10 +467,29 @@
       S: SSLICE
     }
 
-    function turnMCallback(n) {
+    function turnsToCycles(qts) {
+      switch(qts) {
+        case -1:
+          return 3;
+          break;
+        case 1:
+          return 1;
+          break;
+        case 2:
+        case -2:
+          return 2;
+          break;
+        default:
+          throw `Invalid number of turns: ${qts}`;
+          break;
+      }
+    }
+
+    function turnMCallback(qts) {
+      var cycles = turnsToCycles(-qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = U.stickers.up.style.backgroundColor;
         U.stickers.up.style.backgroundColor = F.stickers.front.style.backgroundColor;
         F.stickers.front.style.backgroundColor = D.stickers.down.style.backgroundColor;
@@ -489,10 +510,11 @@
       }
     }
 
-    function turnECallback(n) {
+    function turnECallback(qts) {
+      var cycles = turnsToCycles(-qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = F.stickers.front.style.backgroundColor;
         F.stickers.front.style.backgroundColor = R.stickers.right.style.backgroundColor;
         R.stickers.right.style.backgroundColor = B.stickers.back.style.backgroundColor;
@@ -513,10 +535,11 @@
       }
     }
 
-    function turnSCallback(n) {
+    function turnSCallback(qts) {
+      var cycles = turnsToCycles(qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = U.stickers.up.style.backgroundColor;
         U.stickers.up.style.backgroundColor = L.stickers.left.style.backgroundColor;
         L.stickers.left.style.backgroundColor = D.stickers.down.style.backgroundColor;
@@ -537,61 +560,62 @@
       }
     }
 
-    function turnX(n) {
+    function turnX(qts) {
       var cb = function() {
-        turnLCallback(n === 2 ? 2 : -n);
-        turnMCallback(n === 2 ? 2 : -n);
-        turnRCallback(n === 2 ? 2 :  n);
+        turnLCallback(-qts);
+        turnMCallback(-qts);
+        turnRCallback( qts);
 
         turning = false;
         handleQueue();
       }
 
       if(animating) {
-        rotateElX(cube, n, cb);
+        rotateElX(cube, qts, cb);
       } else {
         cb();
       }
     }
 
-    function turnY(n) {
+    function turnY(qts) {
       var cb = function() {
-        turnDCallback(n === 2 ? 2 : -n);
-        turnECallback(n === 2 ? 2 : -n);
-        turnUCallback(n === 2 ? 2 :  n);
+        turnDCallback(-qts);
+        turnECallback(-qts);
+        turnUCallback( qts);
 
         turning = false;
         handleQueue();
       }
 
       if(animating) {
-        rotateElY(cube, -n, cb);
+        rotateElY(cube, -qts, cb);
       } else {
         cb();
       }
     }
 
-    function turnZ(n) {
+    function turnZ(qts) {
       var cb = function() {
-        turnBCallback(n === 2 ? 2 : -n);
-        turnSCallback(n === 2 ? 2 :  n);
-        turnFCallback(n === 2 ? 2 :  n);
+        turnBCallback(-qts);
+        turnSCallback( qts);
+        turnFCallback( qts);
 
         turning = false;
         handleQueue();
       }
 
       if(animating) {
-        rotateElZ(cube, n, cb);
+        rotateElZ(cube, qts, cb);
       } else {
         cb();
       }
     }
 
-    function turnUCallback(n) {
+    function turnUCallback(qts) {
+      var cycles = turnsToCycles(qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = ULB.stickers.up.style.backgroundColor;
         ULB.stickers.up.style.backgroundColor = ULF.stickers.up.style.backgroundColor;
         ULF.stickers.up.style.backgroundColor = URF.stickers.up.style.backgroundColor;
@@ -624,13 +648,13 @@
       }
     }
 
-    function turnU(n) {
+    function turnU(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnUCallback(n);
+        turnUCallback(qts);
 
         turning = false;
         handleQueue();
@@ -638,21 +662,21 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, -n, cb);
+          rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnUw(n) {
+    function turnUw(qts) {
       var remaining = 18;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnUCallback(n);
-        turnECallback(n === 2 ? n : -n);
+        turnUCallback( qts);
+        turnECallback(-qts);
 
         turning = false;
         handleQueue();
@@ -660,20 +684,21 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, -n, cb);
+          rotateElY(cubieContainer.el, -qts, cb);
         });
         ESLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, -n, cb);
+          rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnDCallback(n) {
+    function turnDCallback(qts) {
+      var cycles = turnsToCycles(-qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = DLB.stickers.down.style.backgroundColor;
         DLB.stickers.down.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
         DLF.stickers.down.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
@@ -706,13 +731,13 @@
       }
     }
 
-    function turnD(n) {
+    function turnD(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnDCallback(n);
+        turnDCallback(qts);
 
         turning = false;
         handleQueue();
@@ -720,21 +745,21 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnDw(n) {
+    function turnDw(qts) {
       var remaining = 18;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnDCallback(n);
-        turnECallback(n);
+        turnDCallback(qts);
+        turnECallback(qts);
 
         turning = false;
         handleQueue();
@@ -742,20 +767,21 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, qts, cb);
         });
         ESLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnLCallback(n) {
+    function turnLCallback(qts) {
+      var cycles = turnsToCycles(-qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = ULF.stickers.left.style.backgroundColor;
         ULF.stickers.left.style.backgroundColor = DLF.stickers.left.style.backgroundColor;
         DLF.stickers.left.style.backgroundColor = DLB.stickers.left.style.backgroundColor;
@@ -788,13 +814,13 @@
       }
     }
 
-    function turnL(n) {
+    function turnL(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnLCallback(n);
+        turnLCallback(qts);
 
         turning = false;
         handleQueue();
@@ -802,21 +828,21 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnLw(n) {
+    function turnLw(qts) {
       var remaining = 18;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnLCallback(n);
-        turnMCallback(n);
+        turnLCallback(qts);
+        turnMCallback(qts);
 
         turning = false;
         handleQueue();
@@ -824,20 +850,21 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -qts, cb);
         });
         MSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnRCallback(n) {
+    function turnRCallback(qts) {
+      var cycles = turnsToCycles(qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = URF.stickers.right.style.backgroundColor;
         URF.stickers.right.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
         DRF.stickers.right.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
@@ -870,13 +897,13 @@
       }
     }
 
-    function turnM(n) {
+    function turnM(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnMCallback(n);
+        turnMCallback(qts);
 
         turning = false;
         handleQueue();
@@ -884,20 +911,20 @@
 
       if(animating) {
         MSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, -n, cb);
+          rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnE(n) {
+    function turnE(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnECallback(n);
+        turnECallback(qts);
 
         turning = false;
         handleQueue();
@@ -905,20 +932,20 @@
 
       if(animating) {
         ESLICE.forEach(function(cubieContainer) {
-          rotateElY(cubieContainer.el, n, cb);
+          rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnS(n) {
+    function turnS(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnSCallback(n);
+        turnSCallback(qts);
 
         turning = false;
         handleQueue();
@@ -926,20 +953,20 @@
 
       if(animating) {
         SSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnR(n) {
+    function turnR(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnRCallback(n);
+        turnRCallback(qts);
 
         turning = false;
         handleQueue();
@@ -947,21 +974,21 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, n, cb);
+          rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnRw(n) {
+    function turnRw(qts) {
       var remaining = 18;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnRCallback(n);
-        turnMCallback(n === 2 ? n : -n);
+        turnRCallback( qts);
+        turnMCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -969,20 +996,21 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, n, cb);
+          rotateElX(cubieContainer.el, qts, cb);
         });
         MSLICE.forEach(function(cubieContainer) {
-          rotateElX(cubieContainer.el, n, cb);
+          rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnFCallback(n) {
+    function turnFCallback(qts) {
+      var cycles = turnsToCycles(qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 3 : n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = ULF.stickers.front.style.backgroundColor;
         ULF.stickers.front.style.backgroundColor = DLF.stickers.front.style.backgroundColor;
         DLF.stickers.front.style.backgroundColor = DRF.stickers.front.style.backgroundColor;
@@ -1015,13 +1043,13 @@
       }
     }
 
-    function turnF(n) {
+    function turnF(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnFCallback(n);
+        turnFCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1029,21 +1057,21 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnFw(n) {
+    function turnFw(qts) {
       var remaining = 18;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnFCallback(n);
-        turnSCallback(n);
+        turnFCallback(qts);
+        turnSCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1051,20 +1079,21 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, qts, cb);
         });
         SSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, n, cb);
+          rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnBCallback(n) {
+    function turnBCallback(qts) {
+      var cycles = turnsToCycles(-qts);
       var tmp;
 
-      for(var i=0; i<(n < 0 ? 1 : 4 - n); i++) {
+      for(var i=0; i<cycles; i++) {
         tmp = ULB.stickers.back.style.backgroundColor;
         ULB.stickers.back.style.backgroundColor = DLB.stickers.back.style.backgroundColor;
         DLB.stickers.back.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
@@ -1097,13 +1126,13 @@
       }
     }
 
-    function turnB(n) {
+    function turnB(qts) {
       var remaining = 9;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnBCallback(n);
+        turnBCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1111,21 +1140,21 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, -n, cb);
+          rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
       }
     }
 
-    function turnBw(n) {
+    function turnBw(qts) {
       var remaining = 18;
       var cb = function() {
         remaining--;
         if((remaining > 0) && animating) return;
 
-        turnBCallback(n);
-        turnSCallback(n === 2 ? n : -n);
+        turnBCallback( qts);
+        turnSCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1133,10 +1162,10 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, -n, cb);
+          rotateElZ(cubieContainer.el, -qts, cb);
         });
         SSLICE.forEach(function(cubieContainer) {
-          rotateElZ(cubieContainer.el, -n, cb);
+          rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
         cb();
@@ -1182,9 +1211,9 @@
         queueIdx--;
         var fq = queue[queueIdx];
         if(animating) {
-          setTimeout(function() { fq[0](fq[1] === 2 ? 2 : -fq[1]) });
+          setTimeout(function() { fq[0](-fq[1]) });
         } else {
-          fq[0](fq[1] === 2 ? 2 : -fq[1]);
+          fq[0](-fq[1]);
         }
       }
     }
