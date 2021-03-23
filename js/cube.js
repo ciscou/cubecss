@@ -53,6 +53,9 @@
 
     var CUBIE_SIZE = options.cubieSize;
 
+    options.transition ||= "transform 350ms ease-out 150ms";
+    options.perspective ||= CUBIE_SIZE * 12;
+
     function buildSticker(position) {
       var sticker = document.createElement("div");
 
@@ -144,7 +147,7 @@
 
       cubieContainer.classList.add("cubie-container");
 
-      cubieContainer.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
+      cubieContainer.style.transition = options.transition;
       cubieContainer.style.transformStyle = "preserve-3d";
       cubieContainer.style.position = "absolute";
       cubieContainer.style.top = "0";
@@ -166,7 +169,7 @@
       cube.style.width = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.height = "" + (CUBIE_SIZE * 3) + "px";
       cube.style.transformStyle = "preserve-3d";
-      cube.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
+      cube.style.transition = options.transition;
 
       for(var x=0; x<3; x++) {
         for(var y=0; y<3; y++) {
@@ -184,7 +187,7 @@
       var ry = RY;
       var rz = RZ;
 
-      var perspective = CUBIE_SIZE * 12; // TODO configurable
+      var perspective = options.perspective;
 
       cubeWrapper = document.createElement("div");
 

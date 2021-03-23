@@ -41,6 +41,12 @@
     var ryParam = ry && `ry=${ry}`;
     var rzParam = rz && `rz=${rz}`;
 
+    var transition = form.querySelector("input[name=transition]").value;
+    var perspective = form.querySelector("input[name=perspective]").value;
+
+    var transitionParam = transition && `transition=${transition}`;
+    var perspectiveParam = perspective && `perspective=${perspective}`;
+
     var stickerless = [];
 
     if(form.querySelector("input[name=stickerless_ulbu]").checked) stickerless.push("ULBU");
@@ -120,6 +126,8 @@
     if(rxParam) params.push(rxParam);
     if(ryParam) params.push(ryParam);
     if(rzParam) params.push(rzParam);
+    if(transitionParam) params.push(transitionParam);
+    if(perspectiveParam) params.push(perspectiveParam);
     if(stickerlessParam) params.push(stickerlessParam);
 
     var iframeHTML = `<iframe src="${window.location.origin}/cubecss/iframe.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;

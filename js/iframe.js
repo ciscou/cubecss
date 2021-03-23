@@ -51,6 +51,9 @@
   if(urlParams.has("ry")) options.ry = urlParams.get("ry");
   if(urlParams.has("rz")) options.rz = urlParams.get("rz");
 
+  if(urlParams.has("transition")) options.transition = urlParams.get("transition");
+  if(urlParams.has("perspective")) options.perspective = urlParams.get("perspective");
+
   var cubeCSS = new CubeCSS(options);
   cubeCSS.on("turning", function() {
     document.querySelector("button.play").style.display = "none";
