@@ -1,14 +1,22 @@
 (function() {
   var urlParams = new URLSearchParams(window.location.search);
 
-  var preseq = [];
-  if(urlParams.has("preseq")) {
-    preseq = urlParams.get("preseq").split(",")
-  }
-
   var seq = [];
   if(urlParams.has("seq")) {
     seq = urlParams.get("seq").split(",")
+  }
+
+  var preseq = [];
+  if(urlParams.has("preseq")) {
+    preseq = urlParams.get("preseq")
+    if(preseq === "qes") {
+      preseq = [];
+      seq.forEach(function(m) {
+        preseq.unshift(m, m, m);
+      });
+    } else {
+      preseq = preseq.split(",");
+    }
   }
 
   var stickerless = [];
