@@ -143,12 +143,12 @@
       cubieContainer.classList.add("cubie-container");
 
       cubieContainer.style.transition = "transform 350ms ease-out 150ms"; // TODO configurable
+      cubieContainer.style.transformStyle = "preserve-3d";
       cubieContainer.style.position = "absolute";
       cubieContainer.style.top = "0";
       cubieContainer.style.left = "0";
       cubieContainer.style.bottom = "0";
       cubieContainer.style.right = "0";
-      cubieContainer.style.transformStyle = "preserve-3d";
 
       cubieContainer.appendChild(buildCubie(x, y, z));
 
@@ -182,6 +182,8 @@
       var ry = RY;
       var rz = RZ;
 
+      var perspective = CUBIE_SIZE * 20;
+
       cubeWrapper = document.createElement("div");
 
       cubeWrapper.style.display = "flex";
@@ -189,7 +191,7 @@
       cubeWrapper.style.alignItems = "center";
       cubeWrapper.style.height = (CUBIE_SIZE * 5.2) + "px"
       cubeWrapper.style.transformStyle = "preserve-3d";
-      cubeWrapper.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+      cubeWrapper.style.transform = "perspective(" + perspective + "px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       cubeWrapper.classList.add("cube-wrapper");
 
       var lastTouchX;
@@ -228,7 +230,7 @@
         lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
         lastTouchY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        cubeWrapper.style.transform = "rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+        cubeWrapper.style.transform = "perspective(" + perspective + "px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       }
 
       var handleTouchEnd = function(e) {
