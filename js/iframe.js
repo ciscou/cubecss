@@ -253,14 +253,42 @@
 
     stickerless.forEach(function(cubie) {
       var c = cubeCSS.cubies[cubie];
-      if(!c) {
-        console.log("Invalid cubie", cubie);
-        return;
-      }
 
-      Object.values(c.stickers).forEach(function(s) {
-        s.style.backgroundColor = "#777"; // TODO configurable
-      });
+      if(c) {
+        Object.values(c.stickers).forEach(function(s) {
+          s.style.backgroundColor = "#777"; // TODO configurable
+        });
+      } else {
+        c = cubeCSS.cubies[cubie.slice(0, -1)];
+
+        if(c) {
+          switch(cubie.slice(-1)) {
+            case "U":
+              c.stickers.up.style.backgroundColor = "#777"; // TODO configurable
+              break;
+            case "R":
+              c.stickers.right.style.backgroundColor = "#777"; // TODO configurable
+              break;
+            case "F":
+              c.stickers.front.style.backgroundColor = "#777"; // TODO configurable
+              break;
+            case "D":
+              c.stickers.down.style.backgroundColor = "#777"; // TODO configurable
+              break;
+            case "L":
+              c.stickers.left.style.backgroundColor = "#777"; // TODO configurable
+              break;
+            case "B":
+              c.stickers.back.style.backgroundColor = "#777"; // TODO configurable
+              break;
+            default:
+              console.log("Invalid stickerless cubie", cubie);
+              break;
+          }
+        } else {
+         console.log("Invalid stickerless cubie", cubie);
+        }
+      }
     });
 
     seq.forEach(function(move) {

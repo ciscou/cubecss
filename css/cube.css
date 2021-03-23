@@ -18,6 +18,14 @@ body {
   margin-top: .5em;
 }
 
+.checkboxes-wrapper .row {
+  display: flex;
+}
+
+.checkboxes-wrapper .row label {
+  flex-basis: 33%;
+}
+
 @media (min-width: 720px) {
   .container {
     max-width: 800px;
