@@ -22,6 +22,7 @@
     var clrf = form.querySelector("input[name=clrf]").value;
     var clrb = form.querySelector("input[name=clrb]").value;
     var clrx = form.querySelector("input[name=clrx]").value;
+    var clrp = form.querySelector("input[name=clrp]").value;
 
     var clruParam = clru && `clru=${clru}`;
     var clrdParam = clrd && `clrd=${clrd}`;
@@ -30,6 +31,7 @@
     var clrfParam = clrf && `clrf=${clrf}`;
     var clrbParam = clrb && `clrb=${clrb}`;
     var clrxParam = clrx && `clrx=${clrx}`;
+    var clrpParam = clrp && `clrp=${clrp}`;
 
     var rx = form.querySelector("input[name=rx]").value;
     var ry = form.querySelector("input[name=ry]").value;
@@ -114,6 +116,7 @@
     if(clrfParam) params.push(clrfParam);
     if(clrbParam) params.push(clrbParam);
     if(clrxParam) params.push(clrxParam);
+    if(clrpParam) params.push(clrpParam);
     if(rxParam) params.push(rxParam);
     if(ryParam) params.push(ryParam);
     if(rzParam) params.push(rzParam);

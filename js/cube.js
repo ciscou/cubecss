@@ -27,6 +27,8 @@
     options.colorFront ||= "#0046ad";
     options.colorBack  ||= "#009b48";
 
+    options.colorPlastic ||= "black";
+
     var CONTAINER = options.container;
 
     var RX = -20;
@@ -92,7 +94,7 @@
       face.style.position = "absolute";
       face.style.width = "" + CUBIE_SIZE + "px";
       face.style.height = "" + CUBIE_SIZE + "px";
-      face.style.backgroundColor = "black"; // TODO configurable???
+      face.style.backgroundColor = options.colorPlastic;
 
       switch(position) {
         case "up":

@@ -30,9 +30,10 @@
   var colorRight = urlParams.get("clrr");
   var colorFront = urlParams.get("clrf");
   var colorBack  = urlParams.get("clrb");
-  var colorX     = urlParams.get("clrx");
 
-  colorX ||= "#777";
+  var colorPlastic = urlParams.get("clrp");
+
+  var colorStickerless = urlParams.get("clrx") || "#777";
 
   var options = {
     container: document.querySelector(".cube-container"),
@@ -41,7 +42,8 @@
     colorRight: colorRight,
     colorLeft: colorLeft,
     colorFront: colorFront,
-    colorBack: colorBack
+    colorBack: colorBack,
+    colorPlastic: colorPlastic
   }
 
   if(urlParams.has("cs")) options.cubieSize = urlParams.get("cs");
@@ -259,7 +261,7 @@
 
       if(c) {
         Object.values(c.stickers).forEach(function(s) {
-          s.style.backgroundColor = colorX;
+          s.style.backgroundColor = colorStickerless;
         });
       } else {
         c = cubeCSS.cubies[cubie.slice(0, -1)];
@@ -267,22 +269,22 @@
         if(c) {
           switch(cubie.slice(-1)) {
             case "U":
-              c.stickers.up.style.backgroundColor = colorX;
+              c.stickers.up.style.backgroundColor = colorStickerless;
               break;
             case "R":
-              c.stickers.right.style.backgroundColor = colorX;
+              c.stickers.right.style.backgroundColor = colorStickerless;
               break;
             case "F":
-              c.stickers.front.style.backgroundColor = colorX;
+              c.stickers.front.style.backgroundColor = colorStickerless;
               break;
             case "D":
-              c.stickers.down.style.backgroundColor = colorX;
+              c.stickers.down.style.backgroundColor = colorStickerless;
               break;
             case "L":
-              c.stickers.left.style.backgroundColor = colorX;
+              c.stickers.left.style.backgroundColor = colorStickerless;
               break;
             case "B":
-              c.stickers.back.style.backgroundColor = colorX;
+              c.stickers.back.style.backgroundColor = colorStickerless;
               break;
             default:
               console.log("Invalid stickerless cubie", cubie);
