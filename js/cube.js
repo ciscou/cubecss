@@ -649,10 +649,9 @@
     }
 
     function turnU(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnUCallback(qts);
 
@@ -662,6 +661,7 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
@@ -670,10 +670,9 @@
     }
 
     function turnUw(qts) {
-      var remaining = 18;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnUCallback( qts);
         turnECallback(-qts);
@@ -684,9 +683,11 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, -qts, cb);
         });
         ESLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
@@ -732,10 +733,9 @@
     }
 
     function turnD(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnDCallback(qts);
 
@@ -745,6 +745,7 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
@@ -753,10 +754,9 @@
     }
 
     function turnDw(qts) {
-      var remaining = 18;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnDCallback(qts);
         turnECallback(qts);
@@ -767,9 +767,11 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, qts, cb);
         });
         ESLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
@@ -815,10 +817,9 @@
     }
 
     function turnL(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnLCallback(qts);
 
@@ -828,6 +829,7 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
@@ -836,10 +838,9 @@
     }
 
     function turnLw(qts) {
-      var remaining = 18;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnLCallback(qts);
         turnMCallback(qts);
@@ -850,9 +851,11 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, -qts, cb);
         });
         MSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
@@ -898,10 +901,9 @@
     }
 
     function turnM(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnMCallback(qts);
 
@@ -911,6 +913,7 @@
 
       if(animating) {
         MSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
@@ -919,10 +922,9 @@
     }
 
     function turnE(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnECallback(qts);
 
@@ -932,6 +934,7 @@
 
       if(animating) {
         ESLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
@@ -940,10 +943,9 @@
     }
 
     function turnS(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnSCallback(qts);
 
@@ -953,6 +955,7 @@
 
       if(animating) {
         SSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
@@ -961,10 +964,9 @@
     }
 
     function turnR(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnRCallback(qts);
 
@@ -974,6 +976,7 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
@@ -982,10 +985,9 @@
     }
 
     function turnRw(qts) {
-      var remaining = 18;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnRCallback( qts);
         turnMCallback(-qts);
@@ -996,9 +998,11 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, qts, cb);
         });
         MSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
@@ -1044,10 +1048,9 @@
     }
 
     function turnF(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnFCallback(qts);
 
@@ -1057,6 +1060,7 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
@@ -1065,10 +1069,9 @@
     }
 
     function turnFw(qts) {
-      var remaining = 18;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnFCallback(qts);
         turnSCallback(qts);
@@ -1079,9 +1082,11 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, qts, cb);
         });
         SSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
@@ -1127,10 +1132,9 @@
     }
 
     function turnB(qts) {
-      var remaining = 9;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnBCallback(qts);
 
@@ -1140,6 +1144,7 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
@@ -1148,10 +1153,9 @@
     }
 
     function turnBw(qts) {
-      var remaining = 18;
+      var remaining = 0;
       var cb = function() {
-        remaining--;
-        if((remaining > 0) && animating) return;
+        if(--remaining > 0) return;
 
         turnBCallback( qts);
         turnSCallback(-qts);
@@ -1162,9 +1166,11 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, -qts, cb);
         });
         SSLICE.forEach(function(cubieContainer) {
+          remaining++;
           rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
