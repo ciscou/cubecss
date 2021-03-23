@@ -61,11 +61,8 @@
 
       sticker.classList.add("sticker");
       sticker.style.backgroundColor = COLOR_BY_FACE[position];
-      sticker.style.position = "absolute";
-      sticker.style.top = "8%";
-      sticker.style.left = "8%";
-      sticker.style.right = "8%";
-      sticker.style.bottom = "8%";
+      sticker.style.width = "100%";
+      sticker.style.height = "100%";
       sticker.style.borderRadius = "8%";
 
       return sticker;
@@ -95,6 +92,7 @@
       face.classList.add(position);
 
       face.style.position = "absolute";
+      face.style.padding = "2%";
       face.style.width = "" + CUBIE_SIZE + "px";
       face.style.height = "" + CUBIE_SIZE + "px";
       face.style.backgroundColor = options.colorPlastic;
