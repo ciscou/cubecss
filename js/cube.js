@@ -182,7 +182,7 @@
       var ry = RY;
       var rz = RZ;
 
-      var perspective = CUBIE_SIZE * 20;
+      var perspective = CUBIE_SIZE * 12;
 
       cubeWrapper = document.createElement("div");
 
