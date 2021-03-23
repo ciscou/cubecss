@@ -41,6 +41,7 @@
     colorBack: colorBack
   }
 
+  if(urlParams.has("cs")) options.cubieSize = urlParams.get("cs");
   if(urlParams.has("rx")) options.rx = urlParams.get("rx");
   if(urlParams.has("ry")) options.ry = urlParams.get("ry");
   if(urlParams.has("rz")) options.rz = urlParams.get("rz");

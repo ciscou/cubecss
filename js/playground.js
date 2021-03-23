@@ -7,6 +7,9 @@
     var width = form.querySelector("input[name=width]").value;
     var height = form.querySelector("input[name=height]").value;
 
+    var cubieSize = form.querySelector("input[name=cs]").value;
+    var cubieSizeParam = cubieSize && `cs=${cubieSize}`
+
     var preseq = form.querySelector("input[name=preseq]").value.replaceAll(/\s+/g, ",").replaceAll("'", "i");
     var seq = form.querySelector("input[name=seq]").value.replaceAll(/\s+/g, ",").replaceAll("'", "i");
     var preseqParam = preseq && `preseq=${preseq}`;
@@ -62,6 +65,7 @@
     }
 
     var params = [];
+    if(cubieSizeParam) params.push(cubieSizeParam);
     if(preseqParam) params.push(preseqParam);
     if(seqParam) params.push(seqParam);
     if(clruParam) params.push(clruParam);
@@ -75,7 +79,7 @@
     if(rzParam) params.push(rzParam);
     if(stickerlessParam) params.push(stickerlessParam);
 
-    var iframeHTML = `<iframe src="https://s3-eu-west-3.amazonaws.com/cubecss/iframe.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;
+    var iframeHTML = `<iframe src="${window.location.origin}/cubecss/iframe.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;
 
     iframeHTMLContainer.innerText = iframeHTML;
     iframeContainer.innerHTML = iframeHTML;
