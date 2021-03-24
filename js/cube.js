@@ -207,7 +207,7 @@
         if(!e.cancelable) return;
 
         e.preventDefault();
-        e.stopPropagation();
+        // e.stopPropagation();
 
         dragging = true;
         lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -216,7 +216,7 @@
 
       var handleTouchMove = function(e) {
         e.preventDefault();
-        e.stopPropagation();
+        // e.stopPropagation();
 
         if(!dragging) return;
 
@@ -240,7 +240,7 @@
 
       var handleTouchEnd = function(e) {
         e.preventDefault();
-        e.stopPropagation();
+        // e.stopPropagation();
 
         dragging = false;
       }

@@ -71,11 +71,25 @@
   if(urlParams.has("perspective")) options.perspective = urlParams.get("perspective");
 
   var cubeCSS = new CubeCSS(options);
+  var hideActionsTimeout;
+
+  function hideActionsIn2s() {
+    if(hideActionsTimeout) clearTimeout(hideActionsTimeout);
+
+    document.querySelector(".controls").style.display = "flex";
+
+    hideActionsTimeout = setTimeout(function() {
+      document.querySelector(".controls").style.display = "none";
+    }, 2000);
+  }
+
   cubeCSS.on("turning", function() {
+    document.querySelector(".controls").style.display = "none";
     document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "inline";
   });
   cubeCSS.on("finish", function() {
+    hideActionsIn2s();
     document.querySelector("button.play").style.display = "inline";
     document.querySelector("button.pause").style.display = "none";
   });
@@ -152,6 +166,26 @@
       performMove(move);
     });
   });
+
+  options.container.addEventListener("mousemove", function() {
+    hideActionsIn2s();
+  });
+
+  options.container.addEventListener("touchstart", function() {
+    hideActionsIn2s();
+  });
+
+  options.container.addEventListener("click", function() {
+    hideActionsIn2s();
+  });
+
+  document.querySelector("button.play").addEventListener("touchstart", function() {
+    cubeCSS.play();
+  }, false);
+
+  document.querySelector("button.pause").addEventListener("touchstart", function() {
+    cubeCSS.pause();
+  }, false);
 
   document.querySelector("button.play").addEventListener("click", function() {
     cubeCSS.play();

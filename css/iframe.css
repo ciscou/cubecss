@@ -17,13 +17,20 @@ body {
 }
 
 .controls {
+  display: none;
   position: absolute;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+}
+
+.cube-container:hover .controls {
+  /* TODO move to js... */
+  display: flex;
 }
 
 .controls button + button {
@@ -31,8 +38,13 @@ body {
 }
 
 .controls button {
-  font-size: 0.5rem;
-  padding: .125em .5em;
+  font-size: 0.65rem;
+  padding: .125em .25em;
+  border: 0;
+  background: none;
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 0, 0, .75);
+  opacity: .85;
 }
 
 .controls button.reset,
@@ -49,24 +61,24 @@ body {
 
 @media (min-width: 200px) {
   .controls button {
-    font-size: 0.65rem;
+    font-size: 0.85rem;
   }
 }
 
 @media (min-width: 240px) {
   .controls button {
-    font-size: 0.85rem;
+    font-size: 1.2rem;
   }
 }
 
 @media (min-width: 360px) {
   .controls button {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 }
 
 @media (min-width: 600px) {
   .controls button {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 }
