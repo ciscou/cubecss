@@ -28,10 +28,12 @@ body {
   align-items: center;
   justify-content: center;
   height: calc(var(--cubie-size) * 5.2);
-  animation: showCube 10s linear infinite;
+  /* animation: showCube 10s linear infinite; */
+  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-25deg) rotateY(-35deg);
   transform-style: preserve-3d;
 }
 
+/*
 @keyframes showCube {
   from {
     transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-25deg) rotateY( -35deg);
@@ -43,6 +45,7 @@ body {
     transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-25deg) rotateY(-395deg);
   }
 }
+*/
 
 .cube-container .cube {
   position: relative;
@@ -56,8 +59,11 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  transition: transform 350ms ease-out 150ms;
   transform-style: preserve-3d;
+}
+
+.cube-container .cube.animate .cubie-container {
+  transition: transform 350ms ease-out 150ms;
 }
 
 .cube-container .cubie {
