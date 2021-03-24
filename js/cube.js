@@ -92,7 +92,7 @@
       face.classList.add(position);
 
       face.style.position = "absolute";
-      face.style.padding = "2%"; // TODO configurable???
+      face.style.padding = "5%"; // TODO configurable???
       face.style.width = "" + CUBIE_SIZE + "px";
       face.style.height = "" + CUBIE_SIZE + "px";
       face.style.backgroundColor = options.colorPlastic;
@@ -132,6 +132,8 @@
 
       cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE) + "px)";
       cubie.style.transformStyle = "preserve-3d";
+      cubie.style.width = "" + CUBIE_SIZE + "px";
+      cubie.style.height = "" + CUBIE_SIZE + "px";
 
       ["up", "down", "right", "left", "front", "back"].forEach(function(face) {
         cubie.appendChild(buildFace(x, y, z, face));
