@@ -28,11 +28,11 @@ body {
   align-items: center;
   justify-content: center;
   height: calc(var(--cubie-size) * 5.2);
-  animation: rotateY 10s linear infinite;
+  animation: showCube 10s linear infinite;
   transform-style: preserve-3d;
 }
 
-@keyframes rotateY {
+@keyframes showCube {
   from {
     transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-25deg) rotateY( -35deg);
   }
