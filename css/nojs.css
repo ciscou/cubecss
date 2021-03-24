@@ -234,6 +234,6 @@ body {
   background-color: #009b48;
 }
 
-.cube-container .cube-wrapper:hover .cubie-container.fslice {
+.cube-container .cube-wrapper:hover .cubie-container.sslice {
   transform: rotateZ(90deg);
 }
