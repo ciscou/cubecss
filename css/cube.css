@@ -101,5 +101,6 @@ form.playground .label > * + * {
 }
 
 .iframe-container iframe {
+  display: block;
   margin: 0 auto;
 }
