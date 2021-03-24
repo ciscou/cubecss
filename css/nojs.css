@@ -234,6 +234,67 @@ body {
   background-color: #009b48;
 }
 
-.cube-container .cube-wrapper:hover .cubie-container.sslice {
+.cube-container .cube.turn-u .cubie-container.uslice {
+  transform: rotateY(-90deg);
+}
+.cube-container .cube.turn-ui .cubie-container.uslice {
+  transform: rotateY(90deg);
+}
+.cube-container .cube.turn-u2 .cubie-container.uslice {
+  transform: rotateY(-180deg);
+}
+.cube-container .cube.turn-u2i .cubie-container.uslice {
+  transform: rotateY(180deg);
+}
+
+.cube-container .cube.turn-d .cubie-container.dslice {
+  transform: rotateY(90deg);
+}
+.cube-container .cube.turn-di .cubie-container.dslice {
+  transform: rotateY(-90deg);
+}
+.cube-container .cube.turn-d2 .cubie-container.dslice {
+  transform: rotateY(180deg);
+}
+.cube-container .cube.turn-d2i .cubie-container.dslice {
+  transform: rotateY(-180deg);
+}
+
+.cube-container .cube.turn-e .cubie-container.eslice {
+  transform: rotateY(90deg);
+}
+.cube-container .cube.turn-ei .cubie-container.eslice {
+  transform: rotateY(-90deg);
+}
+.cube-container .cube.turn-e2 .cubie-container.eslice {
+  transform: rotateY(180deg);
+}
+.cube-container .cube.turn-e2i .cubie-container.eslice {
+  transform: rotateY(-180deg);
+}
+
+.cube-container .cube.turn-m .cubie-container.mslice {
+  transform: rotateX(-90deg);
+}
+.cube-container .cube.turn-mi .cubie-container.mslice {
+  transform: rotateX(90deg);
+}
+.cube-container .cube.turn-m2 .cubie-container.mslice {
+  transform: rotateX(-180deg);
+}
+.cube-container .cube.turn-m2i .cubie-container.mslice {
+  transform: rotateX(180deg);
+}
+
+.cube-container .cube.turn-s .cubie-container.sslice {
   transform: rotateZ(90deg);
+}
+.cube-container .cube.turn-si .cubie-container.sslice {
+  transform: rotateZ(180deg);
+}
+.cube-container .cube.turn-s2 .cubie-container.sslice {
+  transform: rotateZ(-90deg);
+}
+.cube-container .cube.turn-s2i .cubie-container.sslice {
+  transform: rotateZ(-180deg);
 }
