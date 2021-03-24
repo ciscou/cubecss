@@ -33,22 +33,6 @@ body {
   transform-style: preserve-3d;
 }
 
-.cube-container .cube-wrapper:hover {
-  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-380deg);
-}
-
-.cube-container .cube-wrapper:hover .cubie-container.ufr,
-.cube-container .cube-wrapper:hover .cubie-container.ur,
-.cube-container .cube-wrapper:hover .cubie-container.ubr,
-.cube-container .cube-wrapper:hover .cubie-container.fr,
-.cube-container .cube-wrapper:hover .cubie-container.r,
-.cube-container .cube-wrapper:hover .cubie-container.br,
-.cube-container .cube-wrapper:hover .cubie-container.dfr,
-.cube-container .cube-wrapper:hover .cubie-container.dr,
-.cube-container .cube-wrapper:hover .cubie-container.dbr {
-  transform: rotateX(90deg);
-}
-
 .cube-container .cube {
   position: relative;
   width: calc(var(--cubie-size) * 3);
@@ -237,4 +221,12 @@ body {
 
 .cube-container .face.back .sticker {
   background-color: #009b48;
+}
+
+.cube-container .cube-wrapper:hover {
+  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-380deg);
+}
+
+.cube-container .cube-wrapper:hover .cubie-container.bslice {
+  transform: rotateZ(90deg);
 }
