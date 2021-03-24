@@ -39,7 +39,7 @@
     if(options.hasOwnProperty("ry")) RY = parseInt(options.ry);
     if(options.hasOwnProperty("rz")) RZ = parseInt(options.rz);
 
-    options.cubieSize ||= CONTAINER.offsetWidth / 6;
+    options.cubieSize ||= Math.floor(CONTAINER.offsetWidth / 6);
     options.cubieSize ||= 40;
 
     var COLOR_BY_FACE = {
