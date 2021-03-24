@@ -1,6 +1,7 @@
 var cube = document.querySelector(".cube");
 
 function turnSlices(...slices) {
+  var done = false;
   var transitionEnd = function() {
     cube.removeEventListener("transitionend", transitionEnd);
 
@@ -8,6 +9,8 @@ function turnSlices(...slices) {
       cube.classList.remove("turn-" + s);
     });
     cube.classList.remove("animate");
+
+    requestAnimationFrame(nextTurn);
   }
 
   cube.addEventListener("transitionend", transitionEnd);
@@ -22,14 +25,33 @@ function turnU() {
   turnSlices("u");
 }
 
+function turnUi() {
+  turnSlices("ui");
+}
+
+function turnR() {
+  turnSlices("r");
+}
+
+function turnRi() {
+  turnSlices("ri");
+}
+
 function turnY() {
   turnSlices("u", "ei", "di");
 }
 
-setTimeout(function() {
-  turnY();
-}, 500);
+function nextTurn() {
+  console.log("nextTurn", turnIdx);
+  if(turnIdx < turnsQueue.length) {
+    var turn = turnsQueue[turnIdx];
+    requestAnimationFrame(turn);
 
-setTimeout(function() {
-  turnU();
-}, 1500);
+    turnIdx++;
+  }
+}
+
+var turnsQueue = [turnY, turnR, turnU, turnRi, turnUi];
+var turnIdx = 0;
+
+requestAnimationFrame(nextTurn);

@@ -254,6 +254,19 @@ body {
   transform: rotateY(180deg);
 }
 
+.cube-container .cube.turn-r .cubie-container.rslice {
+  transform: rotateX(90deg);
+}
+.cube-container .cube.turn-ri .cubie-container.rslice {
+  transform: rotateX(-90deg);
+}
+.cube-container .cube.turn-r2 .cubie-container.rslice {
+  transform: rotateX(180deg);
+}
+.cube-container .cube.turn-r2i .cubie-container.rslice {
+  transform: rotateX(-180deg);
+}
+
 .cube-container .cube.turn-d .cubie-container.dslice {
   transform: rotateY(90deg);
 }
