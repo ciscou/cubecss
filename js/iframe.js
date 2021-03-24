@@ -3,7 +3,17 @@
 
   var seq = [];
   if(urlParams.has("seq")) {
-    seq = urlParams.get("seq").split(",")
+    seq = urlParams.get("seq");
+    if(seq === "scramble") {
+      seq = [];
+      for(var i=0; i<50; i++) {
+        var randomMove = ["U", "R", "F", "B", "L", "D"][Math.floor(Math.random() * 6)];
+        randomMove += ["2", "i", ""][Math.floor(Math.random() * 3)];
+        seq.push(randomMove);
+      }
+    } else {
+      seq = seq.split(",");
+    }
   }
 
   var preseq = [];
@@ -14,6 +24,13 @@
       seq.forEach(function(m) {
         preseq.unshift(m, m, m);
       });
+    } else if(preseq === "scramble") {
+      preseq = [];
+      for(var i=0; i<50; i++) {
+        var randomMove = ["U", "R", "F", "B", "L", "D"][Math.floor(Math.random() * 6)];
+        randomMove += ["2", "i", ""][Math.floor(Math.random() * 3)];
+        preseq.push(randomMove);
+      }
     } else {
       preseq = preseq.split(",");
     }
