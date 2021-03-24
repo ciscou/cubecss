@@ -28,13 +28,25 @@ body {
   align-items: center;
   justify-content: center;
   height: calc(var(--cubie-size) * 5.2);
-  transition: transform 1s ease;
+  transition: transform 5s ease;
   transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-20deg);
   transform-style: preserve-3d;
 }
 
 .cube-container .cube-wrapper:hover {
   transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-380deg);
+}
+
+.cube-container .cube-wrapper:hover .cubie-container.ufr,
+.cube-container .cube-wrapper:hover .cubie-container.ur,
+.cube-container .cube-wrapper:hover .cubie-container.ubr,
+.cube-container .cube-wrapper:hover .cubie-container.fr,
+.cube-container .cube-wrapper:hover .cubie-container.r,
+.cube-container .cube-wrapper:hover .cubie-container.br,
+.cube-container .cube-wrapper:hover .cubie-container.dfr,
+.cube-container .cube-wrapper:hover .cubie-container.dr,
+.cube-container .cube-wrapper:hover .cubie-container.dbr {
+  transform: rotateX(90deg);
 }
 
 .cube-container .cube {
@@ -49,117 +61,119 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  transition: transform 350ms ease-out 150ms;
+  transform-style: preserve-3d;
 }
 
 .cube-container .cubie {
   transform-style: preserve-3d;
 }
 
-.cube-container .cubie.ubl {
+.cube-container .cubie-container.ubl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.ub {
+.cube-container .cubie-container.ub .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.ubr {
+.cube-container .cubie-container.ubr .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.ul {
+.cube-container .cubie-container.ul .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.u {
+.cube-container .cubie-container.u .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.ur {
+.cube-container .cubie-container.ur .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.ufl {
+.cube-container .cubie-container.ufl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.uf {
+.cube-container .cubie-container.uf .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.ufr {
+.cube-container .cubie-container.ufr .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.bl {
+.cube-container .cubie-container.bl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.b {
+.cube-container .cubie-container.b .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.br {
+.cube-container .cubie-container.br .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.l {
+.cube-container .cubie-container.l .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.core {
+.cube-container .cubie-container.core .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.r {
+.cube-container .cubie-container.r .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.fl {
+.cube-container .cubie-container.fl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.f {
+.cube-container .cubie-container.f .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.fr {
+.cube-container .cubie-container.fr .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.dbl {
+.cube-container .cubie-container.dbl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.db {
+.cube-container .cubie-container.db .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.dbr {
+.cube-container .cubie-container.dbr .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) * -1));
 }
 
-.cube-container .cubie.dl {
+.cube-container .cubie-container.dl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.d {
+.cube-container .cubie-container.d .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.dr {
+.cube-container .cubie-container.dr .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  0));
 }
 
-.cube-container .cubie.dfl {
+.cube-container .cubie-container.dfl .cubie {
   transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.df {
+.cube-container .cubie-container.df .cubie {
   transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  1));
 }
 
-.cube-container .cubie.dfr {
+.cube-container .cubie-container.dfr .cubie {
   transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  1));
 }
 
