@@ -100,3 +100,7 @@ form.playground .label > * + * {
   overflow-x: scroll;
   margin: 0 auto;
 }
+
+.iframe-container iframe {
+  margin: 0 auto;
+}
