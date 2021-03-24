@@ -3,37 +3,36 @@
 
   var seq = [];
   if(urlParams.has("seq")) {
-    seq = urlParams.get("seq");
-    if(seq === "scramble") {
-      seq = [];
-      for(var i=0; i<50; i++) {
-        var randomMove = ["U", "R", "F", "B", "L", "D"][Math.floor(Math.random() * 6)];
-        randomMove += ["2", "i", ""][Math.floor(Math.random() * 3)];
-        seq.push(randomMove);
+    urlParams.get("seq").split(",").forEach(function(m) {
+      if(m === "scramble") {
+        for(var i=0; i<50; i++) {
+          var randomMove = ["U", "R", "F", "B", "L", "D"][Math.floor(Math.random() * 6)];
+          randomMove += ["2", "i", ""][Math.floor(Math.random() * 3)];
+          seq.push(randomMove);
+        }
+      } else {
+        seq.push(m);
       }
-    } else {
-      seq = seq.split(",");
-    }
+    });
   }
 
   var preseq = [];
   if(urlParams.has("preseq")) {
-    preseq = urlParams.get("preseq")
-    if(preseq === "qes") {
-      preseq = [];
-      seq.forEach(function(m) {
-        preseq.unshift(m, m, m);
-      });
-    } else if(preseq === "scramble") {
-      preseq = [];
-      for(var i=0; i<50; i++) {
-        var randomMove = ["U", "R", "F", "B", "L", "D"][Math.floor(Math.random() * 6)];
-        randomMove += ["2", "i", ""][Math.floor(Math.random() * 3)];
-        preseq.push(randomMove);
+    urlParams.get("preseq").split(",").forEach(function(m) {
+      if(m === "qes") {
+        for(var i=seq.length-1; i>=0; i--) {
+          preseq.push(seq[i], seq[i], seq[i]);
+        }
+      } else if(m === "scramble") {
+        for(var i=0; i<50; i++) {
+          var randomMove = ["U", "R", "F", "B", "L", "D"][Math.floor(Math.random() * 6)];
+          randomMove += ["2", "i", ""][Math.floor(Math.random() * 3)];
+          preseq.push(randomMove);
+        }
+      } else {
+        preseq.push(m);
       }
-    } else {
-      preseq = preseq.split(",");
-    }
+    });
   }
 
   var stickerless = [];
