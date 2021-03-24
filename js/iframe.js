@@ -104,6 +104,30 @@
       case "B2":
         cubeCSS.b2();
         break;
+      case "U2'":
+      case "U2i":
+        cubeCSS.u2i();
+        break;
+      case "D2'":
+      case "D2i":
+        cubeCSS.d2i();
+        break;
+      case "R2'":
+      case "R2i":
+        cubeCSS.r2i();
+        break;
+      case "L2'":
+      case "L2i":
+        cubeCSS.l2i();
+        break;
+      case "F2'":
+      case "F2i":
+        cubeCSS.f2i();
+        break;
+      case "B2'":
+      case "B2i":
+        cubeCSS.b2i();
+        break;
       case "U'":
       case "Ui":
         cubeCSS.ui();
@@ -164,6 +188,30 @@
       case "b2":
         cubeCSS.bw2();
         break;
+      case "u2'":
+      case "u2i":
+        cubeCSS.uw2i();
+        break;
+      case "d2'":
+      case "d2i":
+        cubeCSS.dw2i();
+        break;
+      case "r2'":
+      case "r2i":
+        cubeCSS.rw2i();
+        break;
+      case "l2'":
+      case "l2i":
+        cubeCSS.lw2i();
+        break;
+      case "f2'":
+      case "f2i":
+        cubeCSS.fw2i();
+        break;
+      case "b2'":
+      case "b2i":
+        cubeCSS.bw2i();
+        break;
       case "u'":
       case "ui":
         cubeCSS.uwi();
@@ -206,6 +254,18 @@
       case "z2":
         cubeCSS.z2();
         break;
+      case "x2i":
+      case "x2'":
+        cubeCSS.x2i();
+        break;
+      case "y2'":
+      case "y2i":
+        cubeCSS.y2i();
+        break;
+      case "z2'":
+      case "z2i":
+        cubeCSS.z2i();
+        break;
       case "xi":
       case "x'":
         cubeCSS.xi();
@@ -235,6 +295,18 @@
         break;
       case "E2":
         cubeCSS.e2();
+        break;
+      case "M2'":
+      case "M2i":
+        cubeCSS.m2i();
+        break;
+      case "S2'":
+      case "S2i":
+        cubeCSS.s2i();
+        break;
+      case "E2'":
+      case "E2i":
+        cubeCSS.e2i();
         break;
       case "Mi":
       case "M'":
