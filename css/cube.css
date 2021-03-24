@@ -50,10 +50,6 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-form.playground {
-  margin-bottom: 2em;
-}
-
 form.playground input {
   margin: 0;
   font-size: inherit;
