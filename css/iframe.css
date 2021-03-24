@@ -14,9 +14,30 @@ body {
 
 .cube-container {
   width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
   overflow: hidden;
 }
 
 .controls button {
-  padding: .125rem .5rem;
+  font-size: 0.65rem;
+  padding: .125em .5em;
+}
+
+@media (min-width: 220px) {
+  .controls button {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 360px) {
+  .controls button {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 600px) {
+  .controls button {
+    font-size: 1.5rem;
+  }
 }
