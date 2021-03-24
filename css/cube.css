@@ -51,6 +51,10 @@ body {
 }
 
 form.playground input {
+  margin-bottom: 2em;
+}
+
+form.playground input {
   margin: 0;
   font-size: inherit;
 }
