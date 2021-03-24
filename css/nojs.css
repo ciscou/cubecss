@@ -1,0 +1,226 @@
+:root {
+  --cubie-size: 50px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.cube-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cube-container .cube-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--cubie-size) * 5.2);
+  transition: transform 1s ease;
+  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-20deg);
+  transform-style: preserve-3d;
+}
+
+.cube-container .cube-wrapper:hover {
+  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-380deg);
+}
+
+.cube-container .cube {
+  position: relative;
+  width: calc(var(--cubie-size) * 3);
+  height: calc(var(--cubie-size) * 3);
+}
+
+.cube-container .cubie-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.cube-container .cubie {
+  transform-style: preserve-3d;
+}
+
+.cube-container .cubie.ubl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.ub {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.ubr {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.ul {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.u {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.ur {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.ufl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.uf {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.ufr {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 0)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.bl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.b {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.br {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.l {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.core {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.r {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.fl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.f {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.fr {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 1)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.dbl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.db {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.dbr {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) * -1));
+}
+
+.cube-container .cubie.dl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.d {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.dr {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  0));
+}
+
+.cube-container .cubie.dfl {
+  transform: translateX(calc(var(--cubie-size) * 0)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.df {
+  transform: translateX(calc(var(--cubie-size) * 1)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .cubie.dfr {
+  transform: translateX(calc(var(--cubie-size) * 2)) translateY(calc(var(--cubie-size) * 2)) translateZ(calc(var(--cubie-size) *  1));
+}
+
+.cube-container .face {
+  position: absolute;
+  width: var(--cubie-size);
+  height: var(--cubie-size);
+  padding: 1.2%;
+  background: black;
+}
+
+.cube-container .face.up {
+  transform: translateY(calc(var(--cubie-size) * -0.5)) rotateX(90deg);
+}
+
+.cube-container .face.right {
+  transform: translateX(calc(var(--cubie-size) * 0.5)) rotateY(90deg);
+}
+
+.cube-container .face.front {
+  transform: translateZ(calc(var(--cubie-size) * 0.5));
+}
+
+.cube-container .face.down {
+  transform: translateY(calc(var(--cubie-size) * 0.5)) rotateX(-90deg);
+}
+
+.cube-container .face.left {
+  transform: translateX(calc(var(--cubie-size) * -0.5)) rotateY(-90deg);
+}
+
+.cube-container .face.back {
+  transform: translateZ(calc(var(--cubie-size) * -0.5));
+}
+
+.cube-container .sticker {
+  width: 100%;
+  height: 100%;
+  border-radius: 10%;
+}
+
+.cube-container .face.up .sticker {
+  background-color: #ffd500;
+}
+
+.cube-container .face.right .sticker {
+  background-color: #b71234;
+}
+
+.cube-container .face.front .sticker {
+  background-color: #0046ad;
+}
+
+.cube-container .face.down .sticker {
+  background-color: #ffffff;
+}
+
+.cube-container .face.left .sticker {
+  background-color: #ff5800;
+}
+
+.cube-container .face.back .sticker {
+  background-color: #009b48;
+}
