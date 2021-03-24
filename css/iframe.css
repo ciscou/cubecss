@@ -24,6 +24,18 @@ body {
   padding: .125em .5em;
 }
 
+.controls button.reset,
+.controls button.finish {
+  display: none;
+}
+
+@media (min-width: 180px) {
+  .controls button.reset,
+  .controls button.finish {
+    display: inline;
+  }
+}
+
 @media (min-width: 200px) {
   .controls button {
     font-size: 0.65rem;
