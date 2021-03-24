@@ -28,9 +28,20 @@ body {
   align-items: center;
   justify-content: center;
   height: calc(var(--cubie-size) * 5.2);
-  transition: transform 5s ease;
-  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-20deg);
+  animation: rotateY 10s linear infinite;
   transform-style: preserve-3d;
+}
+
+@keyframes rotateY {
+  from {
+    transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-25deg) rotateY( -35deg);
+  }
+  50% {
+    transform: perspective(calc(var(--cubie-size) * 12)) rotateX( 25deg) rotateY(-215deg);
+  }
+  to {
+    transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-25deg) rotateY(-395deg);
+  }
 }
 
 .cube-container .cube {
@@ -223,10 +234,6 @@ body {
   background-color: #009b48;
 }
 
-.cube-container .cube-wrapper:hover {
-  transform: perspective(calc(var(--cubie-size) * 12)) rotateX(-20deg) rotateY(-380deg);
-}
-
-.cube-container .cube-wrapper:hover .cubie-container.bslice {
+.cube-container .cube-wrapper:hover .cubie-container.fslice {
   transform: rotateZ(90deg);
 }
