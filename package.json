@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "dev": "parcel serve --public-url /cubecss index.html playground.html",
     "build": "parcel build --public-url /cubecss index.html playground.html"
   },
   "dependencies": {
