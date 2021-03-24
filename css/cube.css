@@ -83,7 +83,7 @@ form.playground .label > * + * {
 
 .responsive-iframe-wrapper {
   position: relative;
-  padding-top: 120%;
+  padding-top: 100%;
 }
 
 .responsive-iframe {
