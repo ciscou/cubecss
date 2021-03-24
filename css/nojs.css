@@ -307,27 +307,48 @@ body {
 }
 
 .cube-container .cubie-container.ufr {
-  animation: TPermUFR 10s linear;
+  animation: TPermUFR 20s linear;
 }
 
 @keyframes TPermUFR {
   from {
-    transform: rotateX(0) rotateY(0) rotateZ(0);
+    transform: none;
   }
   5% {
-    transform: rotateX(90deg) rotateY(0) rotateZ(0);
+    transform: rotateX(90deg)
   }
   10% {
-    transform: rotateX(90deg) rotateY(0) rotateZ(90deg);
+    transform: rotateX(90deg) rotateZ(90deg);
   }
   15% {
-    transform: rotateX(0deg) rotateY(0) rotateZ(90deg);
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg);
   }
   20% {
-    transform: rotateX(0) rotateY(0) rotateZ(0);
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg);
+  }
+  25% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateY(90deg);
+  }
+  30% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateY(90deg);
+  }
+  35% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateY(90deg) rotateY(-180deg);
+  }
+  40% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateY(90deg) rotateY(-180deg) rotateZ(-90deg);
+  }
+  85% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateZ(-90deg);
+  }
+  90% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateZ(-90deg) rotateX(180deg);
+  }
+  95% {
+    transform: rotateX(90deg) rotateZ(90deg) rotateY(90deg) rotateZ(-90deg) rotateX(180deg);
   }
   to {
-    transform: rotateX(0) rotateY(0) rotateZ(0);
+    transform: none;
   }
 }
 
