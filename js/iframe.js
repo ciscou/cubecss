@@ -179,11 +179,38 @@
     });
   });
 
-  function handleShowControlsForAWhile(e) {
+  var dragging = false;
+
+  function handleMouseDown(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    showControlsForAWhile();
+    dragging = true;
+  }
+
+  function handleMouseMove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if(dragging) {
+      hideControls();
+    } else {
+      showControlsForAWhile();
+    }
+  }
+
+  function handleMouseUp(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragging = false;
+  }
+
+  function handleMouseLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragging = false;
   }
 
   var touchmoved = false;
@@ -214,11 +241,13 @@
 
   showControlsForAWhile();
 
-  // options.container.addEventListener("mousemove", handleShowControlsForAWhile);
   options.container.addEventListener("touchstart", handleTouchStart);
   options.container.addEventListener("touchmove", handleTouchMove);
   options.container.addEventListener("touchend", handleTouchEnd);
-  options.container.addEventListener("mousemove", handleShowControlsForAWhile);
+  options.container.addEventListener("mousedown", handleMouseDown);
+  options.container.addEventListener("mousemove", handleMouseMove);
+  options.container.addEventListener("mouseup", handleMouseUp);
+  options.container.addEventListener("mouseleave", handleMouseLeave);
 
   function handlePlayClick(e) {
     e.preventDefault();
