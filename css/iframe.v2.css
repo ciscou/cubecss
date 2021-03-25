@@ -26,7 +26,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1;
-  background: radial-gradient(rgba(0, 0, 0, .35) 20%, rgba(0, 0, 0, .25) 50%, transparent 70%);
+  background: radial-gradient(rgba(0, 0, 0, .35) 20%, rgba(0, 0, 0, .25) 30%, transparent 50%);
 }
 
 .controls button + button {
@@ -35,7 +35,7 @@ body {
 
 .controls button {
   font-size: 0.65rem;
-  padding: .125em .25em;
+  padding: .35em;
   border: 0;
   background: none;
   color: white;

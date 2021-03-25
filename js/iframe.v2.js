@@ -258,7 +258,7 @@
     }
   }
 
-  showControlsForAWhile();
+  hideControls();
 
   options.container.addEventListener("touchstart", handleTouchStart);
   options.container.addEventListener("touchmove", handleTouchMove);
