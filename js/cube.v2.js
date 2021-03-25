@@ -1,4 +1,5 @@
 // TODO unify with v1
+// TODO bring login from the iframe
 
 (function() {
   EventEmitter = function() {
@@ -1269,7 +1270,7 @@
 
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
     this.pause = function() { playing = false; };
-    this.play = function() { return if playing ; playing = true; handleQueue() };
+    this.play = function() { if(playing) return ; playing = true; handleQueue() };
 
     this.idx = function() { return queueIdx }
     this.undo = function() { undo() }
