@@ -659,7 +659,7 @@
     function turnU(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnUCallback(qts);
 
@@ -680,7 +680,7 @@
     function turnUw(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnUCallback( qts);
         turnECallback(-qts);
@@ -743,7 +743,7 @@
     function turnD(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnDCallback(qts);
 
@@ -764,7 +764,7 @@
     function turnDw(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnDCallback(qts);
         turnECallback(qts);
@@ -827,7 +827,7 @@
     function turnL(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnLCallback(qts);
 
@@ -848,7 +848,7 @@
     function turnLw(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnLCallback(qts);
         turnMCallback(qts);
@@ -911,7 +911,7 @@
     function turnM(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnMCallback(qts);
 
@@ -932,7 +932,7 @@
     function turnE(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnECallback(qts);
 
@@ -953,7 +953,7 @@
     function turnS(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnSCallback(qts);
 
@@ -974,7 +974,7 @@
     function turnR(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnRCallback(qts);
 
@@ -995,7 +995,7 @@
     function turnRw(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnRCallback( qts);
         turnMCallback(-qts);
@@ -1058,7 +1058,7 @@
     function turnF(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnFCallback(qts);
 
@@ -1079,7 +1079,7 @@
     function turnFw(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnFCallback(qts);
         turnSCallback(qts);
@@ -1142,7 +1142,7 @@
     function turnB(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnBCallback(qts);
 
@@ -1163,7 +1163,7 @@
     function turnBw(qts) {
       var remaining = 0;
       var cb = function() {
-        if(--remaining > 0) return;
+        if(--remaining !== 0) return;
 
         turnBCallback( qts);
         turnSCallback(-qts);
@@ -1267,7 +1267,7 @@
 
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
     this.pause = function() { playing = false; };
-    this.play = function() { return if playing ; playing = true; handleQueue() };
+    this.play = function() { if(playing) return ; playing = true; handleQueue() };
 
     this.idx = function() { return queueIdx }
     this.undo = function() { undo() }
