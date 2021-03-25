@@ -194,7 +194,7 @@
       cubeWrapper.style.display = "flex";
       cubeWrapper.style.justifyContent = "center";
       cubeWrapper.style.alignItems = "center";
-      cubeWrapper.style.height = (CUBIE_SIZE * 5.2) + "px"
+      cubeWrapper.style.height = (CONTAINER.offsetWidth) + "px"
       cubeWrapper.style.transformStyle = "preserve-3d";
       cubeWrapper.style.transform = "perspective(" + perspective + "px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
       cubeWrapper.classList.add("cube-wrapper");

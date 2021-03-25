@@ -71,11 +71,37 @@
   if(urlParams.has("perspective")) options.perspective = urlParams.get("perspective");
 
   var cubeCSS = new CubeCSS(options);
+  var hideControlsTimeout;
+
+  function hideControls() {
+    if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+
+    document.querySelector(".controls").style.display = "none";
+  }
+
+  function showControls() {
+    if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+
+    document.querySelector(".controls").style.display = "flex";
+  }
+
+  function showControlsForAWhile() {
+    showControls();
+
+    hideControlsTimeout = setTimeout(function() {
+      document.querySelector(".controls").style.display = "none";
+    }, 2500);
+  }
+
   cubeCSS.on("turning", function() {
+    // if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+    // document.querySelector(".controls").style.display = "none";
     document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "inline";
   });
   cubeCSS.on("finish", function() {
+    // if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+    // document.querySelector(".controls").style.display = "flex";
     document.querySelector("button.play").style.display = "inline";
     document.querySelector("button.pause").style.display = "none";
   });
@@ -153,15 +179,102 @@
     });
   });
 
-  document.querySelector("button.play").addEventListener("click", function() {
+  var dragging = false;
+
+  function handleMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragging = true;
+  }
+
+  function handleMouseMove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if(dragging) {
+      hideControls();
+    } else {
+      showControlsForAWhile();
+    }
+  }
+
+  function handleMouseUp(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragging = false;
+  }
+
+  function handleMouseLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dragging = false;
+  }
+
+  var touchmoved = 0;
+
+  function handleTouchStart(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    touchmoved = 0;
+  }
+
+  function handleTouchMove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    touchmoved++;
+
+    if(touchmoved > 3) {
+      hideControls();
+    }
+  }
+
+  function handleTouchEnd(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if(touchmoved <= 3) {
+      touchmoved = 999;
+      showControlsForAWhile();
+    }
+  }
+
+  showControlsForAWhile();
+
+  options.container.addEventListener("touchstart", handleTouchStart);
+  options.container.addEventListener("touchmove", handleTouchMove);
+  options.container.addEventListener("touchend", handleTouchEnd);
+  options.container.addEventListener("mousedown", handleMouseDown);
+  options.container.addEventListener("mousemove", handleMouseMove);
+  options.container.addEventListener("mouseup", handleMouseUp);
+  options.container.addEventListener("mouseleave", handleMouseLeave);
+
+  function handlePlayClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     cubeCSS.play();
-  }, false);
 
-  document.querySelector("button.pause").addEventListener("click", function() {
+    hideControls();
+  }
+
+  function handlePauseClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     cubeCSS.pause();
-  }, false);
 
-  document.querySelector("button.reset").addEventListener("click", function() {
+    showControlsForAWhile();
+  }
+
+  function handleResetClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     if(cubeCSS.turning()) return;
 
     cubeCSS.pause();
@@ -174,24 +287,59 @@
         cubeCSS.undo();
       }
     })
-  }, false);
 
-  document.querySelector("button.step-backward").addEventListener("click", function() {
+    showControlsForAWhile();
+  }
+
+  function handleStepBackwardClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     if(cubeCSS.turning()) return;
     if(cubeCSS.idx() <= preseq.length) return;
 
     cubeCSS.pause();
     cubeCSS.undo();
-  }, false);
 
-  document.querySelector("button.step-forward").addEventListener("click", function() {
+    showControlsForAWhile();
+  }
+
+  function handleStepForwardClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     cubeCSS.play();
     cubeCSS.pause();
-  }, false);
 
-  document.querySelector("button.finish").addEventListener("click", function() {
+    showControlsForAWhile();
+  }
+
+  function handleFinishClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     cubeCSS.withoutAnimation(function() {
       cubeCSS.play();
     });
-  }, false);
+
+    showControlsForAWhile();
+  }
+
+  document.querySelector("button.play").addEventListener("click", handlePlayClick, false);
+  document.querySelector("button.play").addEventListener("touchstart", handlePlayClick, false);
+
+  document.querySelector("button.pause").addEventListener("click", handlePauseClick, false);
+  document.querySelector("button.pause").addEventListener("touchstart", handlePauseClick, false);
+
+  document.querySelector("button.reset").addEventListener("click", handleResetClick, false);
+  document.querySelector("button.reset").addEventListener("touchstart", handleResetClick, false);
+
+  document.querySelector("button.step-backward").addEventListener("click", handleStepBackwardClick, false);
+  document.querySelector("button.step-backward").addEventListener("touchstart", handleStepBackwardClick, false);
+
+  document.querySelector("button.step-forward").addEventListener("click", handleStepForwardClick, false);
+  document.querySelector("button.step-forward").addEventListener("touchstart", handleStepForwardClick, false);
+
+  document.querySelector("button.finish").addEventListener("click", handleFinishClick, false);
+  document.querySelector("button.finish").addEventListener("touchstart", handleFinishClick, false);
 })();
