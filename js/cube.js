@@ -659,6 +659,7 @@
     function turnU(qts) {
       var remaining = 0;
       var cb = function() {
+        console.log(remaining)
         if(--remaining !== 0) return;
 
         turnUCallback(qts);
