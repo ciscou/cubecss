@@ -1267,7 +1267,7 @@
 
     this.withoutAnimation = function(cb) { var animatingWas = animating; animating = false; cb(); animating = animatingWas };
     this.pause = function() { playing = false; };
-    this.play = function() { playing = true; handleQueue() };
+    this.play = function() { return if playing ; playing = true; handleQueue() };
 
     this.idx = function() { return queueIdx }
     this.undo = function() { undo() }
