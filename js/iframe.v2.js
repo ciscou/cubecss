@@ -94,7 +94,7 @@
 
     hideControlsTimeout = setTimeout(function() {
       document.querySelector(".controls").style.display = "none";
-    }, 2000);
+    }, 1500);
   }
 
   function doNotShowControlsForAWhile() {
@@ -273,24 +273,26 @@
     e.preventDefault();
     e.stopPropagation();
 
-    cubeCSS.play();
-
     hideControls();
     doNotShowControlsForAWhile();
+
+    cubeCSS.play();
   }
 
   function handlePauseClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    cubeCSS.pause();
-
     showControlsForAWhile();
+
+    cubeCSS.pause();
   }
 
   function handleResetClick(e) {
     e.preventDefault();
     e.stopPropagation();
+
+    showControlsForAWhile();
 
     if(cubeCSS.turning()) return;
 
@@ -304,42 +306,40 @@
         cubeCSS.undo();
       }
     })
-
-    showControlsForAWhile();
   }
 
   function handleStepBackwardClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
+    showControlsForAWhile();
+
     if(cubeCSS.turning()) return;
     if(cubeCSS.idx() <= preseq.length) return;
 
     cubeCSS.pause();
     cubeCSS.undo();
-
-    showControlsForAWhile();
   }
 
   function handleStepForwardClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
+    showControlsForAWhile();
+
     cubeCSS.play();
     cubeCSS.pause();
-
-    showControlsForAWhile();
   }
 
   function handleFinishClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
+    showControlsForAWhile();
+
     cubeCSS.withoutAnimation(function() {
       cubeCSS.play();
     });
-
-    showControlsForAWhile();
   }
 
   document.querySelector("button.play").addEventListener("click", handlePlayClick, false);
