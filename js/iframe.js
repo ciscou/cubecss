@@ -186,19 +186,46 @@
     showControlsForAWhile();
   }
 
+  var touchmoved = false;
+
+  function handleTouchStart(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    touchmoved = false;
+  }
+
+  function handleTouchMove(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    touchmoved = true;
+  }
+
+  function handleTouchEnd(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if(!touchmoved) {
+      touchmoved = true;
+      showControlsForAWhile();
+    }
+  }
+
   showControlsForAWhile();
 
+  // options.container.addEventListener("mousemove", handleShowControlsForAWhile);
+  options.container.addEventListener("touchstart", handleTouchStart);
+  options.container.addEventListener("touchmove", handleTouchMove);
+  options.container.addEventListener("touchend", handleTouchEnd);
   options.container.addEventListener("mousemove", handleShowControlsForAWhile);
-  options.container.addEventListener("touchstart", handleShowControlsForAWhile);
-  options.container.addEventListener("click", handleShowControlsForAWhile);
 
   function handlePlayClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("click in play");
-
     cubeCSS.play();
+
     hideControls();
   }
 
@@ -206,16 +233,12 @@
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("click in pause");
-
     cubeCSS.pause();
   }
 
   function handleResetClick(e) {
     e.preventDefault();
     e.stopPropagation();
-
-    console.log("click in reset");
 
     if(cubeCSS.turning()) return;
 
@@ -235,30 +258,28 @@
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("click in step back");
-
     if(cubeCSS.turning()) return;
     if(cubeCSS.idx() <= preseq.length) return;
 
     cubeCSS.pause();
     cubeCSS.undo();
+
+    hideControls();
   }
 
   function handleStepForwardClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("click in step fwd");
-
     cubeCSS.play();
     cubeCSS.pause();
+
+    hideControls();
   }
 
   function handleFinishClick(e) {
     e.preventDefault();
     e.stopPropagation();
-
-    console.log("click in step finish");
 
     cubeCSS.withoutAnimation(function() {
       cubeCSS.play();
