@@ -72,6 +72,8 @@
 
   var cubeCSS = new CubeCSS(options);
   var hideControlsTimeout;
+  var doNotShowControlsTimeout;
+  var ignoreShowControls = false;
 
   function hideControls() {
     if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
@@ -82,6 +84,8 @@
   function showControls() {
     if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
 
+    if(ignoreShowControls) return;
+
     document.querySelector(".controls").style.display = "flex";
   }
 
@@ -90,7 +94,17 @@
 
     hideControlsTimeout = setTimeout(function() {
       document.querySelector(".controls").style.display = "none";
-    }, 2500);
+    }, 1500);
+  }
+
+  function doNotShowControlsForAWhile() {
+    if(doNotShowControlsTimeout) clearTimeout(doNotShowControlsTimeout);
+
+    ignoreShowControls = true;
+
+    doNotShowControlsTimeout = setTimeout(function() {
+      ignoreShowControls = false;
+    }, 750);
   }
 
   cubeCSS.on("turning", function() {
@@ -194,6 +208,7 @@
 
     if(dragging) {
       hideControls();
+      doNotShowControlsForAWhile();
     } else {
       showControlsForAWhile();
     }
@@ -230,6 +245,7 @@
 
     if(touchmoved > 3) {
       hideControls();
+      doNotShowControlsForAWhile();
     }
   }
 
@@ -260,6 +276,7 @@
     cubeCSS.play();
 
     hideControls();
+    doNotShowControlsForAWhile();
   }
 
   function handlePauseClick(e) {

@@ -26,6 +26,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1;
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .controls button + button {
@@ -39,7 +40,13 @@ body {
   background: none;
   color: white;
   text-shadow: 0 0 10px rgba(0, 0, 0, .75);
-  opacity: .85;
+  opacity: .75;
+
+  transition: opacity 250ms ease;
+}
+
+.controls button:hover {
+  opacity: 1;
 }
 
 .controls button.reset,
