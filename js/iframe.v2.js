@@ -106,15 +106,18 @@
   }
 
   cubeCSS.on("turning", function() {
-    // if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
-    // document.querySelector(".controls").style.display = "none";
+    document.querySelector("button.replay").style.display = "none";
     document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "inline";
   });
-  cubeCSS.on("finish", function() {
-    // if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
-    // document.querySelector(".controls").style.display = "flex";
+  cubeCSS.on("turned", function() {
+    document.querySelector("button.replay").style.display = "none";
     document.querySelector("button.play").style.display = "inline";
+    document.querySelector("button.pause").style.display = "none";
+  });
+  cubeCSS.on("finish", function() {
+    document.querySelector("button.replay").style.display = "inline";
+    document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "none";
   });
 
@@ -268,6 +271,27 @@
   options.container.addEventListener("mouseup", handleMouseUp);
   options.container.addEventListener("mouseleave", handleMouseLeave);
 
+  function handleReplayClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    touchmoved = 999999;
+    hideControls();
+    doNotShowControlsForAWhile();
+
+    if(cubeCSS.turning()) return;
+
+    cubeCSS.pause();
+
+    cubeCSS.withoutAnimation(function() {
+      while(cubeCSS.idx() > preseq.length) {
+        cubeCSS.undo();
+      }
+    })
+
+    cubeCSS.play();
+  }
+
   function handlePlayClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -302,9 +326,6 @@
     cubeCSS.pause();
 
     cubeCSS.withoutAnimation(function() {
-      cubeCSS.play();
-      cubeCSS.pause();
-
       while(cubeCSS.idx() > preseq.length) {
         cubeCSS.undo();
       }
@@ -344,6 +365,9 @@
       cubeCSS.play();
     });
   }
+
+  document.querySelector("button.replay").addEventListener("click", handleReplayClick, false);
+  document.querySelector("button.replay").addEventListener("touchstart", handleReplayClick, false);
 
   document.querySelector("button.play").addEventListener("click", handlePlayClick, false);
   document.querySelector("button.play").addEventListener("touchstart", handlePlayClick, false);

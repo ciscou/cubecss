@@ -1196,7 +1196,7 @@
       if(turning) return;
 
       if(!playing) {
-        ee.emit("finish");
+        ee.emit("turned");
         return;
       }
 
@@ -1211,6 +1211,7 @@
           turn(qts);
         }
       } else {
+        ee.emit("turned");
         ee.emit("finish");
       }
     }
