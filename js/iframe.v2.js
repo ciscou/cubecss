@@ -241,7 +241,7 @@
 
     touchmoved++;
 
-    if(touchmoved > 3) {
+    if(touchmoved > 5) {
       hideControls();
       doNotShowControlsForAWhile();
     }
@@ -253,7 +253,7 @@
 
     // TODO play with this value? Use offsets instead? Make the same for mousemove?
     if(touchmoved <= 3) {
-      touchmoved = 999;
+      console.log("showing controls", touchmoved);
       showControlsForAWhile();
     }
   }
@@ -272,6 +272,7 @@
     e.preventDefault();
     e.stopPropagation();
 
+    touchmoved = 999999;
     hideControls();
     doNotShowControlsForAWhile();
 
