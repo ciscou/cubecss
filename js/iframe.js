@@ -213,28 +213,32 @@
     dragging = false;
   }
 
-  var touchmoved = false;
+  var touchmoved = 0;
 
   function handleTouchStart(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    touchmoved = false;
+    touchmoved = 0;
   }
 
   function handleTouchMove(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    touchmoved = true;
+    touchmoved++;
+
+    if(touchmoved > 3) {
+      hideControls();
+    }
   }
 
   function handleTouchEnd(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    if(!touchmoved) {
-      touchmoved = true;
+    if(touchmoved <= 3) {
+      touchmoved = 999;
       showControlsForAWhile();
     }
   }
