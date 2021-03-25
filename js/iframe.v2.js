@@ -84,8 +84,6 @@
   function showControls() {
     if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
 
-    if(ignoreShowControls) return;
-
     document.querySelector(".controls").style.display = "flex";
   }
 
@@ -209,7 +207,7 @@
     if(dragging) {
       hideControls();
       doNotShowControlsForAWhile();
-    } else {
+    } else if(!ignoreShowControls) {
       showControlsForAWhile();
     }
   }
@@ -284,6 +282,9 @@
     e.stopPropagation();
 
     showControlsForAWhile();
+
+    document.querySelector("button.play").style.display = "inline";
+    document.querySelector("button.pause").style.display = "none";
 
     cubeCSS.pause();
   }
