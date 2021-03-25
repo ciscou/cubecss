@@ -90,7 +90,7 @@
 
     hideControlsTimeout = setTimeout(function() {
       document.querySelector(".controls").style.display = "none";
-    }, 1500);
+    }, 2500);
   }
 
   cubeCSS.on("turning", function() {
@@ -234,6 +234,8 @@
     e.stopPropagation();
 
     cubeCSS.pause();
+
+    showControlsForAWhile();
   }
 
   function handleResetClick(e) {
@@ -252,6 +254,8 @@
         cubeCSS.undo();
       }
     })
+
+    showControlsForAWhile();
   }
 
   function handleStepBackwardClick(e) {
@@ -264,7 +268,7 @@
     cubeCSS.pause();
     cubeCSS.undo();
 
-    hideControls();
+    showControlsForAWhile();
   }
 
   function handleStepForwardClick(e) {
@@ -274,7 +278,7 @@
     cubeCSS.play();
     cubeCSS.pause();
 
-    hideControls();
+    showControlsForAWhile();
   }
 
   function handleFinishClick(e) {
@@ -284,6 +288,8 @@
     cubeCSS.withoutAnimation(function() {
       cubeCSS.play();
     });
+
+    showControlsForAWhile();
   }
 
   document.querySelector("button.play").addEventListener("click", handlePlayClick, false);
