@@ -72,19 +72,16 @@
 
   var cubeCSS = new CubeCSS(options);
   cubeCSS.on("turning", function() {
-    console.log("turning");
     document.querySelector("button.replay").style.display = "none";
     document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "inline";
   });
   cubeCSS.on("turned", function() {
-    console.log("turned");
     document.querySelector("button.replay").style.display = "none";
     document.querySelector("button.play").style.display = "inline";
     document.querySelector("button.pause").style.display = "none";
   });
   cubeCSS.on("finish", function() {
-    console.log("finish");
     document.querySelector("button.replay").style.display = "inline";
     document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "none";

@@ -256,7 +256,6 @@
 
     // TODO play with this value? Use offsets instead? Make the same for mousemove?
     if(touchmoved <= 3) {
-      console.log("showing controls", touchmoved);
       showControlsForAWhile();
     }
   }
