@@ -94,7 +94,7 @@
 
     hideControlsTimeout = setTimeout(function() {
       document.querySelector(".controls").style.display = "none";
-    }, 1500);
+    }, 2000);
   }
 
   function doNotShowControlsForAWhile() {
