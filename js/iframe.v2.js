@@ -251,6 +251,7 @@
     e.preventDefault();
     e.stopPropagation();
 
+    // TODO play with this value? Use offsets instead? Make the same for mousemove?
     if(touchmoved <= 3) {
       touchmoved = 999;
       showControlsForAWhile();
