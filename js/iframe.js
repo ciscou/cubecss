@@ -71,25 +71,37 @@
   if(urlParams.has("perspective")) options.perspective = urlParams.get("perspective");
 
   var cubeCSS = new CubeCSS(options);
-  var hideActionsTimeout;
+  var hideControlsTimeout;
 
-  function hideActionsIn2s() {
-    if(hideActionsTimeout) clearTimeout(hideActionsTimeout);
+  function hideControls() {
+    if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+
+    document.querySelector(".controls").style.display = "none";
+  }
+
+  function showControls() {
+    if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
 
     document.querySelector(".controls").style.display = "flex";
+  }
 
-    hideActionsTimeout = setTimeout(function() {
+  function showControlsForAWhile() {
+    showControls();
+
+    hideControlsTimeout = setTimeout(function() {
       document.querySelector(".controls").style.display = "none";
-    }, 2000);
+    }, 1500);
   }
 
   cubeCSS.on("turning", function() {
-    document.querySelector(".controls").style.display = "none";
+    // if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+    // document.querySelector(".controls").style.display = "none";
     document.querySelector("button.play").style.display = "none";
     document.querySelector("button.pause").style.display = "inline";
   });
   cubeCSS.on("finish", function() {
-    hideActionsIn2s();
+    // if(hideControlsTimeout) clearTimeout(hideControlsTimeout);
+    // document.querySelector(".controls").style.display = "flex";
     document.querySelector("button.play").style.display = "inline";
     document.querySelector("button.pause").style.display = "none";
   });
@@ -167,35 +179,44 @@
     });
   });
 
-  options.container.addEventListener("mousemove", function() {
-    hideActionsIn2s();
-  });
+  function handleShowControlsForAWhile(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-  options.container.addEventListener("touchstart", function() {
-    hideActionsIn2s();
-  });
+    showControlsForAWhile();
+  }
 
-  options.container.addEventListener("click", function() {
-    hideActionsIn2s();
-  });
+  showControlsForAWhile();
 
-  document.querySelector("button.play").addEventListener("touchstart", function() {
+  options.container.addEventListener("mousemove", handleShowControlsForAWhile);
+  options.container.addEventListener("touchstart", handleShowControlsForAWhile);
+  options.container.addEventListener("click", handleShowControlsForAWhile);
+
+  function handlePlayClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("click in play");
+
     cubeCSS.play();
-  }, false);
+    hideControls();
+  }
 
-  document.querySelector("button.pause").addEventListener("touchstart", function() {
+  function handlePauseClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("click in pause");
+
     cubeCSS.pause();
-  }, false);
+  }
 
-  document.querySelector("button.play").addEventListener("click", function() {
-    cubeCSS.play();
-  }, false);
+  function handleResetClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-  document.querySelector("button.pause").addEventListener("click", function() {
-    cubeCSS.pause();
-  }, false);
+    console.log("click in reset");
 
-  document.querySelector("button.reset").addEventListener("click", function() {
     if(cubeCSS.turning()) return;
 
     cubeCSS.pause();
@@ -208,24 +229,57 @@
         cubeCSS.undo();
       }
     })
-  }, false);
+  }
 
-  document.querySelector("button.step-backward").addEventListener("click", function() {
+  function handleStepBackwardClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("click in step back");
+
     if(cubeCSS.turning()) return;
     if(cubeCSS.idx() <= preseq.length) return;
 
     cubeCSS.pause();
     cubeCSS.undo();
-  }, false);
+  }
 
-  document.querySelector("button.step-forward").addEventListener("click", function() {
+  function handleStepForwardClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("click in step fwd");
+
     cubeCSS.play();
     cubeCSS.pause();
-  }, false);
+  }
 
-  document.querySelector("button.finish").addEventListener("click", function() {
+  function handleFinishClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("click in step finish");
+
     cubeCSS.withoutAnimation(function() {
       cubeCSS.play();
     });
-  }, false);
+  }
+
+  document.querySelector("button.play").addEventListener("click", handlePlayClick, false);
+  document.querySelector("button.play").addEventListener("touchstart", handlePlayClick, false);
+
+  document.querySelector("button.pause").addEventListener("click", handlePauseClick, false);
+  document.querySelector("button.pause").addEventListener("touchstart", handlePauseClick, false);
+
+  document.querySelector("button.reset").addEventListener("click", handleResetClick, false);
+  document.querySelector("button.reset").addEventListener("touchstart", handleResetClick, false);
+
+  document.querySelector("button.step-backward").addEventListener("click", handleStepBackwardClick, false);
+  document.querySelector("button.step-backward").addEventListener("touchstart", handleStepBackwardClick, false);
+
+  document.querySelector("button.step-forward").addEventListener("click", handleStepForwardClick, false);
+  document.querySelector("button.step-forward").addEventListener("touchstart", handleStepForwardClick, false);
+
+  document.querySelector("button.finish").addEventListener("click", handleFinishClick, false);
+  document.querySelector("button.finish").addEventListener("touchstart", handleFinishClick, false);
 })();
