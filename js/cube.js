@@ -673,6 +673,7 @@
           rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -699,6 +700,7 @@
           rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -757,6 +759,7 @@
           rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -783,6 +786,7 @@
           rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -841,6 +845,7 @@
           rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -867,6 +872,7 @@
           rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -925,6 +931,7 @@
           rotateElX(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -946,6 +953,7 @@
           rotateElY(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -967,6 +975,7 @@
           rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -988,6 +997,7 @@
           rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -1014,6 +1024,7 @@
           rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -1072,6 +1083,7 @@
           rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -1098,6 +1110,7 @@
           rotateElZ(cubieContainer.el, qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -1156,6 +1169,7 @@
           rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
@@ -1182,6 +1196,7 @@
           rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
+        remaining++;
         cb();
       }
     }
