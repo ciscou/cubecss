@@ -39,7 +39,7 @@
     if(options.hasOwnProperty("ry")) RY = parseInt(options.ry);
     if(options.hasOwnProperty("rz")) RZ = parseInt(options.rz);
 
-    var LAYERS = 3;
+    var LAYERS = 2;
 
     options.cubieSize ||= Math.floor(CONTAINER.offsetWidth / (LAYERS * 2));
     options.cubieSize ||= 40;
@@ -132,7 +132,7 @@
 
       cubie.classList.add("cubie");
 
-      cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE) + "px)";
+      cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE / 2) + "px)";
       cubie.style.transformStyle = "preserve-3d";
       cubie.style.width = "" + CUBIE_SIZE + "px";
       cubie.style.height = "" + CUBIE_SIZE + "px";
@@ -303,60 +303,22 @@
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
     var ULB  = { el: cubieContainers[0]  };
-    var UL   = { el: cubieContainers[1]  };
-    var ULF  = { el: cubieContainers[2]  };
-    var LB   = { el: cubieContainers[3]  };
-    var L    = { el: cubieContainers[4]  };
-    var LF   = { el: cubieContainers[5]  };
-    var DLB  = { el: cubieContainers[6]  };
-    var DL   = { el: cubieContainers[7]  };
-    var DLF  = { el: cubieContainers[8]  };
-    var UB   = { el: cubieContainers[9]  };
-    var U    = { el: cubieContainers[10] };
-    var UF   = { el: cubieContainers[11] };
-    var B    = { el: cubieContainers[12] };
-    var CORE = { el: cubieContainers[13] };
-    var F    = { el: cubieContainers[14] };
-    var DB   = { el: cubieContainers[15] };
-    var D    = { el: cubieContainers[16] };
-    var DF   = { el: cubieContainers[17] };
-    var URB  = { el: cubieContainers[18] };
-    var UR   = { el: cubieContainers[19] };
-    var URF  = { el: cubieContainers[20] };
-    var RB   = { el: cubieContainers[21] };
-    var R    = { el: cubieContainers[22] };
-    var RF   = { el: cubieContainers[23] };
-    var DRB  = { el: cubieContainers[24] };
-    var DR   = { el: cubieContainers[25] };
-    var DRF  = { el: cubieContainers[26] };
+    var ULF  = { el: cubieContainers[1]  };
+    var DLB  = { el: cubieContainers[2]  };
+    var DLF  = { el: cubieContainers[3]  };
+    var URB  = { el: cubieContainers[4] };
+    var URF  = { el: cubieContainers[5] };
+    var DRB  = { el: cubieContainers[6] };
+    var DRF  = { el: cubieContainers[7] };
 
     this.cubies = {
       ULB: ULB,
-      UL: UL,
       ULF: ULF,
-      LB: LB,
-      L: L,
-      LF: LF,
       DLB: DLB,
-      DL: DL,
       DLF: DLF,
-      UB: UB,
-      U: U,
-      UF: UF,
-      B: B,
-      CORE: CORE,
-      F: F,
-      DB: DB,
-      D: D,
-      DF: DF,
       URB: URB,
-      UR: UR,
       URF: URF,
-      RB: RB,
-      R: R,
-      RF: RF,
       DRB: DRB,
-      DR: DR,
       DRF: DRF
     }
 
@@ -380,89 +342,44 @@
 
     var USLICE = [
       ULB,
-      UL,
       ULF,
-      UB,
-      U,
-      UF,
       URB,
-      UR,
       URF
     ];
 
     var DSLICE = [
       DLB,
-      DL,
       DLF,
-      DB,
-      D,
-      DF,
       DRB,
-      DR,
       DRF
     ];
 
     var LSLICE = [
       ULB,
-      UL,
       ULF,
-      LB,
-      L,
-      LF,
       DLB,
-      DL,
       DLF
     ];
 
     var RSLICE = [
       URB,
-      UR,
       URF,
-      RB,
-      R,
-      RF,
       DRB,
-      DR,
       DRF
     ];
 
     var FSLICE = [
       ULF,
-      LF,
       DLF,
-      UF,
-      F,
-      DF,
       URF,
-      RF,
       DRF
     ];
 
     var BSLICE = [
       ULB,
-      LB,
       DLB,
-      UB,
-      B,
-      DB,
       URB,
-      RB,
       DRB
-    ];
-
-    var MSLICE = [
-      CORE, U, F, D, B,
-      UB, UF, DB, DF
-    ];
-
-    var ESLICE = [
-      CORE, L, F, R, B,
-      LF, LB, RF, RB
-    ];
-
-    var SSLICE = [
-      CORE, U, R, D, L,
-      UL, UR, DL, DR
     ];
 
     this.slices = {
@@ -472,9 +389,6 @@
       L: LSLICE,
       F: FSLICE,
       B: BSLICE,
-      M: MSLICE,
-      E: ESLICE,
-      S: SSLICE
     }
 
     function turnsToCycles(qts) {
@@ -495,85 +409,9 @@
       }
     }
 
-    function turnMCallback(qts) {
-      var cycles = turnsToCycles(-qts);
-      var tmp;
-
-      for(var i=0; i<cycles; i++) {
-        tmp = U.stickers.up.style.backgroundColor;
-        U.stickers.up.style.backgroundColor = F.stickers.front.style.backgroundColor;
-        F.stickers.front.style.backgroundColor = D.stickers.down.style.backgroundColor;
-        D.stickers.down.style.backgroundColor = B.stickers.back.style.backgroundColor;
-        B.stickers.back.style.backgroundColor = tmp;
-
-        tmp = UB.stickers.up.style.backgroundColor;
-        UB.stickers.up.style.backgroundColor = UF.stickers.front.style.backgroundColor;
-        UF.stickers.front.style.backgroundColor = DF.stickers.down.style.backgroundColor;
-        DF.stickers.down.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-        DB.stickers.back.style.backgroundColor = tmp;
-
-        tmp = UB.stickers.back.style.backgroundColor;
-        UB.stickers.back.style.backgroundColor = UF.stickers.up.style.backgroundColor;
-        UF.stickers.up.style.backgroundColor = DF.stickers.front.style.backgroundColor;
-        DF.stickers.front.style.backgroundColor = DB.stickers.down.style.backgroundColor;
-        DB.stickers.down.style.backgroundColor = tmp;
-      }
-    }
-
-    function turnECallback(qts) {
-      var cycles = turnsToCycles(-qts);
-      var tmp;
-
-      for(var i=0; i<cycles; i++) {
-        tmp = F.stickers.front.style.backgroundColor;
-        F.stickers.front.style.backgroundColor = R.stickers.right.style.backgroundColor;
-        R.stickers.right.style.backgroundColor = B.stickers.back.style.backgroundColor;
-        B.stickers.back.style.backgroundColor = L.stickers.left.style.backgroundColor;
-        L.stickers.left.style.backgroundColor = tmp;
-
-        tmp = LF.stickers.left.style.backgroundColor;
-        LF.stickers.left.style.backgroundColor = RF.stickers.front.style.backgroundColor;
-        RF.stickers.front.style.backgroundColor = RB.stickers.right.style.backgroundColor;
-        RB.stickers.right.style.backgroundColor = LB.stickers.back.style.backgroundColor;
-        LB.stickers.back.style.backgroundColor = tmp;
-
-        tmp = LF.stickers.front.style.backgroundColor;
-        LF.stickers.front.style.backgroundColor = RF.stickers.right.style.backgroundColor;
-        RF.stickers.right.style.backgroundColor = RB.stickers.back.style.backgroundColor;
-        RB.stickers.back.style.backgroundColor = LB.stickers.left.style.backgroundColor;
-        LB.stickers.left.style.backgroundColor = tmp;
-      }
-    }
-
-    function turnSCallback(qts) {
-      var cycles = turnsToCycles(qts);
-      var tmp;
-
-      for(var i=0; i<cycles; i++) {
-        tmp = U.stickers.up.style.backgroundColor;
-        U.stickers.up.style.backgroundColor = L.stickers.left.style.backgroundColor;
-        L.stickers.left.style.backgroundColor = D.stickers.down.style.backgroundColor;
-        D.stickers.down.style.backgroundColor = R.stickers.right.style.backgroundColor;
-        R.stickers.right.style.backgroundColor = tmp;
-
-        tmp = UL.stickers.up.style.backgroundColor;
-        UL.stickers.up.style.backgroundColor = DL.stickers.left.style.backgroundColor;
-        DL.stickers.left.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-        DR.stickers.down.style.backgroundColor = UR.stickers.right.style.backgroundColor;
-        UR.stickers.right.style.backgroundColor = tmp;
-
-        tmp = UL.stickers.left.style.backgroundColor;
-        UL.stickers.left.style.backgroundColor = DL.stickers.down.style.backgroundColor;
-        DL.stickers.down.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-        DR.stickers.right.style.backgroundColor = UR.stickers.up.style.backgroundColor;
-        UR.stickers.up.style.backgroundColor = tmp;
-      }
-    }
-
     function turnX(qts) {
       var cb = function() {
         turnLCallback(-qts);
-        turnMCallback(-qts);
         turnRCallback( qts);
 
         turning = false;
@@ -590,7 +428,6 @@
     function turnY(qts) {
       var cb = function() {
         turnDCallback(-qts);
-        turnECallback(-qts);
         turnUCallback( qts);
 
         turning = false;
@@ -607,7 +444,6 @@
     function turnZ(qts) {
       var cb = function() {
         turnBCallback(-qts);
-        turnSCallback( qts);
         turnFCallback( qts);
 
         turning = false;
@@ -643,18 +479,6 @@
         ULF.stickers.left.style.backgroundColor  = URF.stickers.front.style.backgroundColor;
         URF.stickers.front.style.backgroundColor = URB.stickers.right.style.backgroundColor;
         URB.stickers.right.style.backgroundColor = tmp;
-
-        tmp = UL.stickers.up.style.backgroundColor;
-        UL.stickers.up.style.backgroundColor = UF.stickers.up.style.backgroundColor;
-        UF.stickers.up.style.backgroundColor = UR.stickers.up.style.backgroundColor;
-        UR.stickers.up.style.backgroundColor = UB.stickers.up.style.backgroundColor;
-        UB.stickers.up.style.backgroundColor = tmp;
-
-        tmp = UL.stickers.left.style.backgroundColor;
-        UL.stickers.left.style.backgroundColor  = UF.stickers.front.style.backgroundColor;
-        UF.stickers.front.style.backgroundColor = UR.stickers.right.style.backgroundColor;
-        UR.stickers.right.style.backgroundColor = UB.stickers.back.style.backgroundColor;
-        UB.stickers.back.style.backgroundColor  = tmp;
       }
     }
 
@@ -671,33 +495,6 @@
 
       if(animating) {
         USLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElY(cubieContainer.el, -qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnUw(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnUCallback( qts);
-        turnECallback(-qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        USLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElY(cubieContainer.el, -qts, cb);
-        });
-        ESLICE.forEach(function(cubieContainer) {
           remaining++;
           rotateElY(cubieContainer.el, -qts, cb);
         });
@@ -729,18 +526,6 @@
         DLF.stickers.left.style.backgroundColor  = DRF.stickers.front.style.backgroundColor;
         DRF.stickers.front.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
         DRB.stickers.right.style.backgroundColor = tmp;
-
-        tmp = DL.stickers.down.style.backgroundColor;
-        DL.stickers.down.style.backgroundColor = DF.stickers.down.style.backgroundColor;
-        DF.stickers.down.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-        DR.stickers.down.style.backgroundColor = DB.stickers.down.style.backgroundColor;
-        DB.stickers.down.style.backgroundColor = tmp;
-
-        tmp = DL.stickers.left.style.backgroundColor;
-        DL.stickers.left.style.backgroundColor  = DF.stickers.front.style.backgroundColor;
-        DF.stickers.front.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-        DR.stickers.right.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-        DB.stickers.back.style.backgroundColor  = tmp;
       }
     }
 
@@ -757,33 +542,6 @@
 
       if(animating) {
         DSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElY(cubieContainer.el, qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnDw(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnDCallback(qts);
-        turnECallback(qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        DSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElY(cubieContainer.el, qts, cb);
-        });
-        ESLICE.forEach(function(cubieContainer) {
           remaining++;
           rotateElY(cubieContainer.el, qts, cb);
         });
@@ -815,18 +573,6 @@
         DLF.stickers.down.style.backgroundColor  = DLB.stickers.back.style.backgroundColor;
         DLB.stickers.back.style.backgroundColor  = ULB.stickers.up.style.backgroundColor;
         ULB.stickers.up.style.backgroundColor    = tmp;
-
-        tmp = UL.stickers.left.style.backgroundColor;
-        UL.stickers.left.style.backgroundColor = LF.stickers.left.style.backgroundColor;
-        LF.stickers.left.style.backgroundColor = DL.stickers.left.style.backgroundColor;
-        DL.stickers.left.style.backgroundColor = LB.stickers.left.style.backgroundColor;
-        LB.stickers.left.style.backgroundColor = tmp;
-
-        tmp = UL.stickers.up.style.backgroundColor;
-        UL.stickers.up.style.backgroundColor    = LF.stickers.front.style.backgroundColor;
-        LF.stickers.front.style.backgroundColor = DL.stickers.down.style.backgroundColor;
-        DL.stickers.down.style.backgroundColor  = LB.stickers.back.style.backgroundColor;
-        LB.stickers.back.style.backgroundColor  = tmp;
       }
     }
 
@@ -843,33 +589,6 @@
 
       if(animating) {
         LSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElX(cubieContainer.el, -qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnLw(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnLCallback(qts);
-        turnMCallback(qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        LSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElX(cubieContainer.el, -qts, cb);
-        });
-        MSLICE.forEach(function(cubieContainer) {
           remaining++;
           rotateElX(cubieContainer.el, -qts, cb);
         });
@@ -901,84 +620,6 @@
         DRF.stickers.down.style.backgroundColor  = DRB.stickers.back.style.backgroundColor;
         DRB.stickers.back.style.backgroundColor  = URB.stickers.up.style.backgroundColor;
         URB.stickers.up.style.backgroundColor    = tmp;
-
-        tmp = UR.stickers.right.style.backgroundColor;
-        UR.stickers.right.style.backgroundColor = RF.stickers.right.style.backgroundColor;
-        RF.stickers.right.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-        DR.stickers.right.style.backgroundColor = RB.stickers.right.style.backgroundColor;
-        RB.stickers.right.style.backgroundColor = tmp;
-
-        tmp = UR.stickers.up.style.backgroundColor;
-        UR.stickers.up.style.backgroundColor    = RF.stickers.front.style.backgroundColor;
-        RF.stickers.front.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-        DR.stickers.down.style.backgroundColor  = RB.stickers.back.style.backgroundColor;
-        RB.stickers.back.style.backgroundColor  = tmp;
-      }
-    }
-
-    function turnM(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnMCallback(qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        MSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElX(cubieContainer.el, -qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnE(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnECallback(qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        ESLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElY(cubieContainer.el, qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnS(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnSCallback(qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        SSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElZ(cubieContainer.el, qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
       }
     }
 
@@ -995,33 +636,6 @@
 
       if(animating) {
         RSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElX(cubieContainer.el, qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnRw(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnRCallback( qts);
-        turnMCallback(-qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        RSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElX(cubieContainer.el, qts, cb);
-        });
-        MSLICE.forEach(function(cubieContainer) {
           remaining++;
           rotateElX(cubieContainer.el, qts, cb);
         });
@@ -1053,18 +667,6 @@
         DLF.stickers.down.style.backgroundColor  = DRF.stickers.right.style.backgroundColor;
         DRF.stickers.right.style.backgroundColor = URF.stickers.up.style.backgroundColor;
         URF.stickers.up.style.backgroundColor    = tmp;
-
-        tmp = UF.stickers.front.style.backgroundColor;
-        UF.stickers.front.style.backgroundColor = LF.stickers.front.style.backgroundColor;
-        LF.stickers.front.style.backgroundColor = DF.stickers.front.style.backgroundColor;
-        DF.stickers.front.style.backgroundColor = RF.stickers.front.style.backgroundColor;
-        RF.stickers.front.style.backgroundColor = tmp;
-
-        tmp = UF.stickers.up.style.backgroundColor;
-        UF.stickers.up.style.backgroundColor    = LF.stickers.left.style.backgroundColor;
-        LF.stickers.left.style.backgroundColor  = DF.stickers.down.style.backgroundColor;
-        DF.stickers.down.style.backgroundColor  = RF.stickers.right.style.backgroundColor;
-        RF.stickers.right.style.backgroundColor = tmp;
       }
     }
 
@@ -1081,33 +683,6 @@
 
       if(animating) {
         FSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElZ(cubieContainer.el, qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnFw(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnFCallback(qts);
-        turnSCallback(qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        FSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElZ(cubieContainer.el, qts, cb);
-        });
-        SSLICE.forEach(function(cubieContainer) {
           remaining++;
           rotateElZ(cubieContainer.el, qts, cb);
         });
@@ -1139,18 +714,6 @@
         DLB.stickers.down.style.backgroundColor  = DRB.stickers.right.style.backgroundColor;
         DRB.stickers.right.style.backgroundColor = URB.stickers.up.style.backgroundColor;
         URB.stickers.up.style.backgroundColor    = tmp;
-
-        tmp = UB.stickers.back.style.backgroundColor;
-        UB.stickers.back.style.backgroundColor = LB.stickers.back.style.backgroundColor;
-        LB.stickers.back.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-        DB.stickers.back.style.backgroundColor = RB.stickers.back.style.backgroundColor;
-        RB.stickers.back.style.backgroundColor = tmp;
-
-        tmp = UB.stickers.up.style.backgroundColor;
-        UB.stickers.up.style.backgroundColor    = LB.stickers.left.style.backgroundColor;
-        LB.stickers.left.style.backgroundColor  = DB.stickers.down.style.backgroundColor;
-        DB.stickers.down.style.backgroundColor  = RB.stickers.right.style.backgroundColor;
-        RB.stickers.right.style.backgroundColor = tmp;
       }
     }
 
@@ -1167,33 +730,6 @@
 
       if(animating) {
         BSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElZ(cubieContainer.el, -qts, cb);
-        });
-      } else {
-        remaining++;
-        cb();
-      }
-    }
-
-    function turnBw(qts) {
-      var remaining = 0;
-      var cb = function() {
-        if(--remaining !== 0) return;
-
-        turnBCallback( qts);
-        turnSCallback(-qts);
-
-        turning = false;
-        handleQueue();
-      }
-
-      if(animating) {
-        BSLICE.forEach(function(cubieContainer) {
-          remaining++;
-          rotateElZ(cubieContainer.el, -qts, cb);
-        });
-        SSLICE.forEach(function(cubieContainer) {
           remaining++;
           rotateElZ(cubieContainer.el, -qts, cb);
         });
@@ -1263,18 +799,9 @@
       d:  turnD,
       l:  turnL,
       b:  turnB,
-      uw: turnUw,
-      rw: turnRw,
-      fw: turnFw,
-      dw: turnDw,
-      lw: turnLw,
-      bw: turnBw,
       x:  turnX,
       y:  turnY,
       z:  turnZ,
-      m:  turnM,
-      e:  turnE,
-      s:  turnS
     }).forEach(function([l, f]) {
       that[l]        = function() { enqueue(f,  1) }
       that[l + "2"]  = function() { enqueue(f,  2) }

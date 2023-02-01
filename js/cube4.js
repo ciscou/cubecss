@@ -39,7 +39,7 @@
     if(options.hasOwnProperty("ry")) RY = parseInt(options.ry);
     if(options.hasOwnProperty("rz")) RZ = parseInt(options.rz);
 
-    var LAYERS = 3;
+    var LAYERS = 4;
 
     options.cubieSize ||= Math.floor(CONTAINER.offsetWidth / (LAYERS * 2));
     options.cubieSize ||= 40;
@@ -132,7 +132,7 @@
 
       cubie.classList.add("cubie");
 
-      cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE) + "px)";
+      cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE - CUBIE_SIZE * 1.5) + "px)";
       cubie.style.transformStyle = "preserve-3d";
       cubie.style.width = "" + CUBIE_SIZE + "px";
       cubie.style.height = "" + CUBIE_SIZE + "px";
@@ -303,60 +303,137 @@
     var cubieContainers = cube.querySelectorAll(".cubie-container");
 
     var ULB  = { el: cubieContainers[0]  };
-    var UL   = { el: cubieContainers[1]  };
-    var ULF  = { el: cubieContainers[2]  };
-    var LB   = { el: cubieContainers[3]  };
-    var L    = { el: cubieContainers[4]  };
-    var LF   = { el: cubieContainers[5]  };
-    var DLB  = { el: cubieContainers[6]  };
-    var DL   = { el: cubieContainers[7]  };
-    var DLF  = { el: cubieContainers[8]  };
-    var UB   = { el: cubieContainers[9]  };
-    var U    = { el: cubieContainers[10] };
-    var UF   = { el: cubieContainers[11] };
-    var B    = { el: cubieContainers[12] };
-    var CORE = { el: cubieContainers[13] };
-    var F    = { el: cubieContainers[14] };
-    var DB   = { el: cubieContainers[15] };
-    var D    = { el: cubieContainers[16] };
-    var DF   = { el: cubieContainers[17] };
-    var URB  = { el: cubieContainers[18] };
-    var UR   = { el: cubieContainers[19] };
-    var URF  = { el: cubieContainers[20] };
-    var RB   = { el: cubieContainers[21] };
-    var R    = { el: cubieContainers[22] };
-    var RF   = { el: cubieContainers[23] };
-    var DRB  = { el: cubieContainers[24] };
-    var DR   = { el: cubieContainers[25] };
-    var DRF  = { el: cubieContainers[26] };
+    var UL1  = { el: cubieContainers[1]  };
+    var UL2  = { el: cubieContainers[2]  };
+    var ULF  = { el: cubieContainers[3]  };
+    var LB1  = { el: cubieContainers[4]  };
+    var L1   = { el: cubieContainers[5]  };
+    var L2   = { el: cubieContainers[6]  };
+    var LF1  = { el: cubieContainers[7]  };
+    var LB2  = { el: cubieContainers[8]  };
+    var L3   = { el: cubieContainers[9]  };
+    var L4   = { el: cubieContainers[10]  };
+    var LF2  = { el: cubieContainers[11]  };
+    var DLB  = { el: cubieContainers[12]  };
+    var DL1  = { el: cubieContainers[13]  };
+    var DL2  = { el: cubieContainers[14]  };
+    var DLF  = { el: cubieContainers[15]  };
+
+    var UB1  = { el: cubieContainers[16]  };
+    var U1   = { el: cubieContainers[17]  };
+    var U3   = { el: cubieContainers[18]  };
+    var UF1  = { el: cubieContainers[19]  };
+    var B3   = { el: cubieContainers[20]  };
+    var COR1 = { el: cubieContainers[21]  };
+    var COR2 = { el: cubieContainers[22]  };
+    var F1   = { el: cubieContainers[23]  };
+    var B1   = { el: cubieContainers[24]  };
+    var COR3 = { el: cubieContainers[25]  };
+    var COR4 = { el: cubieContainers[26]  };
+    var F3   = { el: cubieContainers[27]  };
+    var DB1  = { el: cubieContainers[28]  };
+    var D3   = { el: cubieContainers[29]  };
+    var D1   = { el: cubieContainers[30]  };
+    var DF1  = { el: cubieContainers[31]  };
+
+    var UB2  = { el: cubieContainers[32]  };
+    var U2   = { el: cubieContainers[33]  };
+    var U4   = { el: cubieContainers[34]  };
+    var UF2  = { el: cubieContainers[35]  };
+    var B4   = { el: cubieContainers[36]  };
+    var COR5 = { el: cubieContainers[37]  };
+    var COR6 = { el: cubieContainers[38]  };
+    var F2   = { el: cubieContainers[39]  };
+    var B2   = { el: cubieContainers[40]  };
+    var COR7 = { el: cubieContainers[41]  };
+    var COR8 = { el: cubieContainers[42]  };
+    var F4   = { el: cubieContainers[43]  };
+    var DB2  = { el: cubieContainers[44]  };
+    var D4   = { el: cubieContainers[45]  };
+    var D2   = { el: cubieContainers[46]  };
+    var DF2  = { el: cubieContainers[47]  };
+
+    var URB  = { el: cubieContainers[48]  };
+    var UR1  = { el: cubieContainers[49]  };
+    var UR2  = { el: cubieContainers[50]  };
+    var URF  = { el: cubieContainers[51]  };
+    var RB1  = { el: cubieContainers[52]  };
+    var R1   = { el: cubieContainers[53]  };
+    var R2   = { el: cubieContainers[54]  };
+    var RF1  = { el: cubieContainers[55]  };
+    var RB2  = { el: cubieContainers[56]  };
+    var R3   = { el: cubieContainers[57]  };
+    var R4   = { el: cubieContainers[58]  };
+    var RF2  = { el: cubieContainers[59]  };
+    var DRB  = { el: cubieContainers[60]  };
+    var DR1  = { el: cubieContainers[61]  };
+    var DR2  = { el: cubieContainers[62]  };
+    var DRF  = { el: cubieContainers[63]  };
 
     this.cubies = {
       ULB: ULB,
-      UL: UL,
+      UL1: UL1,
+      UL2: UL2,
       ULF: ULF,
-      LB: LB,
-      L: L,
-      LF: LF,
+      LB1: LB1,
+      LB2: LB2,
+      L1: L1,
+      L2: L2,
+      L3: L3,
+      L4: L4,
+      LF1: LF1,
+      LF2: LF2,
       DLB: DLB,
-      DL: DL,
+      DL1: DL1,
+      DL2: DL2,
       DLF: DLF,
-      UB: UB,
-      U: U,
-      UF: UF,
-      B: B,
-      CORE: CORE,
-      F: F,
-      DB: DB,
-      D: D,
-      DF: DF,
+      UB1: UB1,
+      UB2: UB2,
+      U1: U1,
+      U2: U2,
+      U3: U3,
+      U4: U4,
+      UF1: UF1,
+      UF2: UF2,
+      B1: B1,
+      B2: B2,
+      B3: B3,
+      B4: B4,
+      COR1: COR1,
+      COR2: COR2,
+      COR3: COR3,
+      COR4: COR4,
+      COR5: COR5,
+      COR6: COR6,
+      COR7: COR7,
+      COR8: COR8,
+      F1: F1,
+      F2: F2,
+      F3: F3,
+      F4: F4,
+      DB1: DB1,
+      DB2: DB2,
+      D1: D1,
+      D2: D2,
+      D3: D3,
+      D4: D4,
+      DF1: DF1,
+      DF2: DF2,
       URB: URB,
-      UR: UR,
+      UR1: UR1,
+      UR2: UR2,
       URF: URF,
-      RB: RB,
-      R: R,
-      RF: RF,
+      RB1: RB1,
+      RB2: RB2,
+      R1: R1,
+      R2: R2,
+      R3: R3,
+      R4: R4,
+      RF1: RF1,
+      RF2: RF2,
       DRB: DRB,
-      DR: DR,
+      DR1: DR1,
+      DR2: DR2,
       DRF: DRF
     }
 
@@ -378,91 +455,279 @@
       if(!cc.stickers.back)  delete cc.stickers.back;
     });
 
+    /*
+    Object.values(DB1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(D3.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(D1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(DF1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(UB2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(U2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(U4.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(UF2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(B4.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(COR5.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(COR6.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(F2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(B2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(COR7.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(COR8.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(F4.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(DB2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(D4.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(D2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(DF2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(URB.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(UR1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(UR2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(URF.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(RB1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(R1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(R2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(RF1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(RB2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(R3.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(R4.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(RF2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+
+    Object.values(DRB.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "lightgray";
+    })
+
+    Object.values(DR1.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "darkgray";
+    })
+
+    Object.values(DR2.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "gray";
+    })
+
+    Object.values(DRF.stickers).forEach((sticker) => {
+      sticker.style.backgroundColor = "dimgray";
+    })
+    */
+
     var USLICE = [
       ULB,
-      UL,
+      UL1,
+      UL2,
       ULF,
-      UB,
-      U,
-      UF,
+      UB1,
+      UB2,
+      U1,
+      U2,
+      U3,
+      U4,
+      UF1,
+      UF2,
       URB,
-      UR,
+      UR1,
+      UR2,
       URF
     ];
 
     var DSLICE = [
       DLB,
-      DL,
+      DL1,
+      DL2,
       DLF,
-      DB,
-      D,
-      DF,
+      DB1,
+      DB2,
+      D1,
+      D2,
+      D3,
+      D4,
+      DF1,
+      DF2,
       DRB,
-      DR,
+      DR1,
+      DR2,
       DRF
     ];
 
     var LSLICE = [
       ULB,
-      UL,
+      UL1,
+      UL2,
       ULF,
-      LB,
-      L,
-      LF,
+      LB1,
+      LB2,
+      L1,
+      L2,
+      L3,
+      L4,
+      LF1,
+      LF2,
       DLB,
-      DL,
-      DLF
+      DL1,
+      DL2,
+      DLF,
     ];
 
     var RSLICE = [
       URB,
-      UR,
+      UR1,
+      UR2,
       URF,
-      RB,
-      R,
-      RF,
+      RB1,
+      RB2,
+      R1,
+      R2,
+      R3,
+      R4,
+      RF1,
+      RF2,
       DRB,
-      DR,
+      DR1,
+      DR2,
       DRF
     ];
 
     var FSLICE = [
       ULF,
-      LF,
+      LF1,
+      LF2,
       DLF,
-      UF,
-      F,
-      DF,
+      UF1,
+      UF2,
+      F1,
+      F2,
+      F3,
+      F4,
+      DF1,
+      DF2,
       URF,
-      RF,
+      RF1,
+      RF2,
       DRF
     ];
 
     var BSLICE = [
       ULB,
-      LB,
+      LB1,
+      LB2,
       DLB,
-      UB,
-      B,
-      DB,
+      UB1,
+      UB2,
+      B1,
+      B2,
+      B3,
+      B4,
+      DB1,
+      DB2,
       URB,
-      RB,
+      RB1,
+      RB2,
       DRB
     ];
 
     var MSLICE = [
-      CORE, U, F, D, B,
-      UB, UF, DB, DF
+      COR1, COR2, COR3, COR4, U1, U3, F1, F3, D1, D3, B1, B3,
+      UB1, UF1, DB1, DF1
     ];
 
     var ESLICE = [
-      CORE, L, F, R, B,
-      LF, LB, RF, RB
+      COR1, L1, L2, F1, R1, B1,
+      LF1, LB1, RF1, RB1
     ];
 
     var SSLICE = [
-      CORE, U, R, D, L,
-      UL, UR, DL, DR
+      COR1, U1, R1, D1, L1,
+      UL1, UR1, DL1, DR1
     ];
 
     this.slices = {
@@ -476,6 +741,8 @@
       E: ESLICE,
       S: SSLICE
     }
+
+    window.slices = this.slices;
 
     function turnsToCycles(qts) {
       switch(qts) {
@@ -500,23 +767,29 @@
       var tmp;
 
       for(var i=0; i<cycles; i++) {
-        tmp = U.stickers.up.style.backgroundColor;
-        U.stickers.up.style.backgroundColor = F.stickers.front.style.backgroundColor;
-        F.stickers.front.style.backgroundColor = D.stickers.down.style.backgroundColor;
-        D.stickers.down.style.backgroundColor = B.stickers.back.style.backgroundColor;
-        B.stickers.back.style.backgroundColor = tmp;
+        tmp = U1.stickers.up.style.backgroundColor;
+        U1.stickers.up.style.backgroundColor = F1.stickers.front.style.backgroundColor;
+        F1.stickers.front.style.backgroundColor = D1.stickers.down.style.backgroundColor;
+        D1.stickers.down.style.backgroundColor = B1.stickers.back.style.backgroundColor;
+        B1.stickers.back.style.backgroundColor = tmp;
 
-        tmp = UB.stickers.up.style.backgroundColor;
-        UB.stickers.up.style.backgroundColor = UF.stickers.front.style.backgroundColor;
-        UF.stickers.front.style.backgroundColor = DF.stickers.down.style.backgroundColor;
-        DF.stickers.down.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-        DB.stickers.back.style.backgroundColor = tmp;
+        tmp = U3.stickers.up.style.backgroundColor;
+        U3.stickers.up.style.backgroundColor = F3.stickers.front.style.backgroundColor;
+        F3.stickers.front.style.backgroundColor = D3.stickers.down.style.backgroundColor;
+        D3.stickers.down.style.backgroundColor = B3.stickers.back.style.backgroundColor;
+        B3.stickers.back.style.backgroundColor = tmp;
 
-        tmp = UB.stickers.back.style.backgroundColor;
-        UB.stickers.back.style.backgroundColor = UF.stickers.up.style.backgroundColor;
-        UF.stickers.up.style.backgroundColor = DF.stickers.front.style.backgroundColor;
-        DF.stickers.front.style.backgroundColor = DB.stickers.down.style.backgroundColor;
-        DB.stickers.down.style.backgroundColor = tmp;
+        tmp = UB1.stickers.up.style.backgroundColor;
+        UB1.stickers.up.style.backgroundColor = UF1.stickers.front.style.backgroundColor;
+        UF1.stickers.front.style.backgroundColor = DF1.stickers.down.style.backgroundColor;
+        DF1.stickers.down.style.backgroundColor = DB1.stickers.back.style.backgroundColor;
+        DB1.stickers.back.style.backgroundColor = tmp;
+
+        tmp = UB1.stickers.back.style.backgroundColor;
+        UB1.stickers.back.style.backgroundColor = UF1.stickers.up.style.backgroundColor;
+        UF1.stickers.up.style.backgroundColor = DF1.stickers.front.style.backgroundColor;
+        DF1.stickers.front.style.backgroundColor = DB1.stickers.down.style.backgroundColor;
+        DB1.stickers.down.style.backgroundColor = tmp;
       }
     }
 
@@ -626,6 +899,12 @@
       var tmp;
 
       for(var i=0; i<cycles; i++) {
+        tmp = U1.stickers.up.style.backgroundColor;
+        U1.stickers.up.style.backgroundColor = U3.stickers.up.style.backgroundColor;
+        U3.stickers.up.style.backgroundColor = U4.stickers.up.style.backgroundColor;
+        U4.stickers.up.style.backgroundColor = U2.stickers.up.style.backgroundColor;
+        U2.stickers.up.style.backgroundColor = tmp;
+
         tmp = ULB.stickers.up.style.backgroundColor;
         ULB.stickers.up.style.backgroundColor = ULF.stickers.up.style.backgroundColor;
         ULF.stickers.up.style.backgroundColor = URF.stickers.up.style.backgroundColor;
@@ -644,17 +923,29 @@
         URF.stickers.front.style.backgroundColor = URB.stickers.right.style.backgroundColor;
         URB.stickers.right.style.backgroundColor = tmp;
 
-        tmp = UL.stickers.up.style.backgroundColor;
-        UL.stickers.up.style.backgroundColor = UF.stickers.up.style.backgroundColor;
-        UF.stickers.up.style.backgroundColor = UR.stickers.up.style.backgroundColor;
-        UR.stickers.up.style.backgroundColor = UB.stickers.up.style.backgroundColor;
-        UB.stickers.up.style.backgroundColor = tmp;
+        tmp = UL1.stickers.up.style.backgroundColor;
+        UL1.stickers.up.style.backgroundColor = UF1.stickers.up.style.backgroundColor;
+        UF1.stickers.up.style.backgroundColor = UR2.stickers.up.style.backgroundColor;
+        UR2.stickers.up.style.backgroundColor = UB2.stickers.up.style.backgroundColor;
+        UB2.stickers.up.style.backgroundColor = tmp;
 
-        tmp = UL.stickers.left.style.backgroundColor;
-        UL.stickers.left.style.backgroundColor  = UF.stickers.front.style.backgroundColor;
-        UF.stickers.front.style.backgroundColor = UR.stickers.right.style.backgroundColor;
-        UR.stickers.right.style.backgroundColor = UB.stickers.back.style.backgroundColor;
-        UB.stickers.back.style.backgroundColor  = tmp;
+        tmp = UL1.stickers.left.style.backgroundColor;
+        UL1.stickers.left.style.backgroundColor  = UF1.stickers.front.style.backgroundColor;
+        UF1.stickers.front.style.backgroundColor = UR2.stickers.right.style.backgroundColor;
+        UR2.stickers.right.style.backgroundColor = UB2.stickers.back.style.backgroundColor;
+        UB2.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = UL2.stickers.up.style.backgroundColor;
+        UL2.stickers.up.style.backgroundColor = UF2.stickers.up.style.backgroundColor;
+        UF2.stickers.up.style.backgroundColor = UR1.stickers.up.style.backgroundColor;
+        UR1.stickers.up.style.backgroundColor = UB1.stickers.up.style.backgroundColor;
+        UB1.stickers.up.style.backgroundColor = tmp;
+
+        tmp = UL2.stickers.left.style.backgroundColor;
+        UL2.stickers.left.style.backgroundColor  = UF2.stickers.front.style.backgroundColor;
+        UF2.stickers.front.style.backgroundColor = UR1.stickers.right.style.backgroundColor;
+        UR1.stickers.right.style.backgroundColor = UB1.stickers.back.style.backgroundColor;
+        UB1.stickers.back.style.backgroundColor  = tmp;
       }
     }
 
@@ -884,6 +1175,12 @@
       var tmp;
 
       for(var i=0; i<cycles; i++) {
+        tmp = R1.stickers.right.style.backgroundColor;
+        R1.stickers.right.style.backgroundColor = R3.stickers.right.style.backgroundColor;
+        R3.stickers.right.style.backgroundColor = R4.stickers.right.style.backgroundColor;
+        R4.stickers.right.style.backgroundColor = R2.stickers.right.style.backgroundColor;
+        R2.stickers.right.style.backgroundColor = tmp;
+
         tmp = URF.stickers.right.style.backgroundColor;
         URF.stickers.right.style.backgroundColor = DRF.stickers.right.style.backgroundColor;
         DRF.stickers.right.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
@@ -902,17 +1199,29 @@
         DRB.stickers.back.style.backgroundColor  = URB.stickers.up.style.backgroundColor;
         URB.stickers.up.style.backgroundColor    = tmp;
 
-        tmp = UR.stickers.right.style.backgroundColor;
-        UR.stickers.right.style.backgroundColor = RF.stickers.right.style.backgroundColor;
-        RF.stickers.right.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-        DR.stickers.right.style.backgroundColor = RB.stickers.right.style.backgroundColor;
-        RB.stickers.right.style.backgroundColor = tmp;
+        tmp = UR1.stickers.right.style.backgroundColor;
+        UR1.stickers.right.style.backgroundColor = RF2.stickers.right.style.backgroundColor;
+        RF2.stickers.right.style.backgroundColor = DR1.stickers.right.style.backgroundColor;
+        DR1.stickers.right.style.backgroundColor = RB2.stickers.right.style.backgroundColor;
+        RB2.stickers.right.style.backgroundColor = tmp;
 
-        tmp = UR.stickers.up.style.backgroundColor;
-        UR.stickers.up.style.backgroundColor    = RF.stickers.front.style.backgroundColor;
-        RF.stickers.front.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-        DR.stickers.down.style.backgroundColor  = RB.stickers.back.style.backgroundColor;
-        RB.stickers.back.style.backgroundColor  = tmp;
+        tmp = UR1.stickers.up.style.backgroundColor;
+        UR1.stickers.up.style.backgroundColor    = RF2.stickers.front.style.backgroundColor;
+        RF2.stickers.front.style.backgroundColor = DR1.stickers.down.style.backgroundColor;
+        DR1.stickers.down.style.backgroundColor  = RB2.stickers.back.style.backgroundColor;
+        RB2.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = UR2.stickers.right.style.backgroundColor;
+        UR2.stickers.right.style.backgroundColor = RF1.stickers.right.style.backgroundColor;
+        RF1.stickers.right.style.backgroundColor = DR2.stickers.right.style.backgroundColor;
+        DR2.stickers.right.style.backgroundColor = RB1.stickers.right.style.backgroundColor;
+        RB1.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UR2.stickers.up.style.backgroundColor;
+        UR2.stickers.up.style.backgroundColor    = RF1.stickers.front.style.backgroundColor;
+        RF1.stickers.front.style.backgroundColor = DR2.stickers.down.style.backgroundColor;
+        DR2.stickers.down.style.backgroundColor  = RB1.stickers.back.style.backgroundColor;
+        RB1.stickers.back.style.backgroundColor  = tmp;
       }
     }
 
@@ -1036,6 +1345,12 @@
       var tmp;
 
       for(var i=0; i<cycles; i++) {
+        tmp = F1.stickers.front.style.backgroundColor;
+        F1.stickers.front.style.backgroundColor = F3.stickers.front.style.backgroundColor;
+        F3.stickers.front.style.backgroundColor = F4.stickers.front.style.backgroundColor;
+        F4.stickers.front.style.backgroundColor = F2.stickers.front.style.backgroundColor;
+        F2.stickers.front.style.backgroundColor = tmp;
+
         tmp = ULF.stickers.front.style.backgroundColor;
         ULF.stickers.front.style.backgroundColor = DLF.stickers.front.style.backgroundColor;
         DLF.stickers.front.style.backgroundColor = DRF.stickers.front.style.backgroundColor;
@@ -1054,17 +1369,29 @@
         DRF.stickers.right.style.backgroundColor = URF.stickers.up.style.backgroundColor;
         URF.stickers.up.style.backgroundColor    = tmp;
 
-        tmp = UF.stickers.front.style.backgroundColor;
-        UF.stickers.front.style.backgroundColor = LF.stickers.front.style.backgroundColor;
-        LF.stickers.front.style.backgroundColor = DF.stickers.front.style.backgroundColor;
-        DF.stickers.front.style.backgroundColor = RF.stickers.front.style.backgroundColor;
-        RF.stickers.front.style.backgroundColor = tmp;
+        tmp = UF1.stickers.front.style.backgroundColor;
+        UF1.stickers.front.style.backgroundColor = LF1.stickers.front.style.backgroundColor;
+        LF1.stickers.front.style.backgroundColor = DF1.stickers.front.style.backgroundColor;
+        DF1.stickers.front.style.backgroundColor = RF1.stickers.front.style.backgroundColor;
+        RF1.stickers.front.style.backgroundColor = tmp;
 
-        tmp = UF.stickers.up.style.backgroundColor;
-        UF.stickers.up.style.backgroundColor    = LF.stickers.left.style.backgroundColor;
-        LF.stickers.left.style.backgroundColor  = DF.stickers.down.style.backgroundColor;
-        DF.stickers.down.style.backgroundColor  = RF.stickers.right.style.backgroundColor;
-        RF.stickers.right.style.backgroundColor = tmp;
+        tmp = UF1.stickers.up.style.backgroundColor;
+        UF1.stickers.up.style.backgroundColor    = LF1.stickers.left.style.backgroundColor;
+        LF1.stickers.left.style.backgroundColor  = DF1.stickers.down.style.backgroundColor;
+        DF1.stickers.down.style.backgroundColor  = RF1.stickers.right.style.backgroundColor;
+        RF1.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UF2.stickers.front.style.backgroundColor;
+        UF2.stickers.front.style.backgroundColor = LF2.stickers.front.style.backgroundColor;
+        LF2.stickers.front.style.backgroundColor = DF2.stickers.front.style.backgroundColor;
+        DF2.stickers.front.style.backgroundColor = RF2.stickers.front.style.backgroundColor;
+        RF2.stickers.front.style.backgroundColor = tmp;
+
+        tmp = UF2.stickers.up.style.backgroundColor;
+        UF2.stickers.up.style.backgroundColor    = LF2.stickers.left.style.backgroundColor;
+        LF2.stickers.left.style.backgroundColor  = DF2.stickers.down.style.backgroundColor;
+        DF2.stickers.down.style.backgroundColor  = RF2.stickers.right.style.backgroundColor;
+        RF2.stickers.right.style.backgroundColor = tmp;
       }
     }
 
