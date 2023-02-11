@@ -1105,6 +1105,12 @@
       var tmp;
 
       for(var i=0; i<cycles; i++) {
+        tmp = D1.stickers.down.style.backgroundColor;
+        D1.stickers.down.style.backgroundColor = D2.stickers.down.style.backgroundColor;
+        D2.stickers.down.style.backgroundColor = D4.stickers.down.style.backgroundColor;
+        D4.stickers.down.style.backgroundColor = D3.stickers.down.style.backgroundColor;
+        D3.stickers.down.style.backgroundColor = tmp;
+
         tmp = DLB.stickers.down.style.backgroundColor;
         DLB.stickers.down.style.backgroundColor = DLF.stickers.down.style.backgroundColor;
         DLF.stickers.down.style.backgroundColor = DRF.stickers.down.style.backgroundColor;
@@ -1123,17 +1129,29 @@
         DRF.stickers.front.style.backgroundColor = DRB.stickers.right.style.backgroundColor;
         DRB.stickers.right.style.backgroundColor = tmp;
 
-        tmp = DL.stickers.down.style.backgroundColor;
-        DL.stickers.down.style.backgroundColor = DF.stickers.down.style.backgroundColor;
-        DF.stickers.down.style.backgroundColor = DR.stickers.down.style.backgroundColor;
-        DR.stickers.down.style.backgroundColor = DB.stickers.down.style.backgroundColor;
-        DB.stickers.down.style.backgroundColor = tmp;
+        tmp = DL1.stickers.down.style.backgroundColor;
+        DL1.stickers.down.style.backgroundColor = DF1.stickers.down.style.backgroundColor;
+        DF1.stickers.down.style.backgroundColor = DR2.stickers.down.style.backgroundColor;
+        DR2.stickers.down.style.backgroundColor = DB2.stickers.down.style.backgroundColor;
+        DB2.stickers.down.style.backgroundColor = tmp;
 
-        tmp = DL.stickers.left.style.backgroundColor;
-        DL.stickers.left.style.backgroundColor  = DF.stickers.front.style.backgroundColor;
-        DF.stickers.front.style.backgroundColor = DR.stickers.right.style.backgroundColor;
-        DR.stickers.right.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-        DB.stickers.back.style.backgroundColor  = tmp;
+        tmp = DL1.stickers.left.style.backgroundColor;
+        DL1.stickers.left.style.backgroundColor  = DF1.stickers.front.style.backgroundColor;
+        DF1.stickers.front.style.backgroundColor = DR2.stickers.right.style.backgroundColor;
+        DR2.stickers.right.style.backgroundColor = DB2.stickers.back.style.backgroundColor;
+        DB2.stickers.back.style.backgroundColor  = tmp;
+
+        tmp = DL2.stickers.down.style.backgroundColor;
+        DL2.stickers.down.style.backgroundColor = DF2.stickers.down.style.backgroundColor;
+        DF2.stickers.down.style.backgroundColor = DR1.stickers.down.style.backgroundColor;
+        DR1.stickers.down.style.backgroundColor = DB1.stickers.down.style.backgroundColor;
+        DB1.stickers.down.style.backgroundColor = tmp;
+
+        tmp = DL2.stickers.left.style.backgroundColor;
+        DL2.stickers.left.style.backgroundColor  = DF2.stickers.front.style.backgroundColor;
+        DF2.stickers.front.style.backgroundColor = DR1.stickers.right.style.backgroundColor;
+        DR1.stickers.right.style.backgroundColor = DB1.stickers.back.style.backgroundColor;
+        DB1.stickers.back.style.backgroundColor  = tmp;
       }
     }
 
