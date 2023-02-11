@@ -149,6 +149,12 @@
 
       cubieContainer.classList.add("cubie-container");
 
+      if(
+        (x === 1 || x === 2) &&
+        (y === 1 || y === 2) &&
+        (z === 1 || z === 2)
+      ) return cubieContainer; // core piece
+
       cubieContainer.style.transition = options.transition;
       cubieContainer.style.transformStyle = "preserve-3d";
       cubieContainer.style.position = "absolute";
@@ -324,12 +330,8 @@
     var U3   = { el: cubieContainers[18]  };
     var UF1  = { el: cubieContainers[19]  };
     var B3   = { el: cubieContainers[20]  };
-    var COR1 = { el: cubieContainers[21]  };
-    var COR2 = { el: cubieContainers[22]  };
     var F1   = { el: cubieContainers[23]  };
     var B1   = { el: cubieContainers[24]  };
-    var COR3 = { el: cubieContainers[25]  };
-    var COR4 = { el: cubieContainers[26]  };
     var F3   = { el: cubieContainers[27]  };
     var DB1  = { el: cubieContainers[28]  };
     var D3   = { el: cubieContainers[29]  };
@@ -341,12 +343,8 @@
     var U4   = { el: cubieContainers[34]  };
     var UF2  = { el: cubieContainers[35]  };
     var B4   = { el: cubieContainers[36]  };
-    var COR5 = { el: cubieContainers[37]  };
-    var COR6 = { el: cubieContainers[38]  };
     var F2   = { el: cubieContainers[39]  };
     var B2   = { el: cubieContainers[40]  };
-    var COR7 = { el: cubieContainers[41]  };
-    var COR8 = { el: cubieContainers[42]  };
     var F4   = { el: cubieContainers[43]  };
     var DB2  = { el: cubieContainers[44]  };
     var D4   = { el: cubieContainers[45]  };
@@ -399,14 +397,6 @@
       B2: B2,
       B3: B3,
       B4: B4,
-      COR1: COR1,
-      COR2: COR2,
-      COR3: COR3,
-      COR4: COR4,
-      COR5: COR5,
-      COR6: COR6,
-      COR7: COR7,
-      COR8: COR8,
       F1: F1,
       F2: F2,
       F3: F3,
@@ -438,6 +428,8 @@
     }
 
     Object.values(this.cubies).forEach(function(cc) {
+      if(!cc.el) return;
+
       cc.stickers = {};
 
       cc.stickers.up    = cc.el.querySelector(".cubie .face.up .sticker");
@@ -492,28 +484,12 @@
       sticker.style.backgroundColor = "lightgray";
     })
 
-    Object.values(COR5.stickers).forEach((sticker) => {
-      sticker.style.backgroundColor = "darkgray";
-    })
-
-    Object.values(COR6.stickers).forEach((sticker) => {
-      sticker.style.backgroundColor = "gray";
-    })
-
     Object.values(F2.stickers).forEach((sticker) => {
       sticker.style.backgroundColor = "dimgray";
     })
 
     Object.values(B2.stickers).forEach((sticker) => {
       sticker.style.backgroundColor = "lightgray";
-    })
-
-    Object.values(COR7.stickers).forEach((sticker) => {
-      sticker.style.backgroundColor = "darkgray";
-    })
-
-    Object.values(COR8.stickers).forEach((sticker) => {
-      sticker.style.backgroundColor = "gray";
     })
 
     Object.values(F4.stickers).forEach((sticker) => {
@@ -716,22 +692,22 @@
     ];
 
     var M1SLICE = [
-      COR1, COR2, COR3, COR4, U1, U3, F1, F3, D1, D3, B1, B3,
+      U1, U3, F1, F3, D1, D3, B1, B3,
       UB1, UF1, DB1, DF1
     ];
 
     var M2SLICE = [
-      COR5, COR6, COR7, COR8, U2, U4, F2, F4, D2, D4, B2, B4,
+      U2, U4, F2, F4, D2, D4, B2, B4,
       UB2, UF2, DB2, DF2
     ];
 
     var ESLICE = [
-      COR1, L1, L2, F1, R1, B1,
+      L1, L2, F1, R1, B1,
       LF1, LB1, RF1, RB1
     ];
 
     var SSLICE = [
-      COR1, U1, R1, D1, L1,
+      U1, R1, D1, L1,
       UL1, UR1, DL1, DR1
     ];
 
