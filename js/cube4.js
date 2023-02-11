@@ -1776,6 +1776,12 @@
       var tmp;
 
       for(var i=0; i<cycles; i++) {
+        tmp = B1.stickers.back.style.backgroundColor;
+        B1.stickers.back.style.backgroundColor = B2.stickers.back.style.backgroundColor;
+        B2.stickers.back.style.backgroundColor = B4.stickers.back.style.backgroundColor;
+        B4.stickers.back.style.backgroundColor = B3.stickers.back.style.backgroundColor;
+        B3.stickers.back.style.backgroundColor = tmp;
+
         tmp = ULB.stickers.back.style.backgroundColor;
         ULB.stickers.back.style.backgroundColor = DLB.stickers.back.style.backgroundColor;
         DLB.stickers.back.style.backgroundColor = DRB.stickers.back.style.backgroundColor;
@@ -1794,17 +1800,29 @@
         DRB.stickers.right.style.backgroundColor = URB.stickers.up.style.backgroundColor;
         URB.stickers.up.style.backgroundColor    = tmp;
 
-        tmp = UB.stickers.back.style.backgroundColor;
-        UB.stickers.back.style.backgroundColor = LB.stickers.back.style.backgroundColor;
-        LB.stickers.back.style.backgroundColor = DB.stickers.back.style.backgroundColor;
-        DB.stickers.back.style.backgroundColor = RB.stickers.back.style.backgroundColor;
-        RB.stickers.back.style.backgroundColor = tmp;
+        tmp = UB1.stickers.back.style.backgroundColor;
+        UB1.stickers.back.style.backgroundColor = LB2.stickers.back.style.backgroundColor;
+        LB2.stickers.back.style.backgroundColor = DB2.stickers.back.style.backgroundColor;
+        DB2.stickers.back.style.backgroundColor = RB1.stickers.back.style.backgroundColor;
+        RB1.stickers.back.style.backgroundColor = tmp;
 
-        tmp = UB.stickers.up.style.backgroundColor;
-        UB.stickers.up.style.backgroundColor    = LB.stickers.left.style.backgroundColor;
-        LB.stickers.left.style.backgroundColor  = DB.stickers.down.style.backgroundColor;
-        DB.stickers.down.style.backgroundColor  = RB.stickers.right.style.backgroundColor;
-        RB.stickers.right.style.backgroundColor = tmp;
+        tmp = UB1.stickers.up.style.backgroundColor;
+        UB1.stickers.up.style.backgroundColor    = LB2.stickers.left.style.backgroundColor;
+        LB2.stickers.left.style.backgroundColor  = DB2.stickers.down.style.backgroundColor;
+        DB2.stickers.down.style.backgroundColor  = RB1.stickers.right.style.backgroundColor;
+        RB1.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UB2.stickers.back.style.backgroundColor;
+        UB2.stickers.back.style.backgroundColor = LB1.stickers.back.style.backgroundColor;
+        LB1.stickers.back.style.backgroundColor = DB1.stickers.back.style.backgroundColor;
+        DB1.stickers.back.style.backgroundColor = RB2.stickers.back.style.backgroundColor;
+        RB2.stickers.back.style.backgroundColor = tmp;
+
+        tmp = UB2.stickers.up.style.backgroundColor;
+        UB2.stickers.up.style.backgroundColor    = LB1.stickers.left.style.backgroundColor;
+        LB1.stickers.left.style.backgroundColor  = DB1.stickers.down.style.backgroundColor;
+        DB1.stickers.down.style.backgroundColor  = RB2.stickers.right.style.backgroundColor;
+        RB2.stickers.right.style.backgroundColor = tmp;
       }
     }
 
