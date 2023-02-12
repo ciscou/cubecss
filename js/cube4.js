@@ -824,15 +824,15 @@
 
       for(var i=0; i<cycles; i++) {
         tmp = F1.stickers.front.style.backgroundColor;
-        F1.stickers.front.style.backgroundColor = R1.stickers.right.style.backgroundColor;
-        R1.stickers.right.style.backgroundColor = B3.stickers.back.style.backgroundColor;
-        B3.stickers.back.style.backgroundColor = L1.stickers.left.style.backgroundColor;
+        F1.stickers.front.style.backgroundColor = R2.stickers.right.style.backgroundColor;
+        R2.stickers.right.style.backgroundColor = B4.stickers.back.style.backgroundColor;
+        B4.stickers.back.style.backgroundColor = L1.stickers.left.style.backgroundColor;
         L1.stickers.left.style.backgroundColor = tmp;
 
         tmp = F2.stickers.front.style.backgroundColor;
-        F2.stickers.front.style.backgroundColor = R2.stickers.right.style.backgroundColor;
-        R2.stickers.right.style.backgroundColor = B4.stickers.back.style.backgroundColor;
-        B4.stickers.back.style.backgroundColor = L2.stickers.left.style.backgroundColor;
+        F2.stickers.front.style.backgroundColor = R1.stickers.right.style.backgroundColor;
+        R1.stickers.right.style.backgroundColor = B3.stickers.back.style.backgroundColor;
+        B3.stickers.back.style.backgroundColor = L2.stickers.left.style.backgroundColor;
         L2.stickers.left.style.backgroundColor = tmp;
 
         tmp = LF1.stickers.left.style.backgroundColor;
@@ -855,15 +855,15 @@
 
       for(var i=0; i<cycles; i++) {
         tmp = F3.stickers.front.style.backgroundColor;
-        F3.stickers.front.style.backgroundColor = R3.stickers.right.style.backgroundColor;
-        R3.stickers.right.style.backgroundColor = B1.stickers.back.style.backgroundColor;
-        B1.stickers.back.style.backgroundColor = L3.stickers.left.style.backgroundColor;
+        F3.stickers.front.style.backgroundColor = R4.stickers.right.style.backgroundColor;
+        R4.stickers.right.style.backgroundColor = B2.stickers.back.style.backgroundColor;
+        B2.stickers.back.style.backgroundColor = L3.stickers.left.style.backgroundColor;
         L3.stickers.left.style.backgroundColor = tmp;
 
         tmp = F4.stickers.front.style.backgroundColor;
-        F4.stickers.front.style.backgroundColor = R4.stickers.right.style.backgroundColor;
-        R4.stickers.right.style.backgroundColor = B2.stickers.back.style.backgroundColor;
-        B2.stickers.back.style.backgroundColor = L4.stickers.left.style.backgroundColor;
+        F4.stickers.front.style.backgroundColor = R3.stickers.right.style.backgroundColor;
+        R3.stickers.right.style.backgroundColor = B1.stickers.back.style.backgroundColor;
+        B1.stickers.back.style.backgroundColor = L4.stickers.left.style.backgroundColor;
         L4.stickers.left.style.backgroundColor = tmp;
 
         tmp = LF2.stickers.left.style.backgroundColor;
@@ -1247,6 +1247,11 @@
         L4.stickers.left.style.backgroundColor = L3.stickers.left.style.backgroundColor;
         L3.stickers.left.style.backgroundColor = tmp;
 
+        tmp = ULF.stickers.left.style.backgroundColor;
+        ULF.stickers.left.style.backgroundColor = DLF.stickers.left.style.backgroundColor;
+        DLF.stickers.left.style.backgroundColor = DLB.stickers.left.style.backgroundColor;
+        DLB.stickers.left.style.backgroundColor = ULB.stickers.left.style.backgroundColor;
+        ULB.stickers.left.style.backgroundColor = tmp;
 
         tmp = ULF.stickers.up.style.backgroundColor;
         ULF.stickers.up.style.backgroundColor    = DLF.stickers.front.style.backgroundColor;
