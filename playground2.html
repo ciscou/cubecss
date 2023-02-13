@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="css/cube.css" />
+    <title>CSS Cube Demo</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Playground</h1>
+
+      <div>
+        <p>This is the iframe code:</p>
+        <p class="iframe-html-container"></p>
+      </div>
+      <div class="iframe-container">
+      </div>
+      <form class="playground row">
+        <div class="col">
+          <label class="label">
+            <span>Width</span>
+            <input type="text" name="width" value="240">
+          </label>
+          <label class="label">
+            <span>Height</span>
+            <input type="text" name="height" value="280">
+          </label>
+          <label class="label">
+            <span>Cubie Size</span>
+            <input type="text" name="cs" value="" placeholder="40">
+          </label>
+          <label class="label">
+            <span>Pre Seq</span>
+            <input type="text" name="preseq" value="" placeholder="R U R' U' R' F R2 U' R' U' R U R' F'">
+          </label>
+          <label class="label">
+            <span>Seq</span>
+            <input type="text" name="seq" value="" placeholder="R U R' U' R' F R2 U' R' U' R U R' F'">
+          </label>
+          <label class="label">
+            <span>U Color</span>
+            <input type="text" name="clru" value="" placeholder="#ffd500">
+          </label>
+          <label class="label">
+            <span>D Color</span>
+            <input type="text" name="clrd" value="" placeholder="#ffffff">
+          </label>
+          <label class="label">
+            <span>R Color</span>
+            <input type="text" name="clrr" value="" placeholder="#b71234">
+          </label>
+          <label class="label">
+            <span>L Color</span>
+            <input type="text" name="clrl" value="" placeholder="#ff5800">
+          </label>
+          <label class="label">
+            <span>F Color</span>
+            <input type="text" name="clrf" value="" placeholder="#0046ad">
+          </label>
+          <label class="label">
+            <span>B Color</span>
+            <input type="text" name="clrb" value="" placeholder="#009b48">
+          </label>
+          <label class="label">
+            <span>Rotation X</span>
+            <input type="text" name="rx" value="" placeholder="-20">
+          </label>
+          <label class="label">
+            <span>Rotation Y</span>
+            <input type="text" name="ry" value="" placeholder="-20">
+          </label>
+          <label class="label">
+            <span>Rotation Z</span>
+            <input type="text" name="rz" value="" placeholder="0">
+          </label>
+          <label class="label">
+            <span>Transition</span>
+            <input type="text" name="transition" value="" placeholder="transform 350ms ease-out 150ms">
+          </label>
+          <label class="label">
+            <span>Perspective</span>
+            <input type="text" name="perspective" value="" placeholder="480">
+          </label>
+        </div>
+        <div class="col">
+          <label class="label">
+            <span>Plastic</span>
+            <input type="text" name="clrp" value="" placeholder="black">
+          </label>
+          <label class="label">
+            <span>Stickerless</span>
+            <input type="text" name="clrx" value="" placeholder="#777">
+          </label>
+          <div class="label">
+            <span class="checkboxes-span">Pieces</span>
+            <div class="checkboxes-wrapper">
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_ulbu" value="280">
+                  ULB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_ulbl" value="280">
+                  ULB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_ulbb" value="280">
+                  ULB
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_urbu" value="280">
+                  URB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_urbr" value="280">
+                  URB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_urbb" value="280">
+                  URB
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_ulfu" value="280">
+                  ULF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_ulfl" value="280">
+                  ULF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_ulff" value="280">
+                  ULF
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_urfu" value="280">
+                  URF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_urfr" value="280">
+                  URF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_urff" value="280">
+                  URF
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_dlbd" value="280">
+                  DLB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_dlbl" value="280">
+                  DLB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_dlbb" value="280">
+                  DLB
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_drbd" value="280">
+                  DRB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_drbr" value="280">
+                  DRB
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_drbb" value="280">
+                  DRB
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_dlfd" value="280">
+                  DLF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_dlfl" value="280">
+                  DLF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_dlff" value="280">
+                  DLF
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  <input type="checkbox" name="stickerless_drfd" value="280">
+                  DRF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_drfr" value="280">
+                  DRF
+                </label>
+                <label>
+                  <input type="checkbox" name="stickerless_drff" value="280">
+                  DRF
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <h2>How to use this tool?</h2>
+
+      <p>Just enter the fields you'd like to customize. The only mandatory ones are width and height. For the rest of them, the default value is shown in a placeholder.</p>
+      <p>Tip: If you want the cube to end up in a solved state, just enter "qes" in the preseq field. (seq is the sequence to do when you click the play button, preseq is the moves to perform to a solved cube before showing it, "qes" is just the inverse of "seq" ;))</p>
+      <p>If you just want to see some random moves, enter "scramble" as seq and "qes" as preseq</p>
+      <p>When you're done, just copy the iframe code into your own website.</p>
+    </div>
+    <script src="js/playground2.js" charset="utf-8"></script>
+  </body>
+</html>
