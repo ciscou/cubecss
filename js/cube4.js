@@ -756,7 +756,7 @@
       }
     }
 
-    function turnM1Callback(qts) {
+    function turn2LCallback(qts) {
       var cycles = turnsToCycles(-qts);
       var tmp;
 
@@ -787,7 +787,7 @@
       }
     }
 
-    function turnM2Callback(qts) {
+    function turn2RCallback(qts) {
       var cycles = turnsToCycles(-qts);
       var tmp;
 
@@ -818,7 +818,7 @@
       }
     }
 
-    function turnE1Callback(qts) {
+    function turn2UCallback(qts) {
       var cycles = turnsToCycles(-qts);
       var tmp;
 
@@ -849,7 +849,7 @@
       }
     }
 
-    function turnE2Callback(qts) {
+    function turn2DCallback(qts) {
       var cycles = turnsToCycles(-qts);
       var tmp;
 
@@ -880,7 +880,40 @@
       }
     }
 
-    function turnS1Callback(qts) {
+    function turn2BCallback(qts) {
+      var cycles = turnsToCycles(qts);
+      var tmp;
+
+      for(var i=0; i<cycles; i++) {
+        tmp = U1.stickers.up.style.backgroundColor;
+        U1.stickers.up.style.backgroundColor = L3.stickers.left.style.backgroundColor;
+        L3.stickers.left.style.backgroundColor = D4.stickers.down.style.backgroundColor;
+        D4.stickers.down.style.backgroundColor = R1.stickers.right.style.backgroundColor;
+        R1.stickers.right.style.backgroundColor = tmp;
+
+        tmp = U2.stickers.up.style.backgroundColor;
+        U2.stickers.up.style.backgroundColor = L1.stickers.left.style.backgroundColor;
+        L1.stickers.left.style.backgroundColor = D3.stickers.down.style.backgroundColor;
+        D3.stickers.down.style.backgroundColor = R3.stickers.right.style.backgroundColor;
+        R3.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UL1.stickers.up.style.backgroundColor;
+        UL1.stickers.up.style.backgroundColor = DL1.stickers.left.style.backgroundColor;
+        DL1.stickers.left.style.backgroundColor = DR1.stickers.down.style.backgroundColor;
+        DR1.stickers.down.style.backgroundColor = UR1.stickers.right.style.backgroundColor;
+        UR1.stickers.right.style.backgroundColor = tmp;
+
+        tmp = UL1.stickers.left.style.backgroundColor;
+        UL1.stickers.left.style.backgroundColor = DL1.stickers.down.style.backgroundColor;
+        DL1.stickers.down.style.backgroundColor = DR1.stickers.right.style.backgroundColor;
+        DR1.stickers.right.style.backgroundColor = UR1.stickers.up.style.backgroundColor;
+        UR1.stickers.up.style.backgroundColor = tmp;
+      }
+    }
+
+    function turn2FCallback(qts) {
+      alert("TODO");
+
       var cycles = turnsToCycles(qts);
       var tmp;
 
@@ -914,8 +947,8 @@
     function turnX(qts) {
       var cb = function() {
         turnLCallback(-qts);
-        turnM1Callback(-qts);
-        turnM2Callback(-qts);
+        turn2LCallback(-qts);
+        turn2RCallback(-qts);
         turnRCallback( qts);
 
         turning = false;
@@ -932,8 +965,8 @@
     function turnY(qts) {
       var cb = function() {
         turnDCallback(-qts);
-        turnE1Callback(-qts);
-        turnE2Callback(-qts);
+        turn2DCallback(-qts);
+        turn2UCallback(-qts);
         turnUCallback( qts);
 
         turning = false;
@@ -950,7 +983,8 @@
     function turnZ(qts) {
       var cb = function() {
         turnBCallback(-qts);
-        turnSCallback( qts);
+        turn2BCallback( qts);
+        turn2FCallback( qts);
         turnFCallback( qts);
 
         turning = false;
@@ -1041,13 +1075,13 @@
       }
     }
 
-    function turn2U(qts) {
+    function turn2Uw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnUCallback( qts);
-        turnE1Callback(-qts);
+        turn2UCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1068,14 +1102,14 @@
       }
     }
 
-    function turn3U(qts) {
+    function turn3Uw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnUCallback( qts);
-        turnE1Callback(-qts);
-        turnE2Callback(-qts);
+        turn2UCallback(-qts);
+        turn2DCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1177,13 +1211,13 @@
       }
     }
 
-    function turn2D(qts) {
+    function turn2Dw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnDCallback(qts);
-        turnE2Callback(qts);
+        turn2DCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1204,14 +1238,14 @@
       }
     }
 
-    function turn3D(qts) {
+    function turn3Dw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnDCallback(qts);
-        turnE1Callback(qts);
-        turnE2Callback(qts);
+        turn2DCallback(qts);
+        turn2UCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1313,13 +1347,13 @@
       }
     }
 
-    function turn2L(qts) {
+    function turn2Lw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnLCallback(qts);
-        turnM1Callback(qts);
+        turn2LCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1340,14 +1374,14 @@
       }
     }
 
-    function turn3L(qts) {
+    function turn3Lw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnLCallback(qts);
-        turnM1Callback(qts);
-        turnM2Callback(qts);
+        turn2LCallback(qts);
+        turn2RCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1427,12 +1461,12 @@
       }
     }
 
-    function turnM1(qts) {
+    function turn2L(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
-        turnM1Callback(qts);
+        turn2LCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1449,12 +1483,12 @@
       }
     }
 
-    function turnM2(qts) {
+    function turn2R(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
-        turnM2Callback(qts);
+        turn2RCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1463,7 +1497,7 @@
       if(animating) {
         M2SLICE.forEach(function(cubieContainer) {
           remaining++;
-          rotateElX(cubieContainer.el, -qts, cb);
+          rotateElX(cubieContainer.el, qts, cb);
         });
       } else {
         remaining++;
@@ -1471,12 +1505,12 @@
       }
     }
 
-    function turnE1(qts) {
+    function turn2U(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
-        turnE1Callback(qts);
+        turn2UCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1485,7 +1519,7 @@
       if(animating) {
         E1SLICE.forEach(function(cubieContainer) {
           remaining++;
-          rotateElY(cubieContainer.el, qts, cb);
+          rotateElY(cubieContainer.el, -qts, cb);
         });
       } else {
         remaining++;
@@ -1493,12 +1527,12 @@
       }
     }
 
-    function turnE2(qts) {
+    function turn2D(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
-        turnE2Callback(qts);
+        turn2DCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1515,12 +1549,12 @@
       }
     }
 
-    function turnS1(qts) {
+    function turn2B(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
-        turnS1Callback(qts);
+        turn2BCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1529,7 +1563,7 @@
       if(animating) {
         S1SLICE.forEach(function(cubieContainer) {
           remaining++;
-          rotateElZ(cubieContainer.el, qts, cb);
+          rotateElZ(cubieContainer.el, -qts, cb);
         });
       } else {
         remaining++;
@@ -1537,12 +1571,12 @@
       }
     }
 
-    function turnS2(qts) {
+    function turn2F(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
-        turnS2Callback(qts);
+        turn2FCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1581,13 +1615,13 @@
       }
     }
 
-    function turn2R(qts) {
+    function turn2Rw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnRCallback( qts);
-        turnM2Callback(-qts);
+        turn2RCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1608,14 +1642,14 @@
       }
     }
 
-    function turn3R(qts) {
+    function turn3Rw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnRCallback( qts);
-        turnM1Callback(-qts);
-        turnM2Callback(-qts);
+        turn2RCallback(-qts);
+        turn2LCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1717,13 +1751,13 @@
       }
     }
 
-    function turn2F(qts) {
+    function turn2Fw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnFCallback(qts);
-        turnS2Callback(qts);
+        turn2FCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1744,14 +1778,14 @@
       }
     }
 
-    function turn3F(qts) {
+    function turn3Fw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnFCallback(qts);
-        turnS1Callback(qts);
-        turnS2Callback(qts);
+        turn2FCallback(qts);
+        turn2BCallback(qts);
 
         turning = false;
         handleQueue();
@@ -1853,13 +1887,13 @@
       }
     }
 
-    function turn2B(qts) {
+    function turn2Bw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnBCallback( qts);
-        turnS1Callback(-qts);
+        turn2BCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1880,14 +1914,14 @@
       }
     }
 
-    function turn3B(qts) {
+    function turn3Bw(qts) {
       var remaining = 0;
       var cb = function() {
         if(--remaining !== 0) return;
 
         turnBCallback( qts);
-        turnS1Callback(-qts);
-        turnS2Callback(-qts);
+        turn2BCallback(-qts);
+        turn2FCallback(-qts);
 
         turning = false;
         handleQueue();
@@ -1972,33 +2006,33 @@
       d:  turnD,
       l:  turnL,
       b:  turnB,
-      "2u": turn2U,
-      "2r": turn2R,
-      "2f": turn2F,
-      "2d": turn2D,
-      "2l": turn2L,
-      "2b": turn2B,
-      "3u": turn3U,
-      "3r": turn3R,
-      "3f": turn3F,
-      "3d": turn3D,
-      "3l": turn3L,
-      "3b": turn3B,
-      uw: turn2U,
-      rw: turn2R,
-      fw: turn2F,
-      dw: turn2D,
-      lw: turn2L,
-      bw: turn2B,
+      "2uw": turn2Uw,
+      "2rw": turn2Rw,
+      "2fw": turn2Fw,
+      "2dw": turn2Dw,
+      "2lw": turn2Lw,
+      "2bw": turn2Bw,
+      "3uw": turn3Uw,
+      "3rw": turn3Rw,
+      "3fw": turn3Fw,
+      "3dw": turn3Dw,
+      "3lw": turn3Lw,
+      "3bw": turn3Bw,
+      uw: turn2Uw,
+      rw: turn2Rw,
+      fw: turn2Fw,
+      dw: turn2Dw,
+      lw: turn2Lw,
+      bw: turn2Bw,
       x:  turnX,
       y:  turnY,
       z:  turnZ,
-      m1:  turnM1,
-      m2:  turnM2,
-      e1:  turnE1,
-      e2:  turnE2,
-      s1:  turnS1,
-      s2:  turnS2
+      "2l":  turn2L,
+      "2r":  turn2R,
+      "2u":  turn2U,
+      "2d":  turn2D,
+      "2b":  turn2B,
+      "2f":  turn2F
     }).forEach(function([l, f]) {
       that[l]        = function() { enqueue(f,  1) }
       that[l + "2"]  = function() { enqueue(f,  2) }
