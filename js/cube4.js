@@ -912,35 +912,33 @@
     }
 
     function turn2FCallback(qts) {
-      alert("TODO");
-
       var cycles = turnsToCycles(qts);
       var tmp;
 
       for(var i=0; i<cycles; i++) {
-        tmp = U1.stickers.up.style.backgroundColor;
-        U1.stickers.up.style.backgroundColor = L3.stickers.left.style.backgroundColor;
-        L3.stickers.left.style.backgroundColor = D4.stickers.down.style.backgroundColor;
-        D4.stickers.down.style.backgroundColor = R1.stickers.right.style.backgroundColor;
-        R1.stickers.right.style.backgroundColor = tmp;
+        tmp = U3.stickers.up.style.backgroundColor;
+        U3.stickers.up.style.backgroundColor = L4.stickers.left.style.backgroundColor;
+        L4.stickers.left.style.backgroundColor = D2.stickers.down.style.backgroundColor;
+        D2.stickers.down.style.backgroundColor = R2.stickers.right.style.backgroundColor;
+        R2.stickers.right.style.backgroundColor = tmp;
 
-        tmp = U2.stickers.up.style.backgroundColor;
-        U2.stickers.up.style.backgroundColor = L1.stickers.left.style.backgroundColor;
-        L1.stickers.left.style.backgroundColor = D3.stickers.down.style.backgroundColor;
-        D3.stickers.down.style.backgroundColor = R3.stickers.right.style.backgroundColor;
-        R3.stickers.right.style.backgroundColor = tmp;
+        tmp = U4.stickers.up.style.backgroundColor;
+        U4.stickers.up.style.backgroundColor = L2.stickers.left.style.backgroundColor;
+        L2.stickers.left.style.backgroundColor = D1.stickers.down.style.backgroundColor;
+        D1.stickers.down.style.backgroundColor = R4.stickers.right.style.backgroundColor;
+        R4.stickers.right.style.backgroundColor = tmp;
 
-        tmp = UL1.stickers.up.style.backgroundColor;
-        UL1.stickers.up.style.backgroundColor = DL1.stickers.left.style.backgroundColor;
-        DL1.stickers.left.style.backgroundColor = DR1.stickers.down.style.backgroundColor;
-        DR1.stickers.down.style.backgroundColor = UR1.stickers.right.style.backgroundColor;
-        UR1.stickers.right.style.backgroundColor = tmp;
+        tmp = UL2.stickers.up.style.backgroundColor;
+        UL2.stickers.up.style.backgroundColor = DL2.stickers.left.style.backgroundColor;
+        DL2.stickers.left.style.backgroundColor = DR2.stickers.down.style.backgroundColor;
+        DR2.stickers.down.style.backgroundColor = UR2.stickers.right.style.backgroundColor;
+        UR2.stickers.right.style.backgroundColor = tmp;
 
-        tmp = UL1.stickers.left.style.backgroundColor;
-        UL1.stickers.left.style.backgroundColor = DL1.stickers.down.style.backgroundColor;
-        DL1.stickers.down.style.backgroundColor = DR1.stickers.right.style.backgroundColor;
-        DR1.stickers.right.style.backgroundColor = UR1.stickers.up.style.backgroundColor;
-        UR1.stickers.up.style.backgroundColor = tmp;
+        tmp = UL2.stickers.left.style.backgroundColor;
+        UL2.stickers.left.style.backgroundColor = DL2.stickers.down.style.backgroundColor;
+        DL2.stickers.down.style.backgroundColor = DR2.stickers.right.style.backgroundColor;
+        DR2.stickers.right.style.backgroundColor = UR2.stickers.up.style.backgroundColor;
+        UR2.stickers.up.style.backgroundColor = tmp;
       }
     }
 
