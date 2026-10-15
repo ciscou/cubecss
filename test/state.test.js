@@ -68,6 +68,28 @@ const solved = n => ["U", "R", "F", "D", "L", "B"].map(l => l.repeat(n * n)).joi
     ok("pieces(): positions and rotations");
   }
 
+  // cubieAt / stickerAt: what is in a position now (cubies[name] is the piece that started there)
+  {
+    const c = make(Cube, 3); run(c, ["r"]);
+    assert.strictEqual(c.cubieAt("URF"), c.cubies.DRF);                         // R takes DRF to URF
+    assert.strictEqual(c.stickerAt("URF", "up"), c.cubies.DRF.stickers.front);  // front -> up
+    assert.strictEqual(c.stickerAt("URF", "front"), c.cubies.DRF.stickers.down); // down -> front
+    assert.strictEqual(c.stickerAt("URF", "right"), c.cubies.DRF.stickers.right);
+    assert.strictEqual(c.stickerAt("URF", "down"), undefined);                  // no sticker looks inwards
+    assert.strictEqual(c.cubieAt("nope"), undefined);
+
+    for (const n of [3, 4, 5]) {
+      const d = make(Cube, n), home = d.pieces();
+      run(d, "r u fi 2r 3uw l2 d b x ri 2f".split(" ").filter(m => d[m]));
+      const now = d.pieces();
+      for (const name of Object.keys(home)) {
+        const at = Object.keys(now).find(k => now[k].position.join() === home[name].position.join());
+        assert.strictEqual(d.cubieAt(name), d.cubies[at], `cubieAt(${name}) n=${n}`);
+      }
+    }
+    ok("cubieAt / stickerAt return what is in a position now");
+  }
+
   // goTo / reset / length
   {
     const seq = "r u ri ui f d2 l bi 2u r2 uw ei".split(" ");

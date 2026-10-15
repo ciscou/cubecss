@@ -39,7 +39,8 @@ function el(tag) {
   const e = { tag, style: {}, classes: [], children: [],
     classList: { add: c => e.classes.push(c) },
     appendChild(c) { e.children.push(c); return c; },
-    addEventListener() {},
+    handlers: {},
+    addEventListener(type, fn) { (e.handlers[type] ||= []).push(fn); },
     removeChild(c) { const i = e.children.indexOf(c); if (i >= 0) e.children.splice(i, 1); return c; },
     animate(kf, opts) {
       const rec = { el: e, kf, opts, cancelled: false };
@@ -65,7 +66,7 @@ function el(tag) {
 
 // Loads cubecss.js (or the file in $CUBECSS) into a fake browser and returns CubeCSS.
 function load(file) {
-  file = file || path.resolve(__dirname, process.env.CUBECSS || "../js/cuben.js");
+  file = file || path.resolve(__dirname, process.env.CUBECSS || "../cubecss.js");
   const ctx = { DOMMatrix, DOMPoint, document: { createElement: el }, setTimeout, Promise, console };
   ctx.window = ctx;
   vm.createContext(ctx);
@@ -78,7 +79,30 @@ function make(CubeCSS, layers, extra) {
   return new CubeCSS(Object.assign({ container }, layers ? { layers } : {}, extra || {}));
 }
 
+// Runs iframe.js (or $IFRAME) on a page with the given query string, like the real iframe.html:
+// returns { cubeCSS, button(cls), click(cls), logs }.
+function page(search, opts) {
+  opts = opts || {};
+  const container = el("div"); container.offsetWidth = 600;
+  const buttons = {}, logs = [];
+  const button = cls => (buttons[cls] ||= el("button"));
+  const ctx = {
+    DOMMatrix, DOMPoint, URLSearchParams, setTimeout, Promise,
+    console: { log: (...a) => logs.push(a.join(" ")) },
+    document: {
+      createElement: el,
+      querySelector: sel => sel === ".cube-container" ? container : (/^button\.(.+)$/.exec(sel) ? button(/^button\.(.+)$/.exec(sel)[1]) : null)
+    },
+    location: { search }
+  };
+  ctx.window = ctx;
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.resolve(__dirname, process.env.CUBECSS || "../cubecss.js"), "utf8"), ctx);
+  vm.runInContext(fs.readFileSync(path.resolve(__dirname, process.env.IFRAME || "../iframe.js"), "utf8"), ctx);
+  return { cubeCSS: ctx.cubeCSS, button, click: cls => button(cls).handlers.click.forEach(f => f()), logs };
+}
+
 const state = cube => Object.entries(cube.cubies).map(([n, c]) => [n, c.m.toString()]);
 const run = (cube, seq) => cube.withoutAnimation(() => seq.forEach(m => cube[m]()));
 
-module.exports = { load, make, state, run, hooks, DOMMatrix, DOMPoint, el };
+module.exports = { load, page, make, state, run, hooks, DOMMatrix, DOMPoint, el };

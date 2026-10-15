@@ -82,8 +82,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     assert(has(make(Cube, 3), ["u", "uw", "2u", "x", "m", "e", "s"]));
     assert(has(make(Cube, 4), ["2u", "2uw", "3uw", "3rw", "uw", "x"]) && !make(Cube, 4).m);
     assert(has(make(Cube, 5), ["m", "3u", "4uw", "2rw"]));
-    assert(!make(Cube, 2).uw && has(make(Cube, 2), ["u", "x"]));
+    assert(has(make(Cube, 2), ["u", "x", "uw", "rw", "fw", "dw", "lw", "bw"]) && !make(Cube, 2).m && !make(Cube, 2)["2u"]);
     ok("move sets per size");
+
+    // on a 2x2x2, "uw" (2 layers) is the whole cube
+    const eq = (a, b) => { const x = make(Cube, 2), y = make(Cube, 2); run(x, a); run(y, b); same(state(x), state(y), a + " vs " + b); };
+    eq(["uw"], ["y"]); eq(["rw"], ["x"]); eq(["fw"], ["z"]); eq(["dw"], ["yi"]); eq(["lw"], ["xi"]); eq(["bw"], ["zi"]);
+    ok("2x2x2: uw/rw/fw/dw/lw/bw turn the whole cube");
   }
 
   // animated queue: play, events, pause, undo
@@ -100,6 +105,33 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
     assert.strictEqual(c.idx(), 0);
     assert(allId(c));
     ok("animated queue: play, pause, undo back to the start (incl. whole-cube turn)");
+  }
+
+  // timing: the old CSS-shorthand `transition` option still works
+  {
+    const timing = async extra => {
+      hooks.manual = true; hooks.log.length = 0;
+      const c = make(Cube, 3, extra); c.r(); await sleep(20);
+      const o = hooks.log[0].opts; hooks.log.forEach(r => r.release()); hooks.manual = false; await sleep(5);
+      return [o.duration, o.delay, o.easing];
+    };
+    same(await timing({}), [350, 150, "ease-out"]);
+    same(await timing({ transition: "transform 350ms ease-out 150ms" }), [350, 150, "ease-out"]);
+    same(await timing({ transition: "transform 200ms linear 50ms" }), [200, 50, "linear"]);
+    same(await timing({ transition: "transform 0.5s ease-in 0.25s" }), [500, 250, "ease-in"]);
+    same(await timing({ transition: "all 1s" }), [1000, 0, "ease"]);
+    same(await timing({ transition: "transform 300ms cubic-bezier(0.1, 0.7, 1, 0.1)" }), [300, 0, "cubic-bezier(0.1, 0.7, 1, 0.1)"]);
+    same(await timing({ transition: "none" }), [0, 0, "ease"]);
+    same(await timing({ transition: "transform 200ms linear 50ms", duration: 99 }), [99, 50, "linear"]);
+    same(await timing({ delay: 0 }), [350, 0, "ease-out"]);
+    ok("duration / delay / easing options and the legacy transition shorthand");
+  }
+
+  // cubieSize may arrive as a string (query string)
+  {
+    const c = make(Cube, 3, { cubieSize: "30" });
+    assert.strictEqual(c.cubies.URF.el.style.width, "30px");
+    ok("cubieSize as a string");
   }
 
   console.log("moves: all tests passed");

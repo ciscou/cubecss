@@ -115,6 +115,28 @@
     ]);
   }
 
+  // Reads a CSS transition shorthand, e.g. "transform 350ms ease-out 150ms"
+  // (what the `transition` option has always been), into duration, delay and easing.
+  function parseTransition(str) {
+    var out = { duration: 0, delay: 0, easing: "ease" };
+    var times = [];
+
+    (String(str).match(/(?:cubic-bezier|steps|linear)\([^)]*\)|\S+/g) || []).forEach(function(token) {
+      var time = /^(-?[\d.]+)(ms|s)$/.exec(token);
+
+      if(time) {
+        times.push(parseFloat(time[1]) * (time[2] === "s" ? 1000 : 1));
+      } else if(!/^(transform|all|none)$/.test(token)) {
+        out.easing = token;
+      }
+    });
+
+    if(times.length > 0) out.duration = times[0];
+    if(times.length > 1) out.delay = times[1];
+
+    return out;
+  }
+
   // All the moves of an n x n x n cube.
   //
   //   u d l r f b     outer layer of a face
@@ -149,7 +171,8 @@
         moves[k + f + "w"] = move(depths(face.sign, 0, k - 1));
       }
 
-      if(n > 2) moves[f + "w"] = moves["2" + f + "w"];
+      // "uw" is 2 layers: the whole cube on a 2x2x2
+      moves[f + "w"] = n > 2 ? moves["2" + f + "w"] : move(depths(face.sign, 0, 1));
     });
 
     moves.x = { axis: "x", sign:  1, layers: all };
@@ -216,15 +239,24 @@
       back: options.colorBack
     };
 
-    var CUBIE_SIZE = options.cubieSize;
+    var CUBIE_SIZE = parseFloat(options.cubieSize);
 
     // Height of the flex wrapper that centers the cube. Pass e.g.
     // `wrapperHeight: container.offsetWidth` for a square wrapper.
     options.wrapperHeight ||= CUBIE_SIZE * LAYERS * 1.75;
 
-    options.duration ||= 350;
-    options.delay    ||= 150;
-    options.easing   ||= "ease-out";
+    // Timing of a turn. `transition` (a CSS shorthand) is still understood.
+    if(options.transition !== undefined && options.transition !== null) {
+      var transition = parseTransition(options.transition);
+
+      if(options.duration === undefined) options.duration = transition.duration;
+      if(options.delay    === undefined) options.delay    = transition.delay;
+      if(options.easing   === undefined) options.easing   = transition.easing;
+    }
+
+    if(options.duration === undefined) options.duration = 350;
+    if(options.delay    === undefined) options.delay    = 150;
+    options.easing ||= "ease-out";
     options.perspective ||= CUBIE_SIZE * 12;
 
     // Performance options (both are visually lossless, big cubes need them):
@@ -818,6 +850,27 @@
       }).join("");
     }
 
+    // The cubie that is *now* at the position where the cubie `name` started
+    // (cubies[name] is the piece itself, wherever it has gone).
+    function cubieAt(name) {
+      var home = that.cubies[name];
+      if(!home) return undefined;
+
+      return allCubies.find(function(c) {
+        var p = positionOf(c);
+        return p.x === home.coords.x && p.y === home.coords.y && p.z === home.coords.z;
+      });
+    }
+
+    // The sticker that is *now* at the position `name` looking up / down / left /
+    // right / front / back (whichever cubie it belongs to).
+    function stickerAt(name, face) {
+      var c = cubieAt(name);
+      if(!c || !FACE_VECTOR[face]) return undefined;
+
+      return c.stickers[faceLooking(c.m, FACE_VECTOR[face])];
+    }
+
     // Where every cubie is and how it is turned:
     // { ULB: { position: [x, y, z], rotation: [[...], [...], [...]] }, ... }
     // `position` are layer indices (0 = left / up / back); `rotation` is the
@@ -878,6 +931,8 @@
     this.isSolved = function() { return isSolved(); };
     this.facelets = function() { return facelets(); };
     this.pieces = function() { return pieces(); };
+    this.cubieAt = function(name) { return cubieAt(name); };
+    this.stickerAt = function(name, face) { return stickerAt(name, face); };
     this.playing = function() { return playing; };
     this.turning = function() { return turning; };
 

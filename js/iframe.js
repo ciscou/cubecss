@@ -40,6 +40,14 @@
     stickerless = urlParams.get("stickerless").split(",")
   }
 
+  // `stickerless` names ("URF", "UL1", "URFU", ...) are positions of the cube
+  // once the preseq has been performed: they mark whatever is there at that
+  // point. With `&follow` they mark the cubies that start in those positions
+  // instead, wherever the preseq leaves them.
+  var follow = urlParams.has("follow");
+
+  var FACE_BY_LETTER = { U: "up", R: "right", F: "front", D: "down", L: "left", B: "back" };
+
   var colorUp    = urlParams.get("clru");
   var colorDown  = urlParams.get("clrd");
   var colorLeft  = urlParams.get("clrl");
@@ -109,6 +117,28 @@
     }
   }
 
+  // The stickers a `stickerless` name stands for, or null if it is not valid:
+  // a whole cubie ("URF") or one of its stickers: a cubie and the side the
+  // sticker looks at ("URFU", "URFR", "URFF", ...).
+  function stickerlessStickers(name) {
+    var cubie = follow ? cubeCSS.cubies[name] : cubeCSS.cubieAt(name);
+
+    if(cubie) return Object.values(cubie.stickers);
+
+    var cubieName = name.slice(0, -1);
+    var face = FACE_BY_LETTER[name.slice(-1)];
+
+    if(face && cubeCSS.cubies[cubieName]) {
+      var sticker = follow ?
+        cubeCSS.cubies[cubieName].stickers[face] :
+        cubeCSS.stickerAt(cubieName, face);
+
+      if(sticker) return [sticker];
+    }
+
+    return null;
+  }
+
   cubeCSS.withoutAnimation(function() {
     preseq.forEach(function(move) {
       performMove(move);
@@ -116,43 +146,15 @@
 
     cubeCSS.pause();
 
-    stickerless.forEach(function(cubie) {
-      var c = cubeCSS.cubies[cubie];
+    stickerless.forEach(function(name) {
+      var stickers = stickerlessStickers(name);
 
-      if(c) {
-        Object.values(c.stickers).forEach(function(s) {
+      if(stickers) {
+        stickers.forEach(function(s) {
           s.style.backgroundColor = colorStickerless;
         });
       } else {
-        c = cubeCSS.cubies[cubie.slice(0, -1)];
-
-        if(c) {
-          switch(cubie.slice(-1)) {
-            case "U":
-              c.stickers.up.style.backgroundColor = colorStickerless;
-              break;
-            case "R":
-              c.stickers.right.style.backgroundColor = colorStickerless;
-              break;
-            case "F":
-              c.stickers.front.style.backgroundColor = colorStickerless;
-              break;
-            case "D":
-              c.stickers.down.style.backgroundColor = colorStickerless;
-              break;
-            case "L":
-              c.stickers.left.style.backgroundColor = colorStickerless;
-              break;
-            case "B":
-              c.stickers.back.style.backgroundColor = colorStickerless;
-              break;
-            default:
-              console.log("Invalid stickerless cubie", cubie);
-              break;
-          }
-        } else {
-         console.log("Invalid stickerless cubie", cubie);
-        }
+        console.log("Invalid stickerless cubie", name);
       }
     });
 
