@@ -250,6 +250,12 @@
       return isInterior(x, y, z);
     }
 
+    // Translation that puts a cubie at its initial position (x, y, z are
+    // centered coordinates, in cubies).
+    function offsetOf(x, y, z) {
+      return "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + (z * CUBIE_SIZE) + "px)";
+    }
+
     // -------------------------------------------------------------------------
     // Building the DOM
     // -------------------------------------------------------------------------
@@ -303,7 +309,13 @@
 
       cubie.classList.add("cubie");
 
-      cubie.style.transform = "translate3d(" + (x * CUBIE_SIZE) + "px, " + (y * CUBIE_SIZE) + "px, " + ((z - CENTER) * CUBIE_SIZE) + "px)";
+      // One element per cubie: its box sits in the middle of the cube, so the
+      // default transform origin is the center of the cube and the whole
+      // transform is `matrix(rotation) translate(initial position)`.
+      cubie.style.position = "absolute";
+      cubie.style.left = (CENTER * CUBIE_SIZE) + "px";
+      cubie.style.top = (CENTER * CUBIE_SIZE) + "px";
+      cubie.style.transform = offsetOf(x - CENTER, y - CENTER, z - CENTER);
       cubie.style.transformStyle = "preserve-3d";
       cubie.style.width = CUBIE_SIZE + "px";
       cubie.style.height = CUBIE_SIZE + "px";
@@ -316,23 +328,6 @@
       });
 
       return cubie;
-    }
-
-    function buildCubieContainer(x, y, z) {
-      var cubieContainer = document.createElement("div");
-
-      cubieContainer.classList.add("cubie-container");
-
-      cubieContainer.style.transformStyle = "preserve-3d";
-      cubieContainer.style.position = "absolute";
-      cubieContainer.style.top = "0";
-      cubieContainer.style.left = "0";
-      cubieContainer.style.bottom = "0";
-      cubieContainer.style.right = "0";
-
-      cubieContainer.appendChild(buildCubie(x, y, z));
-
-      return cubieContainer;
     }
 
     function buildCube() {
@@ -350,7 +345,7 @@
           for(var z=0; z<LAYERS; z++) {
             if(isInterior(x, y, z)) continue;
 
-            cube.appendChild(buildCubieContainer(x, y, z));
+            cube.appendChild(buildCubie(x, y, z));
           }
         }
       }
@@ -448,7 +443,7 @@
     // Each cubie keeps its stickers forever; only its accumulated rotation `m`
     // changes. Names (ULB, UL, ...) refer to the cubie's *initial* position.
 
-    var cubieContainers = cube.querySelectorAll(".cubie-container");
+    var cubieEls = cube.querySelectorAll(".cubie");
     var allCubies = [];
     var next = 0;
 
@@ -460,10 +455,11 @@
         for(var z=0; z<LAYERS; z++) {
           if(isInterior(x, y, z)) continue;
 
-          var el = cubieContainers[next++];
+          var el = cubieEls[next++];
           var cubie = {
             el: el,
-            body: el.querySelector(".cubie"),
+            body: el,
+            offset: offsetOf(x - CENTER, y - CENTER, z - CENTER),
             coords: { x: x, y: y, z: z },                // initial layer indices
             x: x - CENTER, y: y - CENTER, z: z - CENTER, // initial position, centered on the origin
             m: new DOMMatrix(),                          // accumulated rotation
@@ -472,15 +468,16 @@
           };
 
           FACE_NAMES.forEach(function(position) {
-            var face = cubie.body.querySelector(".face." + position);
+            var face = el.querySelector(".face." + position);
             if(face) cubie.faces[position] = face;
 
-            var sticker = el.querySelector(".cubie .face." + position + " .sticker");
+            var sticker = el.querySelector(".face." + position + " .sticker");
             if(sticker) cubie.stickers[position] = sticker;
           });
 
           this.cubies[cubieName(x, y, z)] = cubie;
           allCubies.push(cubie);
+          el.style.transform = transformOf(cubie);
         }
       }
     }
@@ -494,6 +491,11 @@
     var turning = false;
     var animating = true;
     var playing = true;
+
+    // full transform of a cubie: accumulated rotation, then its initial position
+    function transformOf(cubie) {
+      return cubie.m.toString() + " " + cubie.offset;
+    }
 
     // current layer indices (0..LAYERS-1) of a cubie
     function positionOf(cubie) {
@@ -582,7 +584,7 @@
 
       var apply = function(c) {
         c.m = snap(R.multiply(c.m));
-        c.el.style.transform = c.m.toString();
+        c.el.style.transform = transformOf(c);
       };
 
       var finish = function() {
@@ -622,7 +624,7 @@
       allCubies.forEach(function(c) { addCutFaces(c, move); });
 
       var animations = moving.map(function(c) {
-        var from = c.m.toString();
+        var from = transformOf(c);
 
         // The final state is applied right away; the animation only
         // disguises it while it lasts.
