@@ -72,6 +72,25 @@
   var FACE_BY_VECTOR = {};
   FACE_NAMES.forEach(function(name) { FACE_BY_VECTOR[FACE_VECTOR[name].join(",")] = name; });
 
+  // Facelet string (the format solvers use): faces in the order U R F D L B,
+  // each one read row by row as seen from outside, with the cube unfolded as
+  //
+  //        U
+  //      L F R B
+  //        D
+  var FACELET_FACES = ["up", "right", "front", "down", "left", "back"];
+  var FACE_LETTER = { up: "U", right: "R", front: "F", down: "D", left: "L", back: "B" };
+
+  // layer indices [x, y, z] of the cell at (row, col) of a face of an n x n x n cube
+  var FACELET_CELL = {
+    up:    function(row, col, n) { return [col,         0,       row        ]; },
+    right: function(row, col, n) { return [n - 1,      row,     n - 1 - col]; },
+    front: function(row, col, n) { return [col,        row,     n - 1      ]; },
+    down:  function(row, col, n) { return [col,        n - 1,   n - 1 - row]; },
+    left:  function(row, col, n) { return [0,          row,     col        ]; },
+    back:  function(row, col, n) { return [n - 1 - col, row,    0          ]; }
+  };
+
   // Names the 4x4x4 used before it was generalized (cubie index -> name,
   // where index = x * 16 + y * 4 + z). Other sizes get generated names.
   var LEGACY_NAMES_4 = {
@@ -464,7 +483,8 @@
             x: x - CENTER, y: y - CENTER, z: z - CENTER, // initial position, centered on the origin
             m: new DOMMatrix(),                          // accumulated rotation
             faces: {},
-            stickers: {}
+            stickers: {},
+            colors: {} // the color each sticker was built with (the DOM color may be changed from outside)
           };
 
           FACE_NAMES.forEach(function(position) {
@@ -472,7 +492,10 @@
             if(face) cubie.faces[position] = face;
 
             var sticker = el.querySelector(".face." + position + " .sticker");
-            if(sticker) cubie.stickers[position] = sticker;
+            if(sticker) {
+              cubie.stickers[position] = sticker;
+              cubie.colors[position] = COLOR_BY_FACE[position];
+            }
           });
 
           this.cubies[cubieName(x, y, z)] = cubie;
@@ -571,11 +594,28 @@
       });
     }
 
+    function rotationOf(move, degrees) {
+      var v = AXIS_VECTOR[move.axis];
+      return new DOMMatrix().rotateAxisAngle(v[0], v[1], v[2], degrees);
+    }
+
+    // Applies a move at once, without animation and without touching the faces.
+    function jumpMove(name, qts) {
+      var move = MOVES[name];
+      var R = rotationOf(move, 90 * move.sign * qts);
+
+      allCubies.forEach(function(c) {
+        if(!move.layers.includes(positionOf(c)[move.axis])) return;
+
+        c.m = snap(R.multiply(c.m));
+        c.el.style.transform = transformOf(c);
+      });
+    }
+
     function rotate(move, qts, done) {
       var degrees = 90 * move.sign * qts;
-      var v = AXIS_VECTOR[move.axis];
       var fn = "rotate" + move.axis.toUpperCase();
-      var R = new DOMMatrix().rotateAxisAngle(v[0], v[1], v[2], degrees);
+      var R = rotationOf(move, degrees);
       var wholeCube = move.layers.length === LAYERS;
 
       var moving = allCubies.filter(function(c) {
@@ -640,13 +680,19 @@
       Promise.all(animations).then(finish, finish);
     }
 
-    function turn(name) {
-      return function(qts) {
-        rotate(MOVES[name], qts, function() {
-          turning = false;
-          handleQueue();
-        });
-      };
+    function turn(name, qts) {
+      rotate(MOVES[name], qts, function() {
+        turning = false;
+        handleQueue();
+      });
+    }
+
+    function perform(name, qts) {
+      if(animating) {
+        setTimeout(function() { turn(name, qts); });
+      } else {
+        turn(name, qts);
+      }
     }
 
     function handleQueue() {
@@ -661,12 +707,8 @@
         turning = true;
         ee.emit("turning");
 
-        var [fn, qts] = queue[queueIdx++];
-        if(animating) {
-          setTimeout(function() { fn(qts); });
-        } else {
-          fn(qts);
-        }
+        var move = queue[queueIdx++];
+        perform(move.name, move.qts);
       } else {
         ee.emit("turned");
         ee.emit("finish");
@@ -681,19 +723,125 @@
         turning = true;
         ee.emit("turning");
 
-        var [fn, qts] = queue[--queueIdx];
-        if(animating) {
-          setTimeout(function() { fn(-qts); });
-        } else {
-          fn(-qts);
-        }
+        var move = queue[--queueIdx];
+        perform(move.name, -move.qts);
       }
     }
 
-    var enqueue = function(fn, qts) {
-      queue.push([fn, qts]);
+    var enqueue = function(name, qts) {
+      queue.push({ name: name, qts: qts });
       handleQueue();
     };
+
+    // Moves the cube to the state it has after `target` moves of the queue,
+    // instantly (no animation), forwards or backwards.
+    function jumpTo(target) {
+      target = Math.max(0, Math.min(queue.length, target));
+
+      var move;
+      while(queueIdx > target) {
+        move = queue[--queueIdx];
+        jumpMove(move.name, -move.qts);
+      }
+      while(queueIdx < target) {
+        move = queue[queueIdx++];
+        jumpMove(move.name, move.qts);
+      }
+
+      allCubies.forEach(syncFaces);
+    }
+
+    function goTo(target) {
+      if(turning) return;
+
+      jumpTo(target);
+
+      if(playing) {
+        handleQueue(); // carries on from there
+      } else {
+        ee.emit("turned");
+      }
+    }
+
+    function reset() {
+      if(turning) return;
+
+      jumpTo(0);
+      queue.length = 0;
+
+      ee.emit("turned");
+    }
+
+    // -------------------------------------------------------------------------
+    // State
+    // -------------------------------------------------------------------------
+
+    // True when every face of the cube shows a single color (a solved cube,
+    // in any orientation).
+    function isSolved() {
+      var seen = {};
+
+      return allCubies.every(function(c) {
+        return Object.keys(c.colors).every(function(name) {
+          var where = toWorld(c.m, FACE_VECTOR[name]).join(",");
+
+          if(seen[where] === undefined) seen[where] = c.colors[name];
+          return seen[where] === c.colors[name];
+        });
+      });
+    }
+
+    // The cube as a facelet string, e.g. "UUUUUUUUURRRRRRRRRFFF..." when solved.
+    // Each letter is the face a sticker belongs to, so it is a standard solver
+    // input for a 3x3x3 (faces U R F D L B, LAYERS * LAYERS stickers each).
+    function facelets() {
+      var at = {};
+      allCubies.forEach(function(c) {
+        var p = positionOf(c);
+        at[[p.x, p.y, p.z].join(",")] = c;
+      });
+
+      return FACELET_FACES.map(function(face) {
+        var out = "";
+
+        for(var row=0; row<LAYERS; row++) {
+          for(var col=0; col<LAYERS; col++) {
+            var cell = FACELET_CELL[face](row, col, LAYERS);
+            var c = at[cell.join(",")];
+            var local = c && faceLooking(c.m, FACE_VECTOR[face]);
+
+            out += (c && c.colors[local]) ? FACE_LETTER[local] : "?";
+          }
+        }
+
+        return out;
+      }).join("");
+    }
+
+    // Where every cubie is and how it is turned:
+    // { ULB: { position: [x, y, z], rotation: [[...], [...], [...]] }, ... }
+    // `position` are layer indices (0 = left / up / back); `rotation` is the
+    // matrix that takes the cubie's own axes to the cube's (identity if untouched).
+    function pieces() {
+      var out = {};
+
+      Object.keys(that.cubies).forEach(function(name) {
+        var c = that.cubies[name];
+        var p = positionOf(c);
+        var m = c.m;
+
+        out[name] = {
+          position: [p.x, p.y, p.z],
+          rotation: [
+            [m.m11, m.m21, m.m31],
+            [m.m12, m.m22, m.m32],
+            [m.m13, m.m23, m.m33]
+          ]
+        };
+      });
+
+      return out;
+    }
 
     // -------------------------------------------------------------------------
     // Public API
@@ -701,11 +849,10 @@
 
     var that = this;
     Object.keys(MOVES).forEach(function(l) {
-      var f = turn(l);
-      that[l]        = function() { enqueue(f,  1); };
-      that[l + "2"]  = function() { enqueue(f,  2); };
-      that[l + "i"]  = function() { enqueue(f, -1); };
-      that[l + "2i"] = function() { enqueue(f, -2); };
+      that[l]        = function() { enqueue(l,  1); };
+      that[l + "2"]  = function() { enqueue(l,  2); };
+      that[l + "i"]  = function() { enqueue(l, -1); };
+      that[l + "2i"] = function() { enqueue(l, -2); };
     });
 
     this.withoutAnimation = function(cb) {
@@ -717,8 +864,20 @@
     this.pause = function() { playing = false; };
     this.play = function() { if(playing) return; playing = true; handleQueue(); };
 
+    this.layers = LAYERS;
+
     this.idx = function() { return queueIdx; };
+    this.length = function() { return queue.length; };
     this.undo = function() { undo(); };
+    // Jump (without animation) to the state after `idx` moves of the queue.
+    // Ignored while a turn is animating. If playing, it carries on from there.
+    this.goTo = function(idx) { goTo(idx); };
+    // Back to the solved state, with an empty queue.
+    this.reset = function() { reset(); };
+
+    this.isSolved = function() { return isSolved(); };
+    this.facelets = function() { return facelets(); };
+    this.pieces = function() { return pieces(); };
     this.playing = function() { return playing; };
     this.turning = function() { return turning; };
 
