@@ -45,11 +45,32 @@ const solved = n => ["U", "R", "F", "D", "L", "B"].map(l => l.repeat(n * n)).joi
     ok("isSolved");
   }
 
+  // isSolved() looks at the pieces, isSolved({ colors: true }) at what you see
+  {
+    // a piece-solved cube always looks solved
+    const c = make(Cube, 4); assert(c.isSolved() && c.isSolved({ colors: true }));
+    for (const seq of [["r", "ri"], ["x"], ["2r", "2ri", "y2"], "r u ri ui".split(" ")]) {
+      const d = make(Cube, 4); run(d, seq);
+      assert.strictEqual(d.isSolved(), d.isSolved({ colors: true }) && d.isSolved(), seq.join(" "));
+    }
+    // a cube whose faces all have the same color always looks solved, whatever its pieces do
+    const mono = make(Cube, 3, { colorUp: "red", colorDown: "red", colorLeft: "red", colorRight: "red", colorFront: "red", colorBack: "red" });
+    run(mono, ["r", "u"]);
+    assert(mono.isSolved({ colors: true })); assert(!mono.isSolved());
+    run(mono, ["ui", "ri"]);
+    assert(mono.isSolved());
+    // the stickers' DOM colors are not read at all
+    const d = make(Cube, 3); Object.values(d.cubies.URF.stickers).forEach(s => s.style.backgroundColor = "gray");
+    assert(d.isSolved()); assert(d.isSolved({ colors: true }));
+    ok("isSolved: by pieces (default) and by colors");
+  }
+
   // colors changed in the DOM (e.g. stickerless pieces) do not matter
   {
     const c = make(Cube, 3);
     Object.values(c.cubies.URF.stickers).forEach(s => s.style.backgroundColor = "gray");
     assert(c.isSolved()); assert.strictEqual(c.facelets(), solved(3));
+    assert(c.isSolved({ colors: true }));
     ok("isSolved and facelets ignore recolored (stickerless) pieces");
   }
 

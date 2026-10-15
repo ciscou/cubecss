@@ -808,9 +808,8 @@
     // State
     // -------------------------------------------------------------------------
 
-    // True when every face of the cube shows a single color (a solved cube,
-    // in any orientation).
-    function isSolved() {
+    // True when every face of the cube shows a single color.
+    function solvedByColors() {
       var seen = {};
 
       return allCubies.every(function(c) {
@@ -820,6 +819,20 @@
           if(seen[where] === undefined) seen[where] = c.colors[name];
           return seen[where] === c.colors[name];
         });
+      });
+    }
+
+    // True when every cubie has been turned exactly the same way, which means
+    // every cubie is back in its place (the whole cube may be rotated).
+    function solvedByPieces() {
+      var a = allCubies[0].m;
+
+      return allCubies.every(function(c) {
+        var b = c.m;
+
+        return a.m11 === b.m11 && a.m12 === b.m12 && a.m13 === b.m13 &&
+               a.m21 === b.m21 && a.m22 === b.m22 && a.m23 === b.m23 &&
+               a.m31 === b.m31 && a.m32 === b.m32 && a.m33 === b.m33;
       });
     }
 
@@ -928,7 +941,16 @@
     // Back to the solved state, with an empty queue.
     this.reset = function() { reset(); };
 
-    this.isSolved = function() { return isSolved(); };
+    // Is the cube solved, in any orientation of the whole cube?
+    //   isSolved()                every piece is back in its place (compares the
+    //                             pieces' rotations)
+    //   isSolved({ colors: true }) every face shows a single color. This is also
+    //                             true if pieces that look the same (the centers of
+    //                             a 4x4x4 or bigger, or a center turned on its own
+    //                             axis) are not where they started.
+    this.isSolved = function(opts) {
+      return opts && opts.colors ? solvedByColors() : solvedByPieces();
+    };
     this.facelets = function() { return facelets(); };
     this.pieces = function() { return pieces(); };
     this.cubieAt = function(name) { return cubieAt(name); };
