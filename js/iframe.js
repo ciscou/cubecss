@@ -62,6 +62,7 @@
     colorPlastic: colorPlastic
   }
 
+  if(urlParams.has("layers")) options.layers = urlParams.get("layers");
   if(urlParams.has("cs")) options.cubieSize = urlParams.get("cs");
   if(urlParams.has("rx")) options.rx = urlParams.get("rx");
   if(urlParams.has("ry")) options.ry = urlParams.get("ry");

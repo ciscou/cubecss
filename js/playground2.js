@@ -80,6 +80,7 @@
     }
 
     var params = [];
+    params.push("layers=2")
     if(cubieSizeParam) params.push(cubieSizeParam);
     if(preseqParam) params.push(preseqParam);
     if(seqParam) params.push(seqParam);
@@ -98,7 +99,7 @@
     if(perspectiveParam) params.push(perspectiveParam);
     if(stickerlessParam) params.push(stickerlessParam);
 
-    var iframeHTML = `<iframe src="${window.location.origin}/cubecss/iframe2.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;
+    var iframeHTML = `<iframe src="iframe2.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;
 
     iframeHTMLContainer.innerText = iframeHTML;
     iframeContainer.innerHTML = iframeHTML;

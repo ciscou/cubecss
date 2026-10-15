@@ -130,7 +130,7 @@
     if(perspectiveParam) params.push(perspectiveParam);
     if(stickerlessParam) params.push(stickerlessParam);
 
-    var iframeHTML = `<iframe src="${window.location.origin}/cubecss/iframe.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;
+    var iframeHTML = `<iframe src="iframe.html${(params.length > 0) ? ("?" + params.join("&")) : ""}" width="${width}" height="${height}" frameborder="0"></iframe>`;
 
     iframeHTMLContainer.innerText = iframeHTML;
     iframeContainer.innerHTML = iframeHTML;
