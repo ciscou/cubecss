@@ -32,7 +32,7 @@
     right: { axis: "X", sign:  1, rotate: "rotateY(90deg)"  },
     left:  { axis: "X", sign: -1, rotate: "rotateY(-90deg)" },
     front: { axis: "Z", sign:  1, rotate: ""                },
-    back:  { axis: "Z", sign: -1, rotate: ""                }
+    back:  { axis: "Z", sign: -1, rotate: "rotateY(180deg)" } // flipped so its front side points outwards
   };
 
   // A cubie has a sticker on a face when it sits on that outer layer of the
@@ -59,6 +59,18 @@
   };
 
   var AXIS_VECTOR = { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] };
+
+  // outward direction of each face of a cubie, and the reverse lookup
+  var FACE_VECTOR = {
+    up:    [ 0, -1,  0],
+    down:  [ 0,  1,  0],
+    right: [ 1,  0,  0],
+    left:  [-1,  0,  0],
+    front: [ 0,  0,  1],
+    back:  [ 0,  0, -1]
+  };
+  var FACE_BY_VECTOR = {};
+  FACE_NAMES.forEach(function(name) { FACE_BY_VECTOR[FACE_VECTOR[name].join(",")] = name; });
 
   // Names the 4x4x4 used before it was generalized (cubie index -> name,
   // where index = x * 16 + y * 4 + z). Other sizes get generated names.
@@ -196,6 +208,14 @@
     options.easing   ||= "ease-out";
     options.perspective ||= CUBIE_SIZE * 12;
 
+    // Performance options (both are visually lossless, big cubes need them):
+    //  - hideBackfaces: faces turned away from the viewer are not drawn.
+    //  - lazyFaces: a cubie only gets the faces that can ever be seen: the
+    //    outer ones and those next to the empty core. The faces on the cut
+    //    between two layers are added only while a turn is animating.
+    if(options.hideBackfaces === undefined) options.hideBackfaces = true;
+    if(options.lazyFaces === undefined) options.lazyFaces = true;
+
     // Pieces in the middle of the cube are never visible: they are not built.
     function isInterior(x, y, z) {
       return [x, y, z].every(function(v) { return v > 0 && v < LAYERS - 1; });
@@ -217,6 +237,17 @@
       }
 
       return name;
+    }
+
+    // Does a cubie need the face that looks at the cell (x, y, z) when that
+    // cell is not part of the visible shell? (outside of the cube, or the core)
+    function needsFace(x, y, z) {
+      if(!options.lazyFaces) return true;
+
+      var last = LAYERS - 1;
+      if(x < 0 || y < 0 || z < 0 || x > last || y > last || z > last) return true;
+
+      return isInterior(x, y, z);
     }
 
     // -------------------------------------------------------------------------
@@ -253,6 +284,10 @@
       face.style.width = CUBIE_SIZE + "px";
       face.style.height = CUBIE_SIZE + "px";
       face.style.backgroundColor = options.colorPlastic;
+      if(options.hideBackfaces) {
+        face.style.backfaceVisibility = "hidden";
+        face.style.webkitBackfaceVisibility = "hidden";
+      }
       face.style.transform = ("translate" + placement.axis + "(" + offset + "px) " + placement.rotate).trim();
 
       if(hasSticker(coords, position)) {
@@ -274,7 +309,10 @@
       cubie.style.height = CUBIE_SIZE + "px";
 
       FACE_NAMES.forEach(function(position) {
-        cubie.appendChild(buildFace(coords, position));
+        var v = FACE_VECTOR[position];
+        if(needsFace(x + v[0], y + v[1], z + v[2])) {
+          cubie.appendChild(buildFace(coords, position));
+        }
       });
 
       return cubie;
@@ -425,12 +463,18 @@
           var el = cubieContainers[next++];
           var cubie = {
             el: el,
+            body: el.querySelector(".cubie"),
+            coords: { x: x, y: y, z: z },                // initial layer indices
             x: x - CENTER, y: y - CENTER, z: z - CENTER, // initial position, centered on the origin
             m: new DOMMatrix(),                          // accumulated rotation
+            faces: {},
             stickers: {}
           };
 
           FACE_NAMES.forEach(function(position) {
+            var face = cubie.body.querySelector(".face." + position);
+            if(face) cubie.faces[position] = face;
+
             var sticker = el.querySelector(".cubie .face." + position + " .sticker");
             if(sticker) cubie.stickers[position] = sticker;
           });
@@ -451,10 +495,78 @@
     var animating = true;
     var playing = true;
 
-    // current layer (0..LAYERS-1) of a cubie along the given axis
-    function layerOf(cubie, axis) {
+    // current layer indices (0..LAYERS-1) of a cubie
+    function positionOf(cubie) {
       var p = cubie.m.transformPoint(new DOMPoint(cubie.x, cubie.y, cubie.z));
-      return Math.round(p[axis] + CENTER);
+      return {
+        x: Math.round(p.x + CENTER),
+        y: Math.round(p.y + CENTER),
+        z: Math.round(p.z + CENTER)
+      };
+    }
+
+    // direction in the world of a cubie's local direction v (m * v)
+    function toWorld(m, v) {
+      return [
+        Math.round(v[0] * m.m11 + v[1] * m.m21 + v[2] * m.m31),
+        Math.round(v[0] * m.m12 + v[1] * m.m22 + v[2] * m.m32),
+        Math.round(v[0] * m.m13 + v[1] * m.m23 + v[2] * m.m33)
+      ];
+    }
+
+    // face of a cubie that looks in the world direction d (mᵀ * d)
+    function faceLooking(m, d) {
+      return FACE_BY_VECTOR[[
+        Math.round(d[0] * m.m11 + d[1] * m.m12 + d[2] * m.m13),
+        Math.round(d[0] * m.m21 + d[1] * m.m22 + d[2] * m.m23),
+        Math.round(d[0] * m.m31 + d[1] * m.m32 + d[2] * m.m33)
+      ].join(",")];
+    }
+
+    function ensureFace(cubie, name) {
+      if(cubie.faces[name]) return;
+
+      cubie.faces[name] = cubie.body.appendChild(buildFace(cubie.coords, name));
+    }
+
+    function dropFace(cubie, name) {
+      if(!cubie.faces[name] || cubie.stickers[name]) return;
+
+      cubie.body.removeChild(cubie.faces[name]);
+      delete cubie.faces[name];
+    }
+
+    // leave a cubie with just the faces it needs at its current position
+    function syncFaces(cubie) {
+      if(!options.lazyFaces) return;
+
+      var p = positionOf(cubie);
+
+      FACE_NAMES.forEach(function(name) {
+        var w = toWorld(cubie.m, FACE_VECTOR[name]);
+
+        if(needsFace(p.x + w[0], p.y + w[1], p.z + w[2])) {
+          ensureFace(cubie, name);
+        } else {
+          dropFace(cubie, name);
+        }
+      });
+    }
+
+    // the faces looking at the cut between the turning layers and the rest
+    function addCutFaces(cubie, move) {
+      if(!options.lazyFaces) return;
+
+      var layer = positionOf(cubie)[move.axis];
+
+      [-1, 1].forEach(function(side) {
+        var other = layer + side;
+        if(other < 0 || other > LAYERS - 1) return;
+        if(move.layers.includes(layer) === move.layers.includes(other)) return;
+
+        var d = AXIS_VECTOR[move.axis].map(function(v) { return v * side; });
+        ensureFace(cubie, faceLooking(cubie.m, d));
+      });
     }
 
     function rotate(move, qts, done) {
@@ -462,38 +574,68 @@
       var v = AXIS_VECTOR[move.axis];
       var fn = "rotate" + move.axis.toUpperCase();
       var R = new DOMMatrix().rotateAxisAngle(v[0], v[1], v[2], degrees);
+      var wholeCube = move.layers.length === LAYERS;
 
       var moving = allCubies.filter(function(c) {
-        return move.layers.includes(layerOf(c, move.axis));
+        return move.layers.includes(positionOf(c)[move.axis]);
       });
+
+      var apply = function(c) {
+        c.m = snap(R.multiply(c.m));
+        c.el.style.transform = c.m.toString();
+      };
+
+      var finish = function() {
+        allCubies.forEach(syncFaces);
+        done();
+      };
+
+      var timing = {
+        duration: options.duration,
+        delay: options.delay,
+        easing: options.easing
+      };
+
+      if(!animating || moving.length === 0) {
+        moving.forEach(apply);
+        finish();
+        return;
+      }
+
+      if(wholeCube) {
+        // one animation for the whole cube instead of one per cubie
+        var spin = cube.animate([
+          { transform: fn + "(0deg)" },
+          { transform: fn + "(" + degrees + "deg)" }
+        ], Object.assign({ fill: "both" }, timing));
+
+        var end = function() {
+          moving.forEach(apply);
+          spin.cancel(); // same task as the new transforms: no flash
+          finish();
+        };
+
+        spin.finished.then(end, end);
+        return;
+      }
+
+      allCubies.forEach(function(c) { addCutFaces(c, move); });
 
       var animations = moving.map(function(c) {
         var from = c.m.toString();
 
         // The final state is applied right away; the animation only
         // disguises it while it lasts.
-        c.m = snap(R.multiply(c.m));
-        c.el.style.transform = c.m.toString();
-
-        if(!animating) return null;
+        apply(c);
 
         // Same function list in both keyframes -> clean interpolation.
         return c.el.animate([
           { transform: fn + "(0deg) " + from },
           { transform: fn + "(" + degrees + "deg) " + from }
-        ], {
-          duration: options.duration,
-          delay: options.delay,
-          easing: options.easing,
-          fill: "backwards"
-        }).finished;
-      }).filter(Boolean);
+        ], Object.assign({ fill: "backwards" }, timing)).finished;
+      });
 
-      if(animations.length === 0) {
-        done();
-      } else {
-        Promise.all(animations).then(done, done);
-      }
+      Promise.all(animations).then(finish, finish);
     }
 
     function turn(name) {
